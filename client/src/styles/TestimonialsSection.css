@@ -1,0 +1,36 @@
+.testimonials-section {
+  padding: 80px 0;
+  background-color: var(--secondary-color);
+  width: 100%;
+}
+
+.testimonials-section h2 {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.testimonials-section .testimonial-item {
+  text-align: center;
+  background-color: red;
+}
+
+.testimonials-section .testimonial-item .testimonial-text {
+  font-size: 24px;
+  font-style: italic;
+  margin-bottom: 40px;
+}
+
+.testimonials-section .testimonial-item .client-info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.testimonials-section .testimonial-item .client-info h4 {
+  margin-bottom: 5px;
+}
+
+.testimonials-section .testimonial-item .client-info p {
+  color: darken(var(--dark-color), 20%);
+}

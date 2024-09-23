@@ -1,0 +1,51 @@
+.features-section {
+  padding: 80px 0;
+  background-color: var(--secondary-color);
+}
+
+.features-section h2 {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.features-section .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+}
+
+.features-section .features-grid .feature-card {
+  background-color: var(--light-color);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.features-section .features-grid .feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(var(--dark-color), 0.1);
+}
+
+.features-section .features-grid .feature-card .feature-icon {
+  font-size: 48px;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.features-section .features-grid .feature-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.features-section .features-grid .feature-card p {
+  font-size: 16px;
+}
+
+.features-section .features-grid .feature-card .feature-details {
+  margin-top: 20px;
+  font-size: 14px;
+  color: darken(var(--dark-color), 20%);
+}

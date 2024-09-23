@@ -1,0 +1,15 @@
+.sidenav-container {
+  width: 300px;
+  background-color: #2b2738;
+  padding: 20px;
+  border-right: 1px solid #938f9f;
+}
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+.logo-video {
+  width: 200px;
+}

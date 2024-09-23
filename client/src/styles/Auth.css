@@ -1,0 +1,275 @@
+.auth-page * {
+  margin: 0;
+}
+
+.auth-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: #676279;
+}
+
+.auth-container {
+  background-color: #2b2738;
+  border-radius: 12px;
+  width: 70%;
+  max-width: 1300px;
+  height: 80%;
+  padding: 20px;
+  display: flex;
+  font-display: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.image-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex: 1;
+  border-radius: 8px;
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+}
+
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Dark overlay */
+}
+
+.image-carousel-top,
+.image-carousel-text,
+.image-carousel-slider {
+  z-index: 2;
+}
+.image-carousel-top {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  flex: 1;
+}
+.logo {
+  height: 80px;
+  padding-left: 20px;
+}
+.navigation-button {
+  padding: 7px 25px;
+  background-color: rgba(205, 193, 213, 0.3);
+  margin-right: 20px;
+  color: whitesmoke;
+  border-radius: 20px;
+}
+.navigation-button:hover {
+  background-color: rgba(170, 141, 191, 0.7);
+}
+.image-carousel-text {
+  color: white;
+  font-size: 1.9rem;
+  text-align: center;
+  padding: 0 20px;
+  position: absolute;
+  bottom: 70px;
+  width: 90%;
+}
+
+.image-carousel-slider {
+  position: absolute;
+  bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+.slider {
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.auth-form {
+  flex: 1;
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  position: relative;
+
+  gap: 60px;
+}
+.auth-form-heading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.auth-form-heading {
+  font-size: 48px;
+  font-weight: 600;
+}
+
+.switch-auth {
+  color: grey;
+  font-size: 16px;
+}
+
+.switch-auth-link,
+a {
+  color: #c3b0eb;
+  padding-left: 1px;
+}
+.auth-form-fields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.input-field-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.auth-input {
+  border-radius: 4px;
+  flex: 1;
+}
+.input-field {
+  width: 100%;
+  background-color: #3b364c;
+  padding: 14px 20px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: none;
+  font-size: medium;
+  color: white;
+  transition: border-color 0.3s;
+  outline: none;
+}
+.terms-conditions {
+  font-size: 12px;
+  color: lightgrey;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.checkbox-icon {
+  font-size: large;
+}
+input:focus {
+  outline: 1px solid #c3b0eb;
+}
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+.submit-form-button {
+  background-color: #6e54b5;
+  color: white;
+  padding: 14px;
+  border-radius: 4px;
+  font-size: medium;
+}
+.submit-form-button:hover {
+  background-color: #5b4693;
+}
+
+.divider-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.divider {
+  flex: 1;
+  height: 1px;
+  background-color: rgb(93, 79, 107);
+}
+.divider-text {
+  font-size: 11px;
+  color: rgb(93, 79, 107);
+}
+
+.social-media-login-container {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
+.social-media-login {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  border: 1px solid rgb(93, 79, 107);
+  border-radius: 4px;
+  font-size: medium;
+  padding: 14px;
+}
+
+.social-media-login:hover {
+  background-color: rgb(93, 79, 107);
+  color: white;
+}
+
+.auth-form-top {
+  opacity: 0;
+  position: absolute;
+}
+@media (max-width: 1400px) {
+  .auth-container {
+    gap: 0;
+  }
+  .auth-form {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .image-carousel {
+    width: 0;
+    flex: 0;
+  }
+  .auth-form {
+    flex: 1;
+  }
+}
+@media (max-width: 600px) {
+  .auth-form {
+    padding: 20px;
+  }
+}
