@@ -1,3 +1,5 @@
+/* HeroSection.css */
+
 .hero-section {
   position: relative;
   height: 100vh;
@@ -5,17 +7,56 @@
   background-position: center;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: var(--light-color);
-  background-color: red;
+}
+
+.hero-section .hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text readability */
+  z-index: 1;
 }
 
 .hero-section .hero-content {
+  position: relative;
+  z-index: 2;
   text-align: center;
+  opacity: 0; /* Initially hidden for smooth fade-in */
+  animation: fadeInContent 0.8s ease-in-out forwards 0.5s; /* Delay for smooth transition */
+}
+
+/* Keyframe for fading in and text sliding down */
+@keyframes fadeInContent {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px); /* Move text upwards initially */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Slide text back to its position */
+  }
 }
 
 .hero-section .hero-content h1 {
   font-size: 48px;
   margin-bottom: 20px;
+  color: white; /* Ensures text is readable */
+  animation: slideDown 1s ease forwards; /* Slide down the text */
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-50px); /* Start above the viewport */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0); /* Slide into the view */
+    opacity: 1;
+  }
 }
 
 .hero-section .hero-content .cta-button {
@@ -27,17 +68,48 @@
   font-size: 18px;
   cursor: pointer;
   margin-bottom: 40px;
-  transition: background-color 0.3s;
+  opacity: 0; /* Initially hidden for smooth fade-in */
+  transform: translateY(50px); /* Start below the viewport */
+  animation: slideUp 1s ease forwards 0.6s; /* Slide up with delay */
+  transition: background-color 0.3s, transform 0.3s ease-in-out;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(150px); /* Below the viewport */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Slide into the view */
+  }
 }
 
 .hero-section .hero-content .cta-button:hover {
   background-color: darken(var(--accent-color), 10%);
+  transform: scale(1.05); /* Slightly grow the button on hover */
 }
 
 .hero-section .hero-content .video-thumbnail {
   position: relative;
   display: inline-block;
   cursor: pointer;
+  opacity: 0; /* Initially hidden */
+  animation: fadeInThumbnail 1.2s ease-in forwards 1s; /* Fade in the thumbnail after 1s delay */
+  transition: transform 0.3s ease-in-out;
+}
+
+@keyframes fadeInThumbnail {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hero-section .hero-content .video-thumbnail:hover {
+  transform: scale(1.02); /* Slightly grow the thumbnail on hover */
 }
 
 .hero-section .hero-content .video-thumbnail img {
@@ -51,9 +123,20 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(var(--dark-color), 0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 20px;
   border-radius: 50%;
   color: var(--light-color);
   font-size: 24px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.hero-section .hero-content .video-thumbnail .play-button:hover {
+  background-color: rgba(0, 0, 0, 0.9); /* Darken play button on hover */
+}
+@media (max-width: 900px) {
+  /* Adjust hero section for smaller screens */
+  .hero-section {
+    height: 110vh;
+  }
 }

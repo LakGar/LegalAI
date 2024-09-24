@@ -1,51 +1,163 @@
-.header {
-  background-color: var(--light-color);
+/* Container styling */
+.header-container {
+  width: 100vw;
   position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  transition: all 0.3s;
-}
-
-.header .header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 0;
-}
-
-.header .header-container .logo {
-  width: 150px;
-}
-
-.header .header-container .nav {
-  display: flex;
-  align-items: center;
-}
-
-.header .header-container .nav a {
-  margin-right: 20px;
-  text-decoration: none;
-  color: var(--dark-color);
+  z-index: 100;
+  animation: slideDown 0.8s ease-out;
   font-weight: 600;
-  transition: color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.header .header-container .nav a:hover {
+/* Website nav */
+.website-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-link-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+  padding-bottom: 4px;
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
   color: var(--primary-color);
+  transform: translateY(-3px);
 }
 
-.header .header-container .nav .cta-button {
+.nav-link:hover::after {
   background-color: var(--primary-color);
-  color: var(--light-color);
+}
+
+.navigation-button {
+  background-color: var(--primary-color);
+  color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  font-weight: 600;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.header .header-container .nav .cta-button:hover {
-  background-color: darken(var(--primary-color), 10%);
+.navigation-button:hover {
+  transform: scale(1.05);
+  background-color: var(--primary-color-dark);
+}
+
+.mobile-nav {
+  display: none;
+}
+@media (min-width: 1300px) {
+  .website-nav {
+    gap: 60px;
+  }
+}
+
+@media (max-width: 980px) {
+  .website-nav {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+
+  .mobile-nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mobile-logo {
+    width: 70px;
+  }
+
+  .nav-link-container-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 10px;
+    height: 90vh;
+    font-size: larger;
+    animation: fadeIn 0.5s ease;
+  }
+
+  /* Hover styling for mobile links */
+  .nav-link {
+    text-decoration: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--primary-color);
+    transform: translateY(-3px);
+  }
+
+  /* Menu toggle animation */
+  .menu-toggle {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .menu-toggle:hover {
+    transform: scale(1.2);
+  }
+}
+
+/* Animations */
+
+/* Slide down the header when the page loads */
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Fade in for mobile menu */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Variables for theme colors */
+:root {
+  --primary-color: #1e90ff;
+  --primary-color-dark: #1a78d1;
+  --background-color: #ffffff;
 }

@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/HowItWorksSection.css";
 import { FaUpload, FaBrain, FaUsers, FaChartLine } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
-AOS.init();
+import { useTheme } from "@mui/material";
 
 function HowItWorksSection() {
+  const theme = useTheme();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      easing: "ease-in-out",
+      once: true,
+    });
+  }, []);
+
   const steps = [
     {
       icon: <FaUpload />,
@@ -35,9 +44,16 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="how-it-works-section">
+    <section
+      id="how-it-works"
+      className="how-it-works-section"
+      style={{
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+      }}
+    >
       <div className="container">
-        <h2>How It Works</h2>
+        <h2 style={{ color: theme.palette.text.primary }}>How It Works</h2>
         <div className="timeline">
           {steps.map((step, index) => (
             <div
@@ -45,10 +61,17 @@ function HowItWorksSection() {
               key={index}
               data-aos="fade-up"
               data-aos-delay={index * 200}
+              style={{
+                color: theme.palette.text.primary,
+              }}
             >
-              <div className="step-icon">{step.icon}</div>
+              <div className="step-icon" style={{ color: theme.custom.accent }}>
+                {step.icon}
+              </div>
               <h3>{step.title}</h3>
-              <p>{step.description}</p>
+              <p style={{ color: theme.palette.text.secondary }}>
+                {step.description}
+              </p>
             </div>
           ))}
         </div>

@@ -4,8 +4,10 @@ import { IoCheckboxOutline, IoCheckbox } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import Logo from "../assets/logo.png";
+import { useTheme } from "@mui/material";
 
 const Register = () => {
+  const theme = useTheme();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,8 +52,19 @@ const Register = () => {
   }, [carouselItems.length]);
 
   return (
-    <div className="auth-page">
-      <div className="auth-container">
+    <div
+      className="auth-page"
+      style={{
+        backgroundColor: theme.palette.background.default, // Corrected
+        color: theme.palette.text.primary,
+      }}
+    >
+      <div
+        className="auth-container"
+        style={{
+          backgroundColor: theme.palette.background.paper, // Apply card color
+        }}
+      >
         <div className="image-carousel">
           {carouselItems.map((item, index) => (
             <div
@@ -68,7 +81,9 @@ const Register = () => {
 
               <div className="image-carousel-top">
                 <img className="logo" src={Logo} />
-                <div className="navigation-button">Back to website</div>
+                <div className="navigation-button" style={{ color: "white" }}>
+                  Back to website
+                </div>
               </div>
               <div className="image-carousel-text">{item.text}</div>
             </div>
@@ -104,9 +119,16 @@ const Register = () => {
         <div className="auth-form">
           <div className="auth-form-heading-container">
             <h2 className="auth-form-heading">Create an account</h2>
-            <p className="switch-auth">
+            <p
+              className="switch-auth"
+              style={{ color: theme.palette.text.secondary }}
+            >
               Already have an account?{" "}
-              <a className="switch-auth-link" href="#">
+              <a
+                className="switch-auth-link"
+                href="#"
+                style={{ color: theme.custom.accent }}
+              >
                 Sign in
               </a>
             </p>
@@ -120,6 +142,10 @@ const Register = () => {
                   placeholder="First Name"
                   required
                   pattern="[A-Za-z]+"
+                  style={{
+                    backgroundColor: theme.palette.background.default,
+                    color: theme.palette.text, // Apply background and text colors
+                  }}
                 />
               </div>
               <div className="auth-input">
@@ -129,6 +155,10 @@ const Register = () => {
                   placeholder="Last Name"
                   required
                   pattern="[A-Za-z]+"
+                  style={{
+                    backgroundColor: theme.palette.background.default,
+                    color: theme.palette.text, // Apply background and text colors
+                  }}
                 />
               </div>
             </div>
@@ -139,6 +169,10 @@ const Register = () => {
                 placeholder="Email"
                 required
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                style={{
+                  backgroundColor: theme.palette.background.default,
+                  color: theme.palette.text, // Apply background and text colors
+                }}
               />
             </div>
             <div className="auth-input">
@@ -149,9 +183,16 @@ const Register = () => {
                 required
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 title="Password must contain at least 8 characters, including uppercase letters, lowercase letters, and numbers."
+                style={{
+                  backgroundColor: theme.palette.background.default,
+                  color: theme.palette.text, // Apply background and text colors
+                }}
               />
             </div>
-            <p className="terms-conditions">
+            <p
+              className="terms-conditions"
+              style={{ color: theme.palette.text.secondary }}
+            >
               <div onClick={toggelTermsConditions}>
                 {termConditions ? (
                   <IoCheckbox className="checkbox-icon" />
@@ -159,7 +200,10 @@ const Register = () => {
                   <IoCheckboxOutline className="checkbox-icon" />
                 )}
               </div>
-              I agree to the <a href="#">Terms & Conditions</a>
+              I agree to the{" "}
+              <a style={{ color: theme.custom.accent }} href="#">
+                Terms & Conditions
+              </a>
             </p>
           </form>
           <div className="buttons-container">

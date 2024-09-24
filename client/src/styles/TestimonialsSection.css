@@ -1,36 +1,60 @@
 .testimonials-section {
   padding: 80px 0;
-  background-color: var(--secondary-color);
-  width: 100%;
 }
 
 .testimonials-section h2 {
   text-align: center;
   margin-bottom: 60px;
+  font-size: 2rem;
 }
 
-.testimonials-section .testimonial-item {
-  text-align: center;
-  background-color: red;
+.swiper {
+  padding: 20px;
 }
 
-.testimonials-section .testimonial-item .testimonial-text {
-  font-size: 24px;
+.testimonial-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.testimonial-item:hover {
+  transform: translateY(-5px);
+}
+
+.testimonial-text {
+  font-size: 18px;
+  margin-bottom: 20px;
   font-style: italic;
-  margin-bottom: 40px;
+  text-align: center;
+  max-width: 800px;
 }
 
-.testimonials-section .testimonial-item .client-info img {
-  width: 80px;
-  height: 80px;
+.client-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.client-photo {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  object-fit: cover;
 }
 
-.testimonials-section .testimonial-item .client-info h4 {
-  margin-bottom: 5px;
+.client-info h4 {
+  font-size: 20px;
+  margin: 0;
 }
 
-.testimonials-section .testimonial-item .client-info p {
-  color: darken(var(--dark-color), 20%);
+.client-info p {
+  font-size: 16px;
+  margin: 5px 0 0;
+  color: gray;
 }
