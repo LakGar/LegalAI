@@ -6,6 +6,7 @@ import HowItWorksSection from "../components/HowItWorksSection";
 import TestimonialsSection from "../components/TestimonialsSection";
 import { useTheme } from "@mui/material";
 import Contact from "../components/Contact";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const theme = useTheme();
@@ -18,6 +19,7 @@ const Home = () => {
         <HowItWorksSection />
         <TestimonialsSection />
         <Contact />
+        <Footer />
       </main>
     </div>
   );
