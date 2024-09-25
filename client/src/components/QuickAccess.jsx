@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
 import { useTheme, Avatar } from "@mui/material";
 import "../styles/QuickAccess.css";
 import FolderIcon from "@mui/icons-material/Folder";
 import ChatIcon from "@mui/icons-material/Chat";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import SearchIcon from "@mui/icons-material/Search";
+import { useEffect, useState } from "react";
 
 const QuickAccess = () => {
   const theme = useTheme(); // Access theme colors
-  const [searchList, isSearchList] = useState(false);
+  const [searchList, setSearchList] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const QuickAccess = () => {
 
   // Helper function to render collaborators
   const renderCollaborators = (collaborators) => {
-    const maxVisibleCollaborators = 2;
+    const maxVisibleCollaborators = 3; // Increase max to 3 for better visibility
     const remainingCollaborators =
       collaborators.length - maxVisibleCollaborators;
     const visibleCollaborators = collaborators.slice(
@@ -48,14 +48,15 @@ const QuickAccess = () => {
             style={{
               border: `2px solid ${theme.palette.background.paper}`,
               zIndex: maxVisibleCollaborators - index, // Ensure overlap
+              marginLeft: index === 0 ? "0" : "-15px", // Offset each avatar slightly
             }}
           />
         ))}
-        {remainingCollaborators > 0 && (
+        {/* {remainingCollaborators > 0 && (
           <div className="remaining-collaborators">
             +{remainingCollaborators}
           </div>
-        )}
+        )} */}
       </div>
     );
   };
@@ -97,7 +98,7 @@ const QuickAccess = () => {
               <div className="icon-container">
                 <div className="quick-access-item-icon">
                   <FolderIcon
-                    style={{ color: theme.palette.primary.main, fontSize: 40 }}
+                    style={{ color: theme.custom.accent, fontSize: 40 }}
                   />
                 </div>
                 {renderCollaborators(collaborators)}

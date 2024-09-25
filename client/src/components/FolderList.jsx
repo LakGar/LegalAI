@@ -48,7 +48,6 @@ const FolderList = () => {
             style={{
               backgroundColor: theme.palette.background.paper,
               color: theme.palette.text.primary,
-              height: 150,
             }}
           >
             <div className="folder-icon">
@@ -68,8 +67,7 @@ const FolderList = () => {
       {/* Show "Show More" button if there are more than 6 folders */}
       {folders.length > 6 && (
         <div className="folder-show-more">
-          <Button
-            variant="outlined"
+          <div
             style={{
               color: theme.custom.accent,
               border: "none",
@@ -77,7 +75,7 @@ const FolderList = () => {
             onClick={handleShowMore}
           >
             {showAll ? "Show Less" : "Show More"}
-          </Button>
+          </div>
         </div>
       )}
     </div>

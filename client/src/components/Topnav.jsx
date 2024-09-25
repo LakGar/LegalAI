@@ -19,7 +19,7 @@ const TopNav = () => {
       className="topnav-container"
       style={{
         backgroundColor: theme.palette.background.paper,
-        borderBottom: "1px solid grey",
+        borderBottom: `1px solid ${theme.palette.text.secondary}`,
       }}
     >
       <div className="topnav-left">

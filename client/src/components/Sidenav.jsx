@@ -136,7 +136,7 @@ const Sidenav = ({ onToggleNav }) => {
       style={{
         backgroundColor: theme.custom.card,
         color: theme.palette.text.primary,
-        borderRight: "1px solid grey",
+        borderRight: `1px solid ${theme.palette.text.secondary}`,
       }}
     >
       <div className={`sidenav-top ${fullNav ? "row" : "column"}`}>
