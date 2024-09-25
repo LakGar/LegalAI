@@ -1,0 +1,130 @@
+.quick-access-container {
+  padding: 20px;
+  width: 100%;
+}
+
+.quick-access-search-container {
+  margin-bottom: 40px;
+  padding: 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+.quick-access-search-input {
+  flex: 1;
+  font-size: 1.3rem;
+  background-color: transparent;
+  border: none;
+}
+.quick-access-search-input:focus {
+  outline: none;
+}
+.search-icon {
+  background-color: dodgerblue;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+}
+.quick-access {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.quick-access.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quick-access-list-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.quick-access-list-container {
+  display: flex;
+  gap: 25px;
+  overflow-x: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  padding: 20px;
+}
+
+.quick-access-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  height: 200px;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: white;
+}
+
+.quick-access-item:hover {
+  transform: scale(1.1);
+}
+
+.quick-access-item-icon {
+  padding: 10px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.quick-access-item-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.quick-access-item-subtext {
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.collaborators-container {
+  display: flex;
+  align-items: center;
+}
+
+.collaborator-avatar {
+  width: 30px;
+  height: 30px;
+  margin-left: -15px; /* Overlap the avatars */
+  transition: transform 0.3s;
+  border: 1px solid white;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.remaining-collaborators {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  padding: 10px 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 2px dotted white;
+  z-index: 1;
+  position: absolute;
+  right: 70px;
+  z-index: 100;
+  color: grey;
+}
+.icon-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
