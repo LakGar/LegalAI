@@ -1,0 +1,85 @@
+/* General Container */
+.services-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  padding: 2rem;
+  text-align: center;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.services-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Main Title and Subtext */
+.services-title h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.services-title p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  color: grey;
+}
+
+/* Card Styling */
+.slidingVertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin-top: 2rem;
+}
+
+.card {
+  background-color: #fff;
+  border-left: 4px solid #1e90ff; /* DodgeBlue left border */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(30, 144, 255, 0.3); /* DodgeBlue shadow */
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #adabab;
+}
+
+/* Fade-in Animation */
+.fade-in {
+  opacity: 0;
+  animation: fadeInAnimation 1.2s ease forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,99 @@
+.testimonials-section {
+  padding: 80px 0;
+  background-color: #f9f9f978;
+}
+
+.testimonials-section h2 {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 2rem;
+}
+
+.testimonial-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.testimonial-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border-radius: 8px;
+  transition: all 0.8s ease-in-out;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95); /* Start slightly below and scaled down */
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+}
+
+/* Fade-in and scale-up animation */
+.fade-in {
+  opacity: 1;
+  transform: translateY(0) scale(1); /* Bring back to original position and scale */
+}
+
+/* Fade-out and scale-down animation */
+.fade-out {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95); /* Slide down and scale down slightly */
+}
+
+.testimonial-text {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-style: italic;
+  text-align: center;
+}
+
+.client-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.client-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  object-fit: cover;
+  transition: transform 0.5s ease; /* Add a little bounce to the image */
+}
+
+.client-info h4 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.client-info p {
+  font-size: 16px;
+  margin: 5px 0 0;
+  color: gray;
+}
+
+.client-photo:hover {
+  transform: scale(1.1); /* Slightly scale the photo on hover for effect */
+}
+
+/* Pagination Dots */
+.pagination-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  background-color: #c6c6c67b;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: dodgerblue;
+}

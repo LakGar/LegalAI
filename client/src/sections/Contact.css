@@ -1,0 +1,165 @@
+.contact-section {
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f978;
+  position: relative;
+}
+
+.contact-container {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.contact-container.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+p {
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+input,
+textarea {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #1e90ff;
+}
+
+.submit-button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #156bc6;
+}
+
+/* Footer Styling */
+.footer {
+  width: 100%;
+  padding: 20px 0;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer-left ul {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.footer-left ul li {
+  list-style: none;
+}
+
+.footer-left ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-left ul li a:hover {
+  text-decoration: underline;
+}
+
+.footer-right {
+  color: #fff;
+  margin-left: 15px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+a {
+  color: white;
+}
+
+.footer-right a:hover {
+  color: #1e90ff;
+}
+
+/* Responsive design for smaller devices */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .contact-form {
+    gap: 15px;
+  }
+
+  .contact-section .footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+  }
+
+  .footer-left {
+    margin-bottom: 10px;
+    padding-left: 0;
+  }
+
+  .footer-left ul {
+    justify-content: center;
+  }
+
+  .footer-right {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+  }
+}

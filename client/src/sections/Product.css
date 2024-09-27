@@ -1,0 +1,50 @@
+/* Product Section Styling */
+.product-container {
+  background-color: #ffffff;
+  z-index: 3;
+  width: 100%;
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+  opacity: 0; /* Start invisible */
+  transform: translateY(30px); /* Slightly off-screen */
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.product-container.visible {
+  opacity: 1; /* Fully visible when in view */
+  transform: translateY(0); /* Bring into view */
+}
+.product-content {
+  width: 60%;
+}
+.product-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+.product-features {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  flex: 1 1 calc(33.333% - 2rem); /* Flexbox to handle layout */
+  height: 150px;
+  border: 1px solid rgba(200, 200, 200, 0.457);
+}
+
+.feature-item:hover {
+  box-shadow: 0 10px 20px rgba(30, 144, 255, 0.2); /* Shadow on hover */
+  transform: translateY(-5px);
+}
