@@ -22,8 +22,8 @@
   transition: all 0.3s;
 }
 
-.navbar li:hover {
-  font-size: 1.1em;
+.navbar .link:hover {
+  font-size: 1.3em;
   font-weight: bold;
   font-family: sans-serif;
   text-decoration: none;
