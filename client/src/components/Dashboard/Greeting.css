@@ -1,0 +1,41 @@
+.greeting-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 20px 0;
+}
+
+.greeting-text h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+.greeting-text p {
+  font-size: 0.95rem;
+  color: grey;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.greeting-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.greeting-date span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: grey;
+}
+
+.calendar-icon {
+  background-color: rgb(234, 233, 233);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

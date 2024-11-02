@@ -35,6 +35,8 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {/* Navigation */}
+
       <Navigation scrollToSection={scrollToSection} />
 
       {/* Main Content with Scroll Snap */}

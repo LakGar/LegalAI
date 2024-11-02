@@ -1,0 +1,193 @@
+/* Container styling */
+.chatbox-container {
+  height: 100%;
+  width: 350px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  gap: 20px;
+}
+
+/* Top section with document card */
+.chatbox-top {
+  margin-bottom: 10px;
+}
+
+.document-card {
+  background-color: #f5f6fa;
+  border-radius: 10px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.document-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-icon {
+  font-size: 54px;
+  color: #007bff;
+}
+
+.file-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-name {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0;
+}
+
+.file-size {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.chatbox-container .divider {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  max-height: 10px;
+}
+
+.divider-text {
+  font-size: 0.85rem;
+  color: #888;
+}
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #ddd;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.action-btn {
+  background-color: white;
+  color: grey;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+  background-color: lightgrey;
+  color: rgb(106, 146, 221);
+}
+
+/* Chat container styling */
+.chatbox-chat-container {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px 0;
+  overflow-y: scroll;
+}
+
+.chatbox-chat-container::-webkit-scrollbar {
+  width: 6px; /* Width of the scrollbar */
+}
+
+.chatbox-chat-container::-webkit-scrollbar-track {
+  background: transparent; /* Track color */
+}
+
+.chatbox-chat-container::-webkit-scrollbar-thumb {
+  background-color: #bbb; /* Scrollbar color */
+  border-radius: 10px; /* Rounded edges */
+}
+
+.chatbox-chat-container::-webkit-scrollbar-thumb:hover {
+  background-color: #888; /* Hover color */
+}
+/* Chat message styling */
+.chat-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 90%;
+}
+.user-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.ai-message {
+  align-self: flex-start;
+}
+
+.user-message {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.ai-chat {
+  align-self: flex-start;
+  background-color: #f1f3f5;
+  color: #333;
+  border-radius: 10px;
+  border-bottom-left-radius: 0px;
+}
+
+.user-chat {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  background-color: #007bff;
+  color: white;
+  border-radius: 10px;
+  border-bottom-right-radius: 0px;
+}
+
+.message-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.message {
+  font-size: 0.9rem;
+  padding: 10px;
+  /* border-radius: 10px; */
+  max-width: 100%;
+}
+
+.navigation-button {
+  background-color: dodgerblue;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}

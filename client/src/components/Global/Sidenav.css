@@ -1,0 +1,160 @@
+/* General Sidenav styling */
+.sidenav-container {
+  height: 100%;
+  width: 15vw - 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.sidenav-top {
+  flex: 1;
+}
+
+/* Logo */
+.sidenav-logo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 60px;
+}
+.sidenav-logo span {
+  font-size: 2.5rem;
+}
+
+/* Navigation Links */
+.sidenav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidenav-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s ease;
+  text-decoration: none;
+}
+.sidenav-link span {
+  color: grey;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.sidenav-link:hover {
+  color: black; /* This changes the text color */
+  font-weight: 600;
+  transform: scale(1.06);
+}
+
+.sidenav-link:hover .icon {
+  color: black; /* This changes the icon color */
+}
+
+.sidenav-link:hover span {
+  color: black; /* This changes the span text color */
+}
+.sidenav-link .icon {
+  font-size: 18px;
+  color: grey;
+}
+
+.sidenav-link .plus-icon {
+  margin-left: auto;
+  font-size: 18px;
+  color: #666;
+}
+
+.sidenav-link {
+  font-weight: bold;
+  color: #000;
+}
+.active {
+  font-size: 1rem; /* Slightly larger font size for active link */
+  font-weight: bold;
+  color: #000; /* Black color for active link */
+  background-color: #e0e0e0; /* Optional background highlight */
+  padding: 12px;
+  border-radius: 6px;
+}
+
+/* CTA Upgrade Section */
+.sidenav-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upgrade-section {
+  background: linear-gradient(to bottom, #007bff18, white);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.upgrade-section p {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.upgrade-section span {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+.upgrade-btn {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.upgrade-btn:hover {
+  background-color: #005abb;
+}
+
+/* Help & Log Out Links */
+.sidenav-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.sidenav-bottom .help-link,
+.sidenav-bottom .logout-link {
+  text-decoration: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: grey;
+}
+.sidenav-bottom .help-link span,
+.sidenav-bottom .logout-link span {
+  cursor: pointer;
+  color: #888;
+  text-align: center;
+  font-weight: 400;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+.sidenav-bottom .help-link:hover,
+.sidenav-bottom .logout-link:hover {
+  color: #080707;
+}

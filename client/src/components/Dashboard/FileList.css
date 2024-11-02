@@ -1,0 +1,168 @@
+/* Row Loader */
+.row-loader {
+  width: 100%;
+  height: 35px;
+  background-color: #f0f0f0;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.row-loader::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Table Container */
+.file-list-container {
+}
+
+/* Table */
+.file-list-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Spacing between rows */
+  padding: 0 20px;
+}
+
+.file-list-table th,
+.file-list-table td {
+  padding: 14px 18px; /* More padding for better readability */
+  text-align: left;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.user-info p {
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+
+.file-list-table th {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #f0f0f0;
+  background-color: #fafbfc; /* Slight background color for header */
+  border-radius: 8px 8px 0 0; /* Soft corner on header */
+  text-transform: uppercase;
+  letter-spacing: 0.05em; /* Professional spacing between letters */
+}
+
+.file-list-table .item-tr {
+  background-color: #fafafa; /* Softer row background */
+  border-radius: 8px;
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smoother hover effect */
+}
+
+.file-list-table .item-tr:hover {
+  transform: scale(1.02); /* Slight row hover enlargement */
+  background-color: #f0f4f8; /* Professional hover color */
+}
+
+/* User info in the Owner column */
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Options Button */
+.options-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.options-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Table Cells */
+.item-tr td {
+  font-size: 0.85rem; /* Slightly smaller text for cleaner look */
+  color: #555;
+  background-color: inherit; /* Inherit row background */
+  border-bottom: 1px solid #eee;
+  font-weight: 400;
+  border-radius: 4px; /* Round the table cell edges slightly */
+}
+
+/* General Enhancements */
+.file-list-table th,
+.file-list-table td {
+  box-shadow: none;
+  vertical-align: middle; /* Align text vertically in the middle */
+}
+
+.file-list-table img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-header p {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+  width: auto;
+}
+.file-list-header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.see-all-btn,
+.add-file-btn {
+  transition: 0.3s;
+  cursor: pointer;
+}
+.add-file-btn:hover {
+  transform: scale(1.15);
+}
+.see-all-btn:hover {
+  color: dodgerblue;
+}

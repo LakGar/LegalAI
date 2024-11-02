@@ -1,0 +1,122 @@
+.widget-container {
+  display: flex;
+  gap: 20px;
+}
+
+.widget {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f6fa;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.text-container h4,
+.text-container p {
+  margin-bottom: 0;
+  transition: color 0.3s ease;
+}
+
+/* For smoother color transitions */
+.text-container h4 {
+  font-size: 0.9rem;
+}
+
+.text-container p {
+  font-size: 0.7rem;
+  color: grey;
+}
+
+.icon-container {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  border-radius: 50%;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.one,
+.two,
+.three,
+.four {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Widget Hover Effects */
+.one:hover,
+.two:hover,
+.three:hover,
+.four:hover {
+  color: white;
+  transform: translateY(-5px);
+}
+
+.one:hover {
+  background-color: #ff7676;
+}
+
+.two:hover {
+  background-color: #ffcc66;
+}
+
+.three:hover {
+  background-color: #90ee90;
+}
+
+.four:hover {
+  background-color: #87ceeb;
+}
+
+/* Icon Hover Effects */
+.icon-1 {
+  background-color: #ff7676;
+  color: white;
+}
+
+.icon-2 {
+  background-color: #ffcc66;
+  color: white;
+}
+
+.icon-3 {
+  background-color: #90ee90;
+  color: white;
+}
+
+.icon-4 {
+  background-color: #87ceeb;
+  color: white;
+}
+
+.one:hover .icon-1 {
+  background-color: #c14444;
+}
+
+.two:hover .icon-2 {
+  background-color: #ca9b3d;
+}
+
+.three:hover .icon-3 {
+  background-color: #50bb50;
+}
+
+.four:hover .icon-4 {
+  background-color: #5091ab;
+}
+
+/* Make sure the transition applies to both the hover background-color and text colors */
+.widget:hover .text-container h4,
+.widget:hover .text-container p {
+  color: white;
+}
+
+.widget:hover .icon-container {
+  transform: scale(1.1);
+}

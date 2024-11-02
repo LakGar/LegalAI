@@ -4,46 +4,11 @@ import "./HeroSection.css";
 const HeroSection = ({ scrollToSection }) => {
   return (
     <div className="hero-container">
-      {/* Background Animation */}
-      <div className="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+      <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
-
-      {/* Hero Content */}
       <div className="hero-content">
         <h1>
           Welcome to <span>LegalAI</span>

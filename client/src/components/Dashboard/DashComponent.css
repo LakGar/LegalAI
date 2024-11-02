@@ -1,0 +1,35 @@
+/* Container styling */
+.dash-component-container {
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px 60px;
+  border-radius: 10px;
+  gap: 20px;
+}
+.greetings-container {
+  display: flex;
+  align-items: center;
+}
+.dash-component {
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hide scrollbar on Webkit browsers (Chrome, Safari, etc.) */
+.dash-component::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar on Firefox */
+.dash-component {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Optional: Add some padding to prevent content from touching the right edge */

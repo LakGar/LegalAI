@@ -32,7 +32,6 @@ h6 {
 }
 
 p {
-  line-height: 1.6;
   margin: 0;
 }
 
@@ -46,4 +45,9 @@ p {
 /* Mixins (Converted manually for specific cases) */
 .transition {
   transition: all 0.3s ease-in-out; /* Replace with specific transitions as needed */
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

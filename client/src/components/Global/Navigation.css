@@ -1,29 +1,61 @@
-/* Navbar Styles */
 .navbar {
   position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #333;
-  color: white;
-  padding: 1rem;
-  z-index: 1000; /* Ensure the navbar stays on top */
+  width: 100vw;
+  display: flex;
+  z-index: 1000;
+  padding: 20px 60px;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(4.4px);
+  -webkit-backdrop-filter: blur(2.4px);
+  transition: top 0.3s ease-in-out;
 }
 
+.navbar.visible {
+  top: 0;
+}
+
+.navbar.hidden {
+  top: -100px; /* Adjust based on your navbar height */
+}
+
+.navbar .navbar-logo {
+  flex: 1;
+  cursor: pointer;
+}
+.navbar-logo span {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 .navbar ul {
   display: flex;
-  justify-content: space-around;
-  list-style: none;
-  align-items: center;
+  gap: 30px;
+  list-style-type: none;
 }
 
 .navbar li {
   cursor: pointer;
-  font-size: 1.2rem;
-  transition: all 0.3s;
+  transition: 0.3s;
+  color: grey;
+}
+.navbar li:hover {
+  color: darkgrey;
+}
+.navbar p {
+  color: grey;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  text-align: right;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.navbar p:hover {
+  color: darkgrey;
 }
 
-.navbar .link:hover {
-  font-size: 1.3em;
+.navbar span:hover {
   font-weight: bold;
   font-family: sans-serif;
   text-decoration: none;
@@ -71,8 +103,4 @@
   100% {
     background-position: 0% 50%;
   }
-}
-.navbar .navbar-logo {
-  margin-right: 1rem;
-  font-weight: 800;
 }
