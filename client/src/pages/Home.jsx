@@ -12,6 +12,8 @@ const Home = () => {
   const [activeSection, setActiveSection] = useState(1);
   const sectionRefs = useRef([]); // Store section references
 
+  console.log(localStorage.getItem("token"));
+
   // Scroll to section handler
   const scrollToSection = (index) => {
     sectionRefs.current[index].scrollIntoView({ behavior: "smooth" });

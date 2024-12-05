@@ -3,7 +3,7 @@
   width: 100vw;
   display: flex;
   z-index: 1000;
-  padding: 20px 60px;
+  padding: 15px 30px; /* Reduced padding for smaller screens */
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(4.4px);
@@ -11,25 +11,9 @@
   transition: top 0.3s ease-in-out;
 }
 
-.navbar.visible {
-  top: 0;
-}
-
-.navbar.hidden {
-  top: -100px; /* Adjust based on your navbar height */
-}
-
-.navbar .navbar-logo {
-  flex: 1;
-  cursor: pointer;
-}
-.navbar-logo span {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
 .navbar ul {
   display: flex;
-  gap: 30px;
+  gap: 20px; /* Reduced gap for smaller screens */
   list-style-type: none;
 }
 
@@ -38,69 +22,117 @@
   transition: 0.3s;
   color: grey;
 }
-.navbar li:hover {
-  color: darkgrey;
+
+.navbar .navbar-logo span {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
+
 .navbar p {
   color: grey;
   font-size: 1rem;
   margin: 0;
   padding: 0;
-  flex: 1;
-  text-align: right;
   cursor: pointer;
   transition: 0.3s;
 }
-.navbar p:hover {
-  color: darkgrey;
-}
 
-.navbar span:hover {
-  font-weight: bold;
-  font-family: sans-serif;
-  text-decoration: none;
-  background: rgba(0, 0, 0, 0) -webkit-gradient(
-      linear,
-      left top,
-      right top,
-      from(#90f3b3),
-      color-stop(#90e9f3),
-      color-stop(#909ff3),
-      color-stop(#cc90f3),
-      color-stop(#f390d1),
-      color-stop(#f39a90),
-      color-stop(#f3e590),
-      to(#b8f390)
-    ) repeat scroll 0% 0%/200% 200%;
-  background: rgba(0, 0, 0, 0)
-    linear-gradient(
-      90deg,
-      #90f3b3,
-      #90e9f3,
-      #909ff3,
-      #cc90f3,
-      #f390d1,
-      #f39a90,
-      #f3e590,
-      #b8f390
-    )
-    repeat scroll 0% 0%/200% 200%;
-  background-clip: border-box;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-animation: GradientAnimation 2s ease infinite;
-  animation: GradientAnimation 2s ease infinite;
-}
-
-@keyframes GradientAnimation {
-  0% {
-    background-position: 0% 50%;
+@media (max-width: 768px) {
+  .navbar {
+    padding: 30px; /* Reduced padding */
   }
-  50% {
-    background-position: 100% 50%;
+
+  .navbar ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Adjusted gap */
+    display: none;
+  }
+
+  .navbar li {
+    font-size: 0.9rem; /* Smaller font size */
+  }
+
+  .navbar .navbar-logo span {
+    font-size: 1.2rem; /* Adjusted font size */
+  }
+
+  .navbar p {
+    font-size: 0.9rem; /* Smaller font size */
+    text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 30px; /* Even smaller padding for mobile */
+  }
+
+  .navbar .navbar-logo span {
+    font-size: 1rem;
+  }
+
+  .navbar li,
+  .navbar p {
+    font-size: 0.8rem; /* Further reduced font size */
+  }
+}
+.btn-shine {
+  color: #fff;
+  background: linear-gradient(to right, #9f9f9f 0, #fff 10%, #868686 20%);
+  background-position: 0;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s infinite linear;
+  animation-fill-mode: forwards;
+  -webkit-text-size-adjust: none;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: "Poppins", sans-serif;
+}
+@-moz-keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 180px;
+  }
+}
+@-webkit-keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
+  }
+  100% {
+    background-position: 180px;
+  }
+}
+@-o-keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
+  }
+  100% {
+    background-position: 180px;
+  }
+}
+@keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 180px;
+  }
+  100% {
+    background-position: 180px;
   }
 }

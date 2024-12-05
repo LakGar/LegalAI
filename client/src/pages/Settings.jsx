@@ -27,8 +27,11 @@ const Settings = () => {
   return (
     <div className="dashboard-container">
       {/* Background Animation */}
-      <div className="background"></div>
-
+      <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       {/* Side Navigation */}
       <div className="sidenav">
         <Sidenav />

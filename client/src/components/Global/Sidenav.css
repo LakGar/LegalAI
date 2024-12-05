@@ -1,7 +1,6 @@
 /* General Sidenav styling */
 .sidenav-container {
   height: 100%;
-  width: 15vw - 20px;
   background-color: #fff;
   display: flex;
   flex-direction: column;

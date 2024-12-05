@@ -12,12 +12,12 @@ import { IoDocument } from "react-icons/io5";
 import { IoChatbox } from "react-icons/io5";
 
 import { BsPlusCircle } from "react-icons/bs";
-import { NavLink } from "react-router-dom"; // Use NavLink for active styling
+import { NavLink } from "react-router-dom";
 import "./Sidenav.css";
 import Logo from "../../assets/logologo.png";
 import StorageCard from "./StorageCard";
 
-const Sidenav = () => {
+const Sidenav = ({ user }) => {
   return (
     <div className="sidenav-container">
       <div className="sidenav-top">

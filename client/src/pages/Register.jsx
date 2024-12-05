@@ -71,30 +71,10 @@ const Register = () => {
 
   return (
     <div className="hero-container">
-      <div className="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+      <div className="background1">
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
 
       <div className="auth-container">
@@ -103,7 +83,7 @@ const Register = () => {
           <div className="overlay-container">
             <div className="top">
               <img src={Logo} className="img" alt="Logo" />
-              <div className="button">
+              <div className="button1">
                 <IoMdArrowBack />
                 Back to website
               </div>

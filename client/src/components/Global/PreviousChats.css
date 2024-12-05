@@ -1,0 +1,189 @@
+/* Container styling */
+.previous-chats-container {
+  height: 100%;
+  width: 340px;
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  gap: 20px;
+}
+
+.action-btn {
+  background-color: #ffffff;
+  color: #007bff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.action-btn:hover {
+  background-color: #e7effb;
+}
+
+/* Divider */
+.previous-chats-container .dividers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.divider-text {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.previous-chats-container .divider-lines {
+  height: 1px;
+  width: 100%;
+  background-color: #ddd;
+}
+
+/* Previous chats */
+.previous-chats-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.previous-chat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: #f9faff;
+  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.previous-chat p {
+  text-align: left;
+  font-weight: 500;
+  color: grey;
+}
+
+.previous-chat:hover {
+  background-color: #e6f0ff;
+}
+
+.chat-preview {
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.options-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.options-btn:hover {
+  color: #444;
+}
+
+/* Options modal */
+.options-modal {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 100;
+  min-width: 150px;
+}
+
+.options-modal ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.options-modal li {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.options-modal li:hover {
+  background-color: #f1f3f7;
+}
+
+/* New chat buttons */
+.newchat-button {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.newchat-button button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.newchat-button button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Modal styling */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 320px;
+  z-index: 200;
+}
+
+.modal-content h2 {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.modal button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  transition: background-color 0.2s;
+}
+
+.modal button:hover {
+  background-color: #0056b3;
+}

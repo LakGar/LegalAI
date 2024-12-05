@@ -5,14 +5,19 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: #f2f2f2; /* Same as your loader background */
 }
 
 /* Loader */
 .loader {
   width: 120px;
   height: 20px;
-  background: linear-gradient(90deg, #0001 33%, #0005 50%, #0001 66%) #f2f2f2;
+  background: linear-gradient(
+      90deg,
+      rgba(96, 35, 116, 0.067) 33%,
+      rgba(98, 40, 119, 0.333) 50%,
+      rgba(130, 70, 116, 0.067) 66%
+    )
+    #f2f2f2;
   background-size: 300% 100%;
   animation: l1 1s infinite linear;
 }
@@ -30,58 +35,44 @@
 
 .dashboard-container {
   display: flex;
-  position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: rgba(210, 210, 210, 1) !important;
-}
-
-/* Background */
-.dashboard-container .background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 1) !important;
-  z-index: -1;
 }
 
 /* Side Navigation (Sidenav) */
 .sidenav {
-  flex: 1;
-  height: 100vh;
-  padding: 20px 0;
-  padding-left: 20px;
+  height: 100%;
+  width: 18%;
+  padding: 20px;
+
   position: absolute;
   left: -20vw; /* Initially hidden off the screen */
   z-index: 2;
   animation: slideInLeft 1s forwards 1s; /* Slide in from the left */
 }
 
+/* Dashboard Content */
+.dashboard-content {
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 40%);
+  left: 18%;
+  opacity: 0;
+  z-index: 3;
+  padding: 20px 0;
+  animation: fadeIn 1s forwards 0s; /* Fade in with 2s delay */
+}
+
 /* Chat Box */
 .chatbox {
-  width: 20vw;
-  height: 100vh;
-  padding: 20px 0;
-  padding-right: 20px;
+  height: 100%;
+  padding: 20px;
+  width: 22%;
   position: absolute;
   right: -20vw; /* Initially hidden off the screen */
   z-index: 2;
   animation: slideInRight 1s forwards 1s; /* Slide in from the right with 1s delay */
-}
-
-/* Dashboard Content */
-.dashboard-content {
-  flex: 1;
-  padding: 20px;
-  position: absolute;
-  left: 15vw;
-  right: 20vw;
-  top: 0;
-  height: 100vh;
-  opacity: 0;
-  z-index: 3;
-  animation: fadeIn 1s forwards 0s; /* Fade in with 2s delay */
 }
 
 /* Slide-in animation from the left */
@@ -112,4 +103,123 @@
   to {
     opacity: 1;
   }
+}
+
+.background {
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, #ffffff, #ece9e6);
+  display: flex;
+  flex-grow: 1;
+  z-index: -1;
+}
+
+.background div {
+  position: absolute;
+  border-radius: 100%;
+  height: 0;
+  filter: blur(240vw);
+  opacity: 0.4;
+}
+
+.background div:nth-child(1) {
+  background: linear-gradient(132deg, #1fcfc3 0%, #1f91cf 100%);
+  width: 30%;
+  padding-top: 30%;
+  left: 20%;
+  top: 20%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.background div:nth-child(2) {
+  background: linear-gradient(132deg, #0800ff 0%, #e32be3 100%);
+  width: 40%;
+  padding-top: 40%;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.background div:nth-child(3) {
+  background: linear-gradient(132deg, #1fcfc3 0%, #1f91cf 100%);
+  width: 30%;
+  padding-top: 30%;
+  left: 80%;
+  top: 80%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/* Coming soon container */
+.coming-soon-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+}
+
+.coming-soon-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.coming-soon-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Easter egg game */
+.easter-egg-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.easter-egg-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.easter-egg-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Easter egg found message */
+.easter-egg-found {
+  text-align: center;
+  padding: 20px;
+  background-color: #d4edda;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.easter-egg-found h2 {
+  font-size: 1.5rem;
+  color: #155724;
+  margin-bottom: 10px;
+}
+
+.easter-egg-found p {
+  font-size: 1rem;
+  color: #155724;
 }

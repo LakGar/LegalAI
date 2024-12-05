@@ -11,6 +11,8 @@
   height: 100vh;
   display: flex;
   position: relative;
+  overflow: hidden;
+  background-color: white;
 }
 
 /* Main content area with hidden scrollbar but still scrollable */
@@ -92,4 +94,10 @@ section {
   transition: all 0.3s ease; /* Smooth transition */
   transform: scale(1.2); /* Enlarge active button */
   opacity: 1;
+}
+
+@media (max-width: 1024px) {
+  .section-buttons {
+    display: none;
+  }
 }

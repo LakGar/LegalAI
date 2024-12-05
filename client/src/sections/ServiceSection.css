@@ -13,6 +13,7 @@
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+  background-color: black;
 }
 
 .services-container.visible {
@@ -24,6 +25,7 @@
 .services-title h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
+  color: lightgrey;
 }
 
 .services-title p {
@@ -31,6 +33,7 @@
   max-width: 600px;
   margin: 0 auto;
   color: grey;
+  font-weight: 500;
 }
 
 /* Card Styling */
@@ -43,8 +46,8 @@
 }
 
 .card {
-  background-color: #fff;
-  border-left: 4px solid #1e90ff; /* DodgeBlue left border */
+  background-color: rgba(43, 42, 42, 0.404);
+  border-left: 4px solid #1e8fff69; /* DodgeBlue left border */
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   padding: 2rem;
@@ -60,11 +63,14 @@
 .card h3 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
+  color: lightgray;
 }
 
 .card p {
   font-size: 1rem;
   color: #adabab;
+  text-align: left;
+  font-weight: 500;
 }
 
 /* Fade-in Animation */
@@ -81,5 +87,79 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .services-title h1 {
+    font-size: 2.5rem; /* Adjusted font size for tablets */
+  }
+
+  .services-title p {
+    font-size: 1.1rem; /* Adjusted description font size */
+  }
+
+  .slidingVertical {
+    max-width: 700px; /* Slightly reduced width for tablets */
+  }
+
+  .card {
+    padding: 1.5rem; /* Reduced padding for better fit */
+  }
+}
+
+@media (max-width: 768px) {
+  .services-title h1 {
+    font-size: 2rem; /* Smaller font size for smaller tablets */
+  }
+
+  .services-title p {
+    font-size: 1rem; /* Adjusted font size */
+  }
+
+  .slidingVertical {
+    max-width: 100%; /* Full width for smaller tablets */
+    gap: 1rem; /* Reduced gap */
+  }
+
+  .card {
+    padding: 1.2rem; /* Reduced padding for smaller screens */
+    border-left-width: 3px; /* Thinner border */
+  }
+
+  .card h3 {
+    font-size: 1.3rem; /* Smaller heading */
+  }
+
+  .card p {
+    font-size: 0.9rem; /* Smaller text */
+  }
+}
+
+@media (max-width: 480px) {
+  .services-title h1 {
+    font-size: 1.8rem; /* Adjusted font size for mobile */
+  }
+
+  .services-title p {
+    font-size: 0.9rem; /* Smaller font size for mobile */
+  }
+
+  .slidingVertical {
+    gap: 0.8rem; /* Smaller gap between cards */
+  }
+
+  .card {
+    padding: 1rem; /* Compact padding for mobile */
+    border-radius: 8px; /* Smaller radius */
+  }
+
+  .card h3 {
+    font-size: 1.2rem; /* Smaller heading size */
+  }
+
+  .card p {
+    font-size: 0.85rem; /* Smaller text */
   }
 }

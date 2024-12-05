@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import emailjs from "emailjs-com";
 import "./Contact.css";
 import { Facebook, Twitter, LinkedIn } from "@mui/icons-material"; // Import Material UI icons
 
@@ -17,7 +18,6 @@ function Contact() {
       (entries, observerInstance) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            console.log("Contact section is in view");
             setIsVisible(true);
             observerInstance.unobserve(entry.target);
           }
@@ -44,11 +44,27 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", email: "", message: "" });
-    }, 3000);
+
+    emailjs
+      .send(
+        "service_vw2f1h9", // Replace with your EmailJS Service ID
+        "template_by1fzyo", // Replace with your EmailJS Template ID
+        formData,
+        "w9hNEf_ZepN3o-p_G" // Replace with your EmailJS User ID
+      )
+      .then(
+        (result) => {
+          console.log("Email sent successfully:", result.text);
+          setSubmitted(true);
+          setTimeout(() => {
+            setSubmitted(false);
+            setFormData({ name: "", email: "", message: "" });
+          }, 3000);
+        },
+        (error) => {
+          console.error("Error sending email:", error.text);
+        }
+      );
   };
 
   return (

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Sidenav from "../components/Global/Sidenav";
-import ChatBox from "../components/Global/ChatBox";
 import "./Dashboard.css"; // Create this CSS file for animation styles
-import DocComponent from "../components/Documents/DocComponents";
 
 const Team = () => {
   const [loading, setLoading] = useState(true);
+  const [foundEasterEgg, setFoundEasterEgg] = useState(false);
 
   // Use useEffect to trigger the loader for 2 seconds
   useEffect(() => {
@@ -15,6 +14,10 @@ const Team = () => {
 
     return () => clearTimeout(timer); // Clean up the timer
   }, []);
+
+  const handleEasterEggClick = () => {
+    setFoundEasterEgg(true);
+  };
 
   if (loading) {
     return (
@@ -26,22 +29,39 @@ const Team = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Background Animation */}
-      <div className="background"></div>
-
+      <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       {/* Side Navigation */}
       <div className="sidenav">
         <Sidenav />
       </div>
 
-      {/* Dashboard Component */}
-      <div className="dashboard-content">
-        <DocComponent />
-      </div>
-
-      {/* Chat Box */}
-      <div className="chatbox">
-        <ChatBox />
+      {/* Interactive Easter Egg Game */}
+      <div className="coming-soon-container">
+        <h1 className="coming-soon-title">Coming Soon</h1>
+        <p className="coming-soon-subtitle">
+          We are working hard to bring you an amazing experience. Stay tuned!
+        </p>
+        {/* 
+        {!foundEasterEgg ? (
+          <div className="easter-egg-game">
+            <p>Click around to find a hidden surprise!</p>
+            <button
+              className="easter-egg-button"
+              onClick={handleEasterEggClick}
+            >
+              Find the Egg
+            </button>
+          </div>
+        ) : (
+          <div className="easter-egg-found">
+            <h2>🎉 You found the Easter Egg! 🎉</h2>
+            <p>Thanks for exploring! More fun surprises to come.</p>
+          </div>
+        )} */}
       </div>
     </div>
   );

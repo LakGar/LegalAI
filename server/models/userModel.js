@@ -81,6 +81,10 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    payment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Payment",
+    },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     verificationToken: String,

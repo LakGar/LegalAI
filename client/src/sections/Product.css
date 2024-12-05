@@ -15,9 +15,12 @@
   opacity: 1; /* Fully visible when in view */
   transform: translateY(0); /* Bring into view */
 }
+
 .product-content {
   width: 60%;
+  margin: 0 auto;
 }
+
 .product-content h1 {
   font-size: 3rem;
   font-weight: 700;
@@ -42,9 +45,71 @@
   flex: 1 1 calc(33.333% - 2rem); /* Flexbox to handle layout */
   height: 150px;
   border: 1px solid rgba(200, 200, 200, 0.457);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
+.feature-item p {
+  margin-bottom: 0;
+  font-size: 0.7rem;
+}
 .feature-item:hover {
   box-shadow: 0 10px 20px rgba(30, 144, 255, 0.2); /* Shadow on hover */
   transform: translateY(-5px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .product-container {
+    height: 100%;
+  }
+  .product-content {
+    width: 80%; /* Wider for tablets */
+  }
+
+  .product-content h1 {
+    font-size: 2.5rem; /* Adjusted font size for tablets */
+  }
+
+  .feature-item {
+    flex: 1 1 calc(50% - 2rem); /* Two columns for tablets */
+    height: 180px; /* Slightly taller for readability */
+  }
+}
+
+@media (max-width: 768px) {
+  .product-content {
+    width: 90%; /* Full width for smaller tablets */
+  }
+
+  .product-content h1 {
+    font-size: 2rem; /* Smaller font size */
+  }
+
+  .product-features {
+    gap: 1rem; /* Smaller gap for tighter spacing */
+  }
+
+  .feature-item {
+    flex: 1 1 calc(100% - 1rem); /* Single column for smaller screens */
+    height: 200px; /* Taller height for more content space */
+  }
+}
+
+@media (max-width: 480px) {
+  .product-content h1 {
+    font-size: 1.8rem; /* Adjusted font size for mobile */
+  }
+
+  .product-content p {
+    font-size: 0.7rem; /* Smaller font size for mobile */
+  }
+
+  .feature-item {
+    padding: 1.5rem; /* Reduced padding for mobile */
+    height: 120px; /* Taller height for readability */
+  }
 }

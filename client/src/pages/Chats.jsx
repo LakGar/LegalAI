@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidenav from "../components/Global/Sidenav";
-import ChatBox from "../components/Global/ChatBox";
 import "./Dashboard.css"; // Create this CSS file for animation styles
+import PreviousChats from "../components/Global/PreviousChats";
 import ChatComponent from "../components/Chats/ChatComponent";
 
 const Chat = () => {
@@ -27,8 +27,11 @@ const Chat = () => {
   return (
     <div className="dashboard-container">
       {/* Background Animation */}
-      <div className="background"></div>
-
+      <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       {/* Side Navigation */}
       <div className="sidenav">
         <Sidenav />
@@ -41,7 +44,7 @@ const Chat = () => {
 
       {/* Chat Box */}
       <div className="chatbox">
-        <ChatBox />
+        <PreviousChats />
       </div>
     </div>
   );

@@ -6,8 +6,8 @@
 }
 
 /* Auth container styling */
-.auth-container {
-  background-color: rgba(255, 255, 255, 0.9);
+.hero-container .auth-container {
+  background-color: rgba(255, 255, 255, 0.088);
   width: 70vw;
   height: 90vh;
   border-radius: 20px;
@@ -26,7 +26,7 @@
   flex-direction: column;
 }
 .auth-left {
-  flex: 1;
+  flex: 1.3;
   position: relative;
 }
 .overlay-container {
@@ -55,15 +55,16 @@
   height: 60px;
   cursor: pointer;
 }
-.overlay-container .top .button {
+.overlay-container .top .button1 {
   display: flex;
+  align-items: center;
   gap: 3px;
   padding: 5px 10px;
   background-color: #33333346;
   border-radius: 10px;
   color: lightgrey;
 }
-.overlay-container .top .button:hover {
+.overlay-container .top .button1:hover {
   background-color: #3333337c;
   cursor: pointer;
 }
@@ -73,12 +74,13 @@
   gap: 10px;
   padding: 10px 0;
   justify-content: space-between;
+  width: 80%;
+}
+.bottom .bottom-text {
   color: white;
-  font-size: 2.2rem;
-  width: 70%;
+  font-size: 2rem;
   font-weight: 500;
 }
-
 .auth-left img {
   object-fit: cover;
   height: 85vh;
@@ -101,18 +103,21 @@
 .auth-heading-text {
   font-size: 2.7rem;
   font-weight: 800;
-  color: #333;
+  color: #ffffff;
   text-align: left;
 }
 
 .auth-subheading-text {
   font-size: 0.8rem;
   text-align: left;
+  color: lightgray !important;
+  padding-bottom: 20px;
 }
 
 a {
   color: dodgerblue;
   transition: color 0.3s ease;
+  text-decoration: none;
 }
 
 a:hover {
@@ -135,9 +140,11 @@ form {
 .auth-input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #4a4a4a37;
   border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.357);
   transition: border-color 0.3s ease-in-out;
+  color: white;
 }
 
 .auth-input:focus {

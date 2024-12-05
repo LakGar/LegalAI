@@ -45,7 +45,9 @@ const Navigation = ({ scrollToSection }) => {
           Contact
         </li>
       </ul>
-      <p className="button">Coming soon</p>
+      <div className="button">
+        <p className="btn-shine">Coming soon</p>
+      </div>
     </div>
   );
 };

@@ -55,3 +55,15 @@
 .profile-card .icon {
   font-size: 1.2rem;
 }
+.noProfileImage {
+  background-color: rgb(255, 106, 106);
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: white;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
