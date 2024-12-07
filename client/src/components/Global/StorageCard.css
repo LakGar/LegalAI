@@ -22,9 +22,8 @@
   color: #9fa7c1;
 }
 
-p {
-  font-size: 1.1rem;
-  font-weight: bold;
+.storage-card p {
+  font-size: 1rem;
   margin-bottom: 5px;
   text-align: center;
   width: 100%;

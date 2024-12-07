@@ -4,6 +4,7 @@ import {
   updateUser,
   deleteUser,
   uploadProfileImage,
+  getUserById,
 } from "../controllers/userController.js";
 import { upload } from "../config/multer.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -16,6 +17,13 @@ const router = express.Router();
  * @access Private
  */
 router.get("/", protect, getUser);
+
+/**
+ * @route GET /user/:id
+ * @description Get user details by ID
+ * @access Private
+ */
+router.get("/:id", protect, getUserById);
 
 /**
  * @route PUT /user

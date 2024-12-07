@@ -3,12 +3,12 @@ import "../Dashboard/DashComponent.css";
 import Topnav from "../Dashboard/Topnav";
 import PaginatedFileList from "./PaginatedFileList";
 
-const DocComponent = () => {
+const DocComponent = ({ user, documents }) => {
   return (
     <div className="dash-component-container ">
-      <Topnav />
+      <Topnav user={user} />
       <div className="dash-component ">
-        <PaginatedFileList />
+        <PaginatedFileList documents={documents} />
       </div>
     </div>
   );

@@ -27,22 +27,56 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/verify-email" element={<EmailVerification />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/documents" element={<Documents />} />
-            <Route path="/chats" element={<Chats />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<Profile />} />
 
             {/* Protected Routes */}
-            {/* <Route
+            <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
                 </ProtectedRoute>
               }
-            /> */}
+            />
+            <Route
+              path="/documents"
+              element={
+                <ProtectedRoute>
+                  <Documents />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/chats"
+              element={
+                <ProtectedRoute>
+                  <Chats />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/team"
+              element={
+                <ProtectedRoute>
+                  <Team />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Router>
       </ThemeContextProvider>

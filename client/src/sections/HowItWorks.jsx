@@ -32,13 +32,13 @@ function HowItWorksSection() {
       icon: <FaUpload />,
       title: "Upload a Contract",
       description:
-        "Drag and drop your contract into LEGALIT for automated analysis.",
+        "Drag and drop your contract into LegalAI for automated analysis.",
     },
     {
       icon: <FaBrain />,
       title: "AI-Powered Analysis",
       description:
-        "LEGALIT scans your contract, highlighting key terms, obligations, and risks.",
+        "LegalAI scans your contract, highlighting key terms, obligations, and risks.",
     },
     {
       icon: <FaUsers />,

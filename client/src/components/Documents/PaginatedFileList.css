@@ -70,3 +70,10 @@
 .pagination-controls p {
   font-size: 0.7rem;
 }
+.paginated-file-list-container .no-files-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

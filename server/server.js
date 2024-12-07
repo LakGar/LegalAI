@@ -10,7 +10,7 @@ dotenv.config();
 // Allow credentials from the specific origin
 app.use(
   cors({
-    origin: "http://10.0.0.159:3000", // Frontend origin
+    origin: "http://localhost:3000", // Frontend origin
     credentials: true, // Allow cookies or credentials
   })
 );

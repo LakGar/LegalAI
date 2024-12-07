@@ -13,6 +13,16 @@ export const getUserDetails = async (token) => {
 };
 
 /**
+ * Get user details by ID
+ */
+export const getUserById = async (userId) => {
+  const response = await axios.get(`${API_URL}/${userId}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+  return response.data;
+};
+
+/**
  * Update user details
  */
 export const updateUserDetails = async (userData, token) => {

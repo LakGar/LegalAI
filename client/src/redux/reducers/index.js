@@ -4,7 +4,7 @@ import { userReducer } from "./userReducer";
 import { documentReducer } from "./documentReducer";
 
 export default combineReducers({
-  auth: authReducer, // Now we have the auth state in Redux
+  auth: authReducer,
   user: userReducer,
-  document: documentReducer,
+  documents: documentReducer,
 });

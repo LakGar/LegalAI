@@ -12,7 +12,7 @@ const unsplashImages = [
 function TestimonialsSection() {
   const testimonials = [
     {
-      text: "LEGALIT has transformed our legal workflow, saving us countless hours.",
+      text: "LegalAI has transformed our legal workflow, saving us countless hours.",
       clientName: "Sarah Thompson",
       clientPosition: "CEO, Startup Inc.",
       clientPhoto: unsplashImages[0],
@@ -24,13 +24,13 @@ function TestimonialsSection() {
       clientPhoto: unsplashImages[1],
     },
     {
-      text: "We no longer worry about missing deadlines or compliance issues thanks to LEGALIT.",
+      text: "We no longer worry about missing deadlines or compliance issues thanks to LegalAI.",
       clientName: "Linda Monroe",
       clientPosition: "General Counsel, FinCorp",
       clientPhoto: unsplashImages[2],
     },
     {
-      text: "Collaborating with our legal team has never been easier. LEGALIT is a must-have.",
+      text: "Collaborating with our legal team has never been easier. LegalAI is a must-have.",
       clientName: "Michael Brown",
       clientPosition: "Managing Partner, Legal Partners LLP",
       clientPhoto: unsplashImages[3],

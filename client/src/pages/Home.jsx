@@ -73,12 +73,13 @@ const Home = () => {
         >
           <TestimonialsSection />
         </section>
-        <section
+        <div
+          style={{ backgroundColor: "black" }}
           ref={(el) => (sectionRefs.current[5] = el)}
           className="section"
         >
           <Contact />
-        </section>
+        </div>
       </div>
 
       {/* Right-side navigation buttons */}

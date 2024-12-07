@@ -1,155 +1,94 @@
-import React, { useState, useEffect, useRef } from "react";
-import emailjs from "emailjs-com";
+import React, { useState } from "react";
 import "./Contact.css";
-import { Facebook, Twitter, LinkedIn } from "@mui/icons-material"; // Import Material UI icons
+import Logo from "../assets/logo-long-dark.png";
 
-function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const contactRef = useRef(null);
+function Footer() {
+  const [showContactModal, setShowContactModal] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries, observerInstance) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observerInstance.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 } // Adjusted trigger threshold
-    );
-
-    if (contactRef.current) {
-      observer.observe(contactRef.current);
-    }
-
-    return () => {
-      if (contactRef.current) {
-        observer.unobserve(contactRef.current);
-      }
-    };
-  }, []);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    emailjs
-      .send(
-        "service_vw2f1h9", // Replace with your EmailJS Service ID
-        "template_by1fzyo", // Replace with your EmailJS Template ID
-        formData,
-        "w9hNEf_ZepN3o-p_G" // Replace with your EmailJS User ID
-      )
-      .then(
-        (result) => {
-          console.log("Email sent successfully:", result.text);
-          setSubmitted(true);
-          setTimeout(() => {
-            setSubmitted(false);
-            setFormData({ name: "", email: "", message: "" });
-          }, 3000);
-        },
-        (error) => {
-          console.error("Error sending email:", error.text);
-        }
-      );
-  };
+  const openContactModal = () => setShowContactModal(true);
+  const closeContactModal = () => setShowContactModal(false);
 
   return (
-    <section id="contact" className="contact-section">
-      <div
-        className={`contact-container ${isVisible ? "fade-in" : ""}`}
-        ref={contactRef}
-      >
-        <h2>Get in Touch</h2>
-        <p>Feel free to reach out to us with any questions or inquiries.</p>
-        <form onSubmit={handleSubmit} className="contact-form">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            value={formData.message}
-            onChange={handleChange}
-            rows="4"
-            required
-          />
-          <button type="submit" className="submit-button">
-            {submitted ? "Message Sent!" : "Send Message"}
-          </button>
-        </form>
-      </div>
-
-      {/* Footer Section */}
+    <>
       <footer className="footer">
-        <div className="footer-left">
-          <ul>
-            <li>
+        <div className="footer-container">
+          <div className="footer-section" style={{ width: "40%" }}>
+            <img src={Logo} alt="Logo" className="footer-logo" />
+            <p>
+              Smarter Legal Analysis, Faster Decisions. We're here to help you
+              navigate the legal world.
+            </p>
+            LegalAI 2024
+          </div>
+          <div className="footer-section">
+            <h3 className="footer-title">About</h3>
+            <div className="footer-links">
+              <a href="#customers">Customers</a>
+              <a href="#security">Security</a>
+              <a href="#company">Company</a>
+              <a href="#news">News</a>
+            </div>
+          </div>
+          <div className="footer-section">
+            <h3 className="footer-title">Resources</h3>
+            <div className="footer-links">
+              <a href="#legal">Legal</a>
               <a href="#privacy">Privacy Policy</a>
-            </li>
-            <li>
-              <a href="#terms">Terms of Service</a>
-            </li>
-            <li>
-              <a href="#contact">Contact Us</a>
-            </li>
-          </ul>
+              <a href="#press">Press Kit</a>
+              <a href="#choices">Your Privacy Choices</a>
+            </div>
+          </div>
+          <div className="footer-section">
+            <h3 className="footer-title">Follow Us</h3>
+            <div className="footer-links">
+              <a href="https://linkedin.com">LinkedIn</a>
+              <a href="https://twitter.com">Twitter</a>
+              <button className="contact-button" onClick={openContactModal}>
+                Contact Us
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="footer-right">
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-          >
-            <Facebook fontSize="large" />
-          </a>
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Twitter"
-          >
-            <Twitter fontSize="large" />
-          </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <LinkedIn fontSize="large" />
-          </a>
+        <div className="footer-bottom">
+          <p>© 2024 Counsel AI Corporation. All rights reserved.</p>
+          <div className="supporting-links">
+            <a href="#terms">Terms of Service</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#cookies">Cookies Policy</a>
+          </div>
         </div>
       </footer>
-    </section>
+
+      {showContactModal && (
+        <div className="contact-modal-overlay" onClick={closeContactModal}>
+          <div
+            className="contact-modal"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+          >
+            <div className="contact-modal-close" onClick={closeContactModal}>
+              &times;
+            </div>
+            <h2>Contact Us</h2>
+            <form className="contact-modal-form">
+              <div className="row">
+                <input type="text" placeholder="First Name" required />
+                <input type="text" placeholder="Last Name" required />
+              </div>
+
+              <input type="email" placeholder="Email" required />
+              <input type="tel" placeholder="Phone" />
+              <div className="row">
+                <input type="text" placeholder="Website" />
+                <input type="text" placeholder="Title" />
+              </div>
+              <textarea placeholder="Message" rows="4" required />
+              <button type="submit">Submit Form</button>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
-export default Contact;
+export default Footer;

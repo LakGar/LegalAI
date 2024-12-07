@@ -13,12 +13,10 @@ export const uploadDocument = async (req, res) => {
     const { name, type, description, businessId } = req.body;
 
     if (!userId || !req.file) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "All fields are required, including the file",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required, including the file",
+      });
     }
 
     const documentUrl = req.file.path; // Assuming multer stores the file path
@@ -140,12 +138,10 @@ export const updateDocument = async (req, res) => {
     const userId = req.user?._id;
 
     if (!documentId || !userId) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Document ID and User ID are required",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Document ID and User ID are required",
+      });
     }
 
     const updates = req.body;
@@ -170,12 +166,10 @@ export const updateDocument = async (req, res) => {
     );
 
     if (!document) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "Document not found or access denied",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "Document not found or access denied",
+      });
     }
 
     return res.status(200).json({
@@ -203,12 +197,10 @@ export const deleteDocument = async (req, res) => {
     const userId = req.user?._id;
 
     if (!documentId || !userId) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Document ID and User ID are required",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Document ID and User ID are required",
+      });
     }
 
     const document = await Document.findOneAndDelete({
@@ -217,12 +209,10 @@ export const deleteDocument = async (req, res) => {
     });
 
     if (!document) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "Document not found or access denied",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "Document not found or access denied",
+      });
     }
 
     // Remove reference from user and business

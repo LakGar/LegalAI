@@ -1,13 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidenav from "../components/Global/Sidenav";
 import ChatBox from "../components/Global/ChatBox";
 import "./Dashboard.css"; // Create this CSS file for animation styles
 import DocComponent from "../components/Documents/DocComponents";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../redux/actions/userAction";
+import { getDocuments } from "../redux/actions/documentAction";
 
 const Documents = () => {
   const [loading, setLoading] = useState(true);
 
-  // Use useEffect to trigger the loader for 2 seconds
+  // Access Redux states
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+  const documentState = useSelector((state) => state.documents);
+
+  const { user, error: userError } = userState;
+  const { documents = [], loading: documentsLoading } = documentState;
+  console.log(documents);
+  // Fetch user details and documents
+  useEffect(() => {
+    dispatch(getUserDetails());
+
+    // Fetch documents only if the documents state is empty
+    if (documents.length === 0) {
+      dispatch(getDocuments());
+    }
+  }, [dispatch, documents.length]);
+
+  // Simulate loader for 2 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false); // Disable loading after 2 seconds
@@ -16,7 +37,8 @@ const Documents = () => {
     return () => clearTimeout(timer); // Clean up the timer
   }, []);
 
-  if (loading) {
+  // Show loader if still loading
+  if (loading || documentsLoading) {
     return (
       <div className="loader-container">
         <div className="loader"></div>
@@ -27,11 +49,12 @@ const Documents = () => {
   return (
     <div className="dashboard-container">
       {/* Background Animation */}
-      <div class="background">
+      <div className="background">
         <div></div>
         <div></div>
         <div></div>
       </div>
+
       {/* Side Navigation */}
       <div className="sidenav">
         <Sidenav />
@@ -39,12 +62,16 @@ const Documents = () => {
 
       {/* Dashboard Component */}
       <div className="dashboard-content">
-        <DocComponent />
+        {documents.length > 0 ? (
+          <DocComponent documents={documents} user={user?.data} />
+        ) : (
+          <p className="no-documents-message">No documents available.</p>
+        )}
       </div>
 
       {/* Chat Box */}
       <div className="chatbox">
-        <ChatBox />
+        <ChatBox user={user?.data} />
       </div>
     </div>
   );

@@ -1,13 +1,15 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/document";
+const API_URL = "http://localhost:8000/api/documents";
 
 /**
  * Fetch all documents for the logged-in user.
  * @returns {Promise<Object>}
  */
 export const fetchDocuments = async () => {
-  const response = await axios.get(`${API_URL}`);
+  const response = await axios.get(`${API_URL}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
   return response.data;
 };
 
@@ -17,7 +19,9 @@ export const fetchDocuments = async () => {
  * @returns {Promise<Object>}
  */
 export const fetchDocumentById = async (id) => {
-  const response = await axios.get(`${API_URL}/${id}`);
+  const response = await axios.get(`${API_URL}/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
   return response.data;
 };
 
@@ -30,6 +34,7 @@ export const uploadDocument = async (documentData) => {
   const response = await axios.post(`${API_URL}`, documentData, {
     headers: {
       "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   return response.data;
@@ -42,7 +47,9 @@ export const uploadDocument = async (documentData) => {
  * @returns {Promise<Object>}
  */
 export const updateDocument = async (id, updates) => {
-  const response = await axios.put(`${API_URL}/${id}`, updates);
+  const response = await axios.put(`${API_URL}/${id}`, updates, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
   return response.data;
 };
 
@@ -52,6 +59,8 @@ export const updateDocument = async (id, updates) => {
  * @returns {Promise<Object>}
  */
 export const deleteDocument = async (id) => {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const response = await axios.delete(`${API_URL}/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
   return response.data;
 };
