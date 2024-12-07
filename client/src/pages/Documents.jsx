@@ -17,7 +17,6 @@ const Documents = () => {
 
   const { user, error: userError } = userState;
   const { documents = [], loading: documentsLoading } = documentState;
-  console.log(documents);
   // Fetch user details and documents
   useEffect(() => {
     dispatch(getUserDetails());
