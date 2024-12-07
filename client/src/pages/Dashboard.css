@@ -1,3 +1,93 @@
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Side Navigation (Sidenav) */
+.sidenav {
+  flex: 0 0 300px; /* Fixed width of 300px */
+  height: 100%;
+  position: relative;
+  transform: translateX(-100%); /* Start off-screen */
+  animation: slideInLeft 1s forwards 0.5s; /* Slide in from the left */
+}
+
+/* Chat Box */
+.chatbox {
+  flex: 0 0 350px; /* Fixed width of 350px */
+  height: 100%;
+  z-index: 0;
+  position: relative;
+  transform: translateX(100%); /* Start off-screen */
+  animation: slideInRight 1s forwards 0.5s; /* Slide in from the right */
+}
+
+/* Dashboard Content */
+.dashboard-content {
+  flex: 1; /* Fill the remaining space */
+  height: 100%;
+  overflow-y: auto; /* Enable scrolling for overflow */
+  opacity: 0; /* Start hidden */
+  animation: fadeIn 1s forwards 1s; /* Fade in */
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 1024px) {
+  .sidenav {
+    flex: 0 0 200px; /* Adjust width for smaller screens */
+  }
+
+  .chatbox {
+    flex: 0 0 250px; /* Adjust width for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .sidenav,
+  .chatbox {
+    display: none; /* Hide Sidenav and ChatBox on smaller screens */
+  }
+
+  .dashboard-content {
+    flex: 1; /* Fill the full width */
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+}
+
+/* Slide-in animation from the left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Slide-in animation from the right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Fade-in animation for the dashboard content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Loader Container */
 .loader-container {
   display: flex;
@@ -31,80 +121,7 @@
   }
 }
 
-/* Rest of your CSS (already provided) */
-
-.dashboard-container {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* Side Navigation (Sidenav) */
-.sidenav {
-  height: 100%;
-  width: 18%;
-  padding: 20px;
-
-  position: absolute;
-  left: -20vw; /* Initially hidden off the screen */
-  z-index: 2;
-  animation: slideInLeft 1s forwards 1s; /* Slide in from the left */
-}
-
-/* Dashboard Content */
-.dashboard-content {
-  position: absolute;
-  height: 100%;
-  width: calc(100% - 40%);
-  left: 18%;
-  opacity: 0;
-  z-index: 3;
-  padding: 20px 0;
-  animation: fadeIn 1s forwards 0s; /* Fade in with 2s delay */
-}
-
-/* Chat Box */
-.chatbox {
-  height: 100%;
-  padding: 20px;
-  width: 22%;
-  position: absolute;
-  right: -20vw; /* Initially hidden off the screen */
-  z-index: 2;
-  animation: slideInRight 1s forwards 1s; /* Slide in from the right with 1s delay */
-}
-
-/* Slide-in animation from the left */
-@keyframes slideInLeft {
-  from {
-    left: -20vw;
-  }
-  to {
-    left: 0;
-  }
-}
-
-/* Slide-in animation from the right */
-@keyframes slideInRight {
-  from {
-    right: -20vw;
-  }
-  to {
-    right: 0;
-  }
-}
-
-/* Fade-in animation for the dashboard content */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
+/* Background */
 .background {
   position: absolute;
   overflow: hidden;
@@ -151,75 +168,4 @@
   left: 80%;
   top: 80%;
   transform: translateX(-50%) translateY(-50%);
-}
-
-/* Coming soon container */
-.coming-soon-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  position: relative;
-}
-
-.coming-soon-title {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-}
-
-.coming-soon-subtitle {
-  font-size: 1.1rem;
-  color: #555;
-  text-align: center;
-  max-width: 600px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-/* Easter egg game */
-.easter-egg-game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.easter-egg-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.easter-egg-button:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-}
-
-/* Easter egg found message */
-.easter-egg-found {
-  text-align: center;
-  padding: 20px;
-  background-color: #d4edda;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.easter-egg-found h2 {
-  font-size: 1.5rem;
-  color: #155724;
-  margin-bottom: 10px;
-}
-
-.easter-egg-found p {
-  font-size: 1rem;
-  color: #155724;
 }

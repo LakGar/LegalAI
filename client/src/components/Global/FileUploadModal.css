@@ -60,7 +60,7 @@
 .file-upload-description {
   font-size: 1rem;
   color: #777;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 /* Drag and Drop Area */
@@ -245,7 +245,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
@@ -256,6 +255,7 @@
   border: none;
   outline: none;
   font-size: medium;
+  background-color: transparent;
 }
 
 .tag {
