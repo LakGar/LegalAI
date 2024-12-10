@@ -22,12 +22,17 @@
 .file-item {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 15px;
   background-color: #fafafa;
   border-radius: 8px;
   transition: background-color 0.3s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   gap: 10px; /* Add spacing between file info and avatars */
+  max-width: 300px;
+  min-width: 200px;
+  position: relative;
+  cursor: pointer;
 }
 
 .file-item:hover {
@@ -55,23 +60,38 @@
   font-size: 0.85rem;
   color: #777;
   text-align: left;
+  margin-top: 5px;
+}
+
+.recent-files-container .file-date {
+  font-size: 0.8rem;
+  color: #9c9a9a;
+  text-align: right;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 .file-avatars {
   display: flex;
   align-items: center;
-  margin-top: 10px; /* Add spacing above avatars section */
-  margin-left: 20px;
-  flex-direction: row;
+  gap: 8px;
 }
 
-.user-avatar {
+.avatar-circle {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid #fff;
-  margin-left: -20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ee7d7d; /* Faint background color */
+  text-transform: uppercase;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .additional-users {

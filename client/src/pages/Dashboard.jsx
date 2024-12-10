@@ -5,19 +5,30 @@ import ChatBox from "../components/Global/ChatBox";
 import DashComponent from "../components/Dashboard/DashComponent";
 import "./Dashboard.css"; // Create this CSS file for animation styles
 import { getUserDetails } from "../redux/actions/userAction";
+import { getDocuments } from "../redux/actions/documentAction";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
-  // Access user state from Redux
+  // Access Redux states
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
-  const { user, error } = userState;
+  const documentState = useSelector((state) => state.documents);
+  const activeDocument = useSelector((state) => state.documents.activeDocument);
 
-  // Fetch user details on component mount
+  const { user, error: userError } = userState;
+  const { documents = [], loading: documentsLoading } = documentState;
+  console.log("User:", user);
+  console.log("Documents:", documents);
+  // Fetch user details and documents on mount
   useEffect(() => {
     dispatch(getUserDetails());
-  }, [dispatch]);
+
+    // Fetch documents only if the state is empty
+    if (documents.length === 0) {
+      dispatch(getDocuments());
+    }
+  }, [dispatch, documents.length]);
 
   // Simulate loader for 2 seconds
   useEffect(() => {
@@ -28,10 +39,8 @@ const Dashboard = () => {
     return () => clearTimeout(timer); // Clean up the timer
   }, []);
 
-  // Safely access user data
-  console.log(user);
-  // Show loader
-  if (loading) {
+  // Show loader if still loading
+  if (loading || documentsLoading) {
     return (
       <div className="loader-container">
         <div className="background">
@@ -60,12 +69,20 @@ const Dashboard = () => {
 
       {/* Dashboard Component */}
       <div className="dashboard-content">
-        <DashComponent user={user?.data} />
+        {documents.length > 0 ? (
+          <DashComponent documents={documents} user={user?.data} />
+        ) : (
+          <p className="no-documents-message">No documents available.</p>
+        )}
       </div>
 
       {/* Chat Box */}
       <div className="chatbox">
-        <ChatBox user={user?.data} />
+        <ChatBox
+          user={user?.data}
+          documents={documents}
+          activeDocument={activeDocument}
+        />
       </div>
     </div>
   );

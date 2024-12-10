@@ -5,16 +5,41 @@ import { CiChat1, CiFolderOn } from "react-icons/ci";
 import { BiAnalyse } from "react-icons/bi";
 import { CiImport } from "react-icons/ci";
 
-const ChatBox = ({ user }) => {
+const ChatBox = ({ user, documents, activeDocument }) => {
   const userName = user?.firstname || "User";
-  const files = user?.files || [];
+  const files = documents || [];
   const chats = user?.chats || [];
   const chatMessages = chats;
 
   return (
     <div className="chatbox-container">
       <div className="chatbox-top">
-        {files?.length ? (
+        {activeDocument ? (
+          // Display active document
+          <div className="document-card">
+            <div className="document-info">
+              <FaFileAlt className="file-icon" />
+              <p className="file-name">
+                {activeDocument.name || "Untitled Document"}
+              </p>
+              <p className="file-size">
+                Size: {activeDocument.size || "Unknown"}
+              </p>
+            </div>
+            <div className="action-buttons">
+              <button className="action-btn">
+                <FaRobot />
+              </button>
+              <button className="action-btn">
+                <FaDownload />
+              </button>
+              <button className="action-btn">
+                <FaShareAlt />
+              </button>
+            </div>
+          </div>
+        ) : files?.length ? (
+          // Display the first document if no active document
           <div className="document-card">
             <div className="document-info">
               <FaFileAlt className="file-icon" />
@@ -36,6 +61,7 @@ const ChatBox = ({ user }) => {
             </div>
           </div>
         ) : (
+          // Display upload prompt if no files
           <div className="widget-container" style={{ flexDirection: "column" }}>
             <h4 style={{ fontSize: "1.5rem" }}>Welcome {userName}!</h4>
             <p
@@ -55,7 +81,6 @@ const ChatBox = ({ user }) => {
               </div>
               <div className="text-container">
                 <h4>New chat</h4>
-
                 <p>Ask general questions</p>
               </div>
             </div>
