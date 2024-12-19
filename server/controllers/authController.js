@@ -233,15 +233,18 @@ export const logout = async (req, res) => {
 import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res) => {
-  // Get the token from the cookies
-  const token = req.cookies.token;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  // Check if the Authorization header is provided and correctly formatted
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
-      message: "No token provided, authorization denied",
+      message: "Authorization denied: No token provided",
     });
   }
+
+  // Extract the token from the Authorization header
+  const token = authHeader.split(" ")[1];
 
   try {
     // Verify the token

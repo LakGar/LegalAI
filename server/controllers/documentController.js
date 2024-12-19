@@ -1,6 +1,12 @@
 import { Document } from "../models/documentModel.js";
 import { User } from "../models/userModel.js";
 import { Business } from "../models/businessModel.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Upload a new document
@@ -234,4 +240,28 @@ export const deleteDocument = async (req, res) => {
       message: "Internal server error",
     });
   }
+};
+
+export const getFile = (req, res) => {
+  const fileName = req.params.fileName;
+  const filePath = path.join(__dirname, "../uploads", fileName); // Adjust path as needed
+
+  // Check if the file exists
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({
+      success: false,
+      message: "File not found",
+    });
+  }
+
+  // Send the file
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      console.error("Error sending file:", err);
+      res.status(500).json({
+        success: false,
+        message: "Error accessing file",
+      });
+    }
+  });
 };
