@@ -9,7 +9,7 @@
 
 /* Side Navigation (Sidenav) */
 .sidenav {
-  flex: 0 0 300px; /* Fixed width of 300px */
+  flex: 0 0 250px; /* Fixed width of 300px */
   height: 100%;
   position: relative;
   transform: translateX(-100%); /* Start off-screen */
@@ -98,7 +98,7 @@
 }
 
 /* Loader */
-.loader {
+.loader1 {
   width: 120px;
   height: 20px;
   background: linear-gradient(

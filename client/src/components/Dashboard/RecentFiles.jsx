@@ -3,18 +3,23 @@ import { FaFilePdf } from "react-icons/fa"; // PDF Icon for files
 import "./RecentFiles.css";
 import FileUploadModal from "../Global/FileUploadModal";
 import { getUserById } from "../../services/userServices"; // Ensure this service is implemented
+import FileDetailView from "../Global/FileDetailView";
 
 const RecentFiles = ({ documents }) => {
   const files = documents || []; // Ensure files is always an array
   const [updatedFiles, setUpdatedFiles] = useState([]);
   const [fileUploadModal, setFileUploadModal] = useState(false);
+  const [fileDetailModal, setFileDetailModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null); // Store the selected file
 
   const closeModal = () => {
     setFileUploadModal(false);
+    setFileDetailModal(false); // Close file detail modal
   };
 
-  const openModal = () => {
-    setFileUploadModal(true);
+  const openFileDetailModal = (file) => {
+    setSelectedFile(file); // Set the selected file
+    setFileDetailModal(true); // Open the file detail modal
   };
 
   // Fetch owner's first name for each file
@@ -60,7 +65,10 @@ const RecentFiles = ({ documents }) => {
       {updatedFiles.length === 0 ? (
         <div className="no-file-container">
           <p className="no-files-message">No recent files found.</p>
-          <div className="container-btn-file" onClick={openModal}>
+          <div
+            className="container-btn-file"
+            onClick={() => setFileUploadModal(true)}
+          >
             Add File
           </div>
         </div>
@@ -71,7 +79,11 @@ const RecentFiles = ({ documents }) => {
           </div>
           <div className="file-list">
             {updatedFiles.map((file, index) => (
-              <div className="file-item" key={index}>
+              <div
+                className="file-item"
+                key={index}
+                onClick={() => openFileDetailModal(file)} // Handle click to open file details
+              >
                 <div className="file-info">
                   <FaFilePdf className="file-icon" />
                   <div>
@@ -93,6 +105,9 @@ const RecentFiles = ({ documents }) => {
         </div>
       )}
       {fileUploadModal && <FileUploadModal closeModal={closeModal} />}
+      {fileDetailModal && (
+        <FileDetailView file={selectedFile} closeModal={closeModal} />
+      )}
     </div>
   );
 };

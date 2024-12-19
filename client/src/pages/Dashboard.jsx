@@ -48,7 +48,7 @@ const Dashboard = () => {
           <div></div>
           <div></div>
         </div>
-        <div className="loader"></div>
+        <div className="loader1"></div>
       </div>
     );
   }

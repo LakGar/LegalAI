@@ -1,24 +1,34 @@
-// src/components/ProtectedRoute.js
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import { axiosInstance } from "../services/authService";
+
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:8000",
+});
+
+// Add the token to the Authorization header for every request
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 const ProtectedRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null); // null while checking
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const response = await axiosInstance.get(
-          "http://localhost:8000/api/auth/verify-token"
-        ); // Ensure this is the correct endpoint
+        const response = await axiosInstance.get("/api/auth/verify-token");
         if (response.data.success) {
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
         }
       } catch (error) {
+        console.error("Token verification failed:", error);
         setIsAuthenticated(false);
       }
     };
@@ -27,16 +37,13 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if (isAuthenticated === null) {
-    // Still checking authentication, you can return a loading spinner here
     return <p>Loading...</p>;
   }
 
   if (!isAuthenticated) {
-    // If not authenticated, redirect to login
     return <Navigate to="/login" />;
   }
 
-  // If authenticated, render the requested component
   return children;
 };
 

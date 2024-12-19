@@ -10,6 +10,7 @@
   padding: 20px 60px;
   border-radius: 10px;
   gap: 20px;
+  position: relative;
 }
 .greetings-container {
   display: flex;

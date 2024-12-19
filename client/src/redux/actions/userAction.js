@@ -25,6 +25,7 @@ export const getUserDetails = () => async (dispatch) => {
     dispatch({ type: GET_USER_REQUEST });
 
     const token = localStorage.getItem("token");
+    console.log(token);
     const data = await getUserService(token);
 
     dispatch({ type: GET_USER_SUCCESS, payload: data });

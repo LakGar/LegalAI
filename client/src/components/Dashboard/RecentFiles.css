@@ -30,9 +30,10 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   gap: 10px; /* Add spacing between file info and avatars */
   max-width: 300px;
-  min-width: 200px;
+  min-width: 250px;
   position: relative;
   cursor: pointer;
+  border: 1px solid rgba(211, 211, 211, 0.164);
 }
 
 .file-item:hover {

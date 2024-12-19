@@ -2,23 +2,58 @@ import React, { useState, useEffect } from "react";
 import { FaFilePdf, FaPlus } from "react-icons/fa"; // PDF Icon
 import { FiMoreVertical } from "react-icons/fi"; // Options Icon
 import "./FileList.css"; // Include the CSS for the loader and table
+import { getUserById } from "../../services/userServices";
 
-const FileList = ({ user }) => {
+const FileList = ({ user, documents }) => {
   const [loading, setLoading] = useState(true);
-  const [fileData, setFileData] = useState(user.file);
+  const files = documents || [];
+  const [filterOwner, setFilterOwner] = useState("");
+  const [updatedFiles, setUpdatedFiles] = useState(files);
 
-  // Simulating data fetch
+  // Fetch file owners by user ID
+  const fetchFileOwners = async (userId) => {
+    try {
+      const userData = await getUserById(userId); // Assuming this returns user data with `firstname`
+      console.log("Fetched user details:", userData);
+      return userData.data.firstname || "Unknown"; // Return only firstname, or fallback to "Unknown"
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      return "Unknown"; // Fallback in case of error
+    }
+  };
+  // Update file owners once files are loaded
+  useEffect(() => {
+    const updateFileOwners = async () => {
+      const updatedFiles = await Promise.all(
+        files.map(async (file) => {
+          const ownerFirstName = await fetchFileOwners(file.user);
+          return { ...file, firstname: ownerFirstName };
+        })
+      );
+      setUpdatedFiles(updatedFiles); // Store updated files with firstname
+      setLoading(false); // Stop loading after update
+    };
+
+    if (files.length > 0) {
+      updateFileOwners();
+    }
+  }, [files]);
+
+  // Simulate data fetch with a timeout
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false); // Stop loading after data is set
-    }, 1000); // Simulating 1 second load time
-
-    return () => clearTimeout(timer); // Cleanup timeout
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(date).toLocaleDateString("en-US", options);
+  };
   return (
     <div className="file-list-container">
-      {!fileData ? (
+      {!updatedFiles ? (
         <div className="container1">
           <div className="snow"></div>
           <div className="tree1"></div>
@@ -117,7 +152,7 @@ const FileList = ({ user }) => {
             <thead>
               <tr>
                 <th>File name</th>
-                <th>Size</th>
+                <th>Type</th>
                 <th>Date uploaded</th>
                 <th>Last updated</th>
                 <th>Owner</th>
@@ -133,7 +168,7 @@ const FileList = ({ user }) => {
                       </td>
                     </tr>
                   ))
-                : fileData.map((file, index) => (
+                : updatedFiles.map((file, index) => (
                     <tr className="item-tr" key={index}>
                       <td>
                         <FaFilePdf
@@ -141,19 +176,12 @@ const FileList = ({ user }) => {
                         />
                         {file.name}
                       </td>
-                      <td>{file.size}</td>
-                      <td>{file.uploaded}</td>
-                      <td>{file.updated}</td>
-                      <td>
-                        <div className="user-info">
-                          <img
-                            src={`https://plus.unsplash.com/premium_photo-1730142098065-c8e1a9361b6e?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} // Random image for user
-                            alt="user-avatar"
-                            className="user-avatar"
-                          />
-                          <p>{file.owner}</p>
-                        </div>
+                      <td style={{ textTransform: "capitalize" }}>
+                        {file.type}
                       </td>
+                      <td>{formatDate(file.uploadedAt)}</td>
+                      <td>{formatDate(file.updatedAt)}</td>
+                      <td>{file.firstname}</td>
                       <td>
                         <button className="options-btn">
                           <FiMoreVertical />

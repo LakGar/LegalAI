@@ -6,6 +6,7 @@ const API_URL = "http://localhost:8000/api/users";
  * Get user details
  */
 export const getUserDetails = async (token) => {
+  console.log("Get user details: " + token);
   const response = await axios.get(`${API_URL}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
