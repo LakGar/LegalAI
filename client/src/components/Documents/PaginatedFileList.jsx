@@ -8,7 +8,6 @@ import { getUserById } from "../../services/userServices"; // Make sure this fun
 const PaginatedFileList = ({ documents }) => {
   const [loading, setLoading] = useState(true);
   const files = documents || []; // Ensure `files` is always an array
-  console.log(files);
 
   const [currentPage, setCurrentPage] = useState(1);
   const filesPerPage = 20;

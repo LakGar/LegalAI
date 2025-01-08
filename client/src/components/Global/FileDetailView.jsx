@@ -1,59 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import axios from "axios";
-import "./FileDetailView.css"; // Ensure you have appropriate styling
+import React, { useState } from "react";
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+
+import "./FileDetailView.css";
 import { IoChevronBack } from "react-icons/io5";
 
-// Set the workerSrc for rendering PDFs
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
 const DocumentDisplay = ({ file, closeModal }) => {
-  const [pdfBlob, setPdfBlob] = useState(null); // State to store PDF blob
-  const [numPages, setNumPages] = useState(null); // State to track number of pages
-  const [loading, setLoading] = useState(true); // State for loading status
-  const [error, setError] = useState(null); // State for error messages
-
-  const fileUrl = `http://localhost:8000/${file.documentUrl}`; // Adjust endpoint
-
-  // Fetch the file from the backend
-  useEffect(() => {
-    const fetchFile = async () => {
-      try {
-        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
-        const response = await axios.get(fileUrl, {
-          responseType: "blob", // Expect a binary file
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request
-          },
-        });
-        setPdfBlob(response.data); // Store the file blob
-      } catch (err) {
-        console.error("Error fetching PDF:", err);
-        setError("Unable to load the PDF file.");
-      } finally {
-        setLoading(false); // Loading is complete
-      }
-    };
-
-    fetchFile();
-  }, [fileUrl]);
-
-  if (loading) {
-    return (
-      <div className="loader-overlay">
-        <div className="spinner"></div>
-        <p>Loading PDF...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="error-message">
-        <p>{error}</p>
-      </div>
-    );
-  }
+  const fileUrl = `http://localhost:8000/${file.documentUrl}`;
 
   return (
     <div className="document-display-container">
@@ -63,17 +16,67 @@ const DocumentDisplay = ({ file, closeModal }) => {
         <h3>Document Viewer</h3>
       </div>
 
-      {/* PDF Viewer */}
-      <div className="pdf-viewer">
-        <Document
-          file={pdfBlob} // Use the blob as the file
-          onLoadSuccess={({ numPages }) => setNumPages(numPages)} // Set number of pages
-          onLoadError={(error) => console.error("Error loading PDF:", error)}
+      <div className="document-display-pdf">
+        <Worker
+          workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js"
+          style={{ width: "100%" }}
         >
-          {Array.from(new Array(numPages), (el, index) => (
-            <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-          ))}
-        </Document>
+          <Viewer fileUrl={fileUrl} style={{ width: "100%" }} />
+        </Worker>
+      </div>
+
+      <div className="document-display-options">
+        <div className="document-analysis-container">
+          <div className="no-analysis">
+            <h4>Document Analysis</h4>
+            <p>
+              Analyze the document's content, structure, and relationships. This
+              will help you identify any potential issues or areas for
+              improvement.
+            </p>
+            <div className="container">
+              <button className="button">Analyze</button>
+            </div>
+          </div>
+        </div>
+        <div className="document-button-container">
+          <button className="document-chat-btn">
+            <div className="button__icon-wrapper">
+              <svg
+                viewBox="0 0 14 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="button__icon-svg"
+                width="10"
+              >
+                <path
+                  d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+
+              <svg
+                viewBox="0 0 14 15"
+                fill="none"
+                width="10"
+                xmlns="http://www.w3.org/2000/svg"
+                className="button__icon-svg button__icon-svg--copy"
+              >
+                <path
+                  d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
+            Go to chat
+          </button>
+          <button
+            className="document-download-btn"
+            onClick={() => window.open(fileUrl, "_blank")}
+          >
+            <p>Download</p>
+          </button>
+        </div>
       </div>
     </div>
   );
