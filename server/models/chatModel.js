@@ -2,21 +2,20 @@ import mongoose from "mongoose";
 
 const chatSchema = new mongoose.Schema(
   {
-    users: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: true, // The current user
     },
     document: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Document",
-      required: true,
+      ref: "Document", // Reference to the associated document
     },
     messages: [
       {
         sender: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          type: String,
+          enum: ["user", "ai"], // Specify the sender explicitly
           required: true,
         },
         content: {
@@ -25,16 +24,16 @@ const chatSchema = new mongoose.Schema(
         },
         type: {
           type: String,
-          enum: ["text", "file", "image", "other"],
+          enum: ["text", "file", "image", "other"], // Content type
           default: "text",
         },
         timestamp: {
           type: Date,
-          default: Date.now,
+          default: Date.now, // Automatically set the timestamp
         },
         status: {
           type: String,
-          enum: ["sent", "delivered", "read"],
+          enum: ["sent", "delivered", "read"], // Status of the message
           default: "sent",
         },
       },
@@ -43,16 +42,16 @@ const chatSchema = new mongoose.Schema(
       content: String,
       timestamp: {
         type: Date,
-        default: Date.now,
+        default: Date.now, // Timestamp of the last message
       },
       sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
+        enum: ["user", "ai"], // The sender of the last message
       },
     },
     isArchived: {
       type: Boolean,
-      default: false,
+      default: false, // Option to archive the chat
     },
   },
   { timestamps: true }

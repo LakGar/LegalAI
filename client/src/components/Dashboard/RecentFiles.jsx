@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaFilePdf } from "react-icons/fa"; // PDF Icon for files
+import { useDispatch } from "react-redux"; // Import useDispatch for Redux
+import { setActiveDocument } from "../../redux/actions/documentAction"; // Import the action
 import "./RecentFiles.css";
 import FileUploadModal from "../Global/FileUploadModal";
 import { getUserById } from "../../services/userServices"; // Ensure this service is implemented
@@ -11,6 +13,7 @@ const RecentFiles = ({ documents }) => {
   const [fileUploadModal, setFileUploadModal] = useState(false);
   const [fileDetailModal, setFileDetailModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null); // Store the selected file
+  const dispatch = useDispatch(); // Initialize the Redux dispatch
 
   const closeModal = () => {
     setFileUploadModal(false);
@@ -19,6 +22,7 @@ const RecentFiles = ({ documents }) => {
 
   const openFileDetailModal = (file) => {
     setSelectedFile(file); // Set the selected file
+    dispatch(setActiveDocument(file)); // Dispatch the action to update the active document
     setFileDetailModal(true); // Open the file detail modal
   };
 
@@ -76,6 +80,12 @@ const RecentFiles = ({ documents }) => {
         <div style={{ width: "100%" }}>
           <div className="section-header">
             <p>Recent Files</p>
+            <div
+              className="see-all-btn"
+              onClick={() => setFileUploadModal(true)}
+            >
+              Add File
+            </div>
           </div>
           <div className="file-list">
             {updatedFiles.map((file, index) => (

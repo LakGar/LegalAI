@@ -7,7 +7,20 @@ import { IoChevronBack } from "react-icons/io5";
 
 const DocumentDisplay = ({ file, closeModal }) => {
   const fileUrl = `http://localhost:8000/${file.documentUrl}`;
+  const [loading, setloading] = useState(false);
 
+  const handleAnalyze = () => {
+    setloading(true);
+    // Perform document analysis here
+    // For example, you can use a library like Tesseract.js to extract text from the PDF
+    // Then analyze the text for keywords, phrases, or other insights
+
+    // After analysis, set loading to false and set foundEasterEgg to true
+    // This will display the "Easter Egg Found" message
+    setTimeout(() => {
+      setloading(false);
+    }, 2000);
+  };
   return (
     <div className="document-display-container">
       {/* Back button */}

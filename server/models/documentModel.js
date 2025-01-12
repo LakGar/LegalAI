@@ -59,6 +59,11 @@ const documentSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    chat: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chat",
+    },
+
     version: {
       type: Number,
       default: 1,

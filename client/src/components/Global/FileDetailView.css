@@ -73,6 +73,9 @@
   background-color: white;
   cursor: pointer;
 }
+.document-analysis-container {
+  flex: 1;
+}
 
 .document-analysis-container .container {
   position: relative;

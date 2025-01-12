@@ -10,6 +10,7 @@
   padding: 20px;
   border-radius: 10px;
   gap: 20px;
+  z-index: -1;
 }
 
 /* Top section with document card */

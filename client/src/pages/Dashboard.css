@@ -20,7 +20,7 @@
 .chatbox {
   flex: 0 0 350px; /* Fixed width of 350px */
   height: 100%;
-  z-index: 0;
+  z-index: -1;
   position: relative;
   transform: translateX(100%); /* Start off-screen */
   animation: slideInRight 1s forwards 0.5s; /* Slide in from the right */

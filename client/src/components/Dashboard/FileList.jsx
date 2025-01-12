@@ -3,6 +3,7 @@ import { FaFilePdf, FaPlus } from "react-icons/fa"; // PDF Icon
 import { FiMoreVertical } from "react-icons/fi"; // Options Icon
 import "./FileList.css"; // Include the CSS for the loader and table
 import { getUserById } from "../../services/userServices";
+import { NavLink } from "react-router-dom";
 
 const FileList = ({ user, documents }) => {
   const [loading, setLoading] = useState(true);
@@ -142,10 +143,9 @@ const FileList = ({ user, documents }) => {
           <div className="section-header">
             <p className="section-header-text">My Files</p>
             <div className="file-list-header-buttons">
-              <div className="add-file-btn">
-                <FaPlus color="dodgerblue" />
-              </div>
-              <div className="see-all-btn">See All</div>
+              <NavLink to="/documents" className="see-all-btn">
+                See All
+              </NavLink>
             </div>
           </div>
           <table className="file-list-table">

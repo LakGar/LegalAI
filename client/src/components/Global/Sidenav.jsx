@@ -29,45 +29,29 @@ const Sidenav = ({ user }) => {
 
         {/* Navigation Links */}
         <div className="sidenav-links">
-          <NavLink
-            to="/dashboard"
-            className="sidenav-link"
-            activeClassName="active"
-          >
+          <NavLink to="/dashboard" className="sidenav-link">
             <MdSpaceDashboard className="icon" />
             <span>Dashboard</span>
           </NavLink>
 
-          <NavLink
-            to="/documents"
-            className="sidenav-link"
-            activeClassName="active"
-          >
+          <NavLink to="/documents" className="sidenav-link">
             <IoDocument className="icon" />
             <span>Documents</span>
             <BsPlusCircle className="plus-icon" />
           </NavLink>
 
-          <NavLink
-            to="/chats"
-            className="sidenav-link"
-            activeClassName="active"
-          >
+          <NavLink to="/chats" className="sidenav-link">
             <IoChatbox className="icon" />
             <span>Chats</span>
             <BsPlusCircle className="plus-icon" />
           </NavLink>
 
-          <NavLink to="/team" className="sidenav-link" activeClassName="active">
+          <NavLink to="/team" className="sidenav-link">
             <FaUsers className="icon" />
             <span>Team</span>
           </NavLink>
 
-          <NavLink
-            to="/settings"
-            className="sidenav-link"
-            activeClassName="active"
-          >
+          <NavLink to="/settings" className="sidenav-link">
             <FaCog className="icon" />
             <span>Settings</span>
           </NavLink>
@@ -84,7 +68,7 @@ const Sidenav = ({ user }) => {
 
         {/* Help and Log Out */}
         <div className="sidenav-bottom">
-          <NavLink to="/help" className="help-link" activeClassName="active">
+          <NavLink to="/help" className="help-link">
             <FaQuestionCircle className="icon" />
             <span>Help & Information</span>
           </NavLink>

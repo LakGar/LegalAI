@@ -1,5 +1,11 @@
 import { Chat } from "../models/chatModel.js";
 import { User } from "../models/userModel.js";
+// Initialize OpenAI API
+const openai = new OpenAIApi(
+  new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+);
 
 /**
  * Create a new chat
@@ -9,18 +15,19 @@ import { User } from "../models/userModel.js";
 export const createChat = async (req, res) => {
   try {
     const userId = req.user?._id;
-    const { recipientId } = req.body;
+    const { documentId } = req.body; // Optional document reference
 
-    if (!userId || !recipientId) {
+    if (!userId) {
       return res.status(400).json({
         success: false,
-        message: "Both sender and recipient IDs are required",
+        message: "User ID is required",
       });
     }
 
-    // Check if a chat already exists between the two users
+    // Check if a chat already exists for the user and the optional document
     const existingChat = await Chat.findOne({
-      users: { $all: [userId, recipientId] },
+      user: userId,
+      document: documentId || null,
     });
 
     if (existingChat) {
@@ -33,10 +40,27 @@ export const createChat = async (req, res) => {
 
     // Create a new chat
     const chat = new Chat({
-      users: [userId, recipientId],
+      user: userId,
+      document: documentId || null,
     });
 
     await chat.save();
+
+    // Add chat to the user's chats array
+    await User.findByIdAndUpdate(
+      userId,
+      { $push: { chats: chat._id } },
+      { new: true }
+    );
+
+    // If a document is provided, link the chat to the document
+    if (documentId) {
+      await Document.findByIdAndUpdate(
+        documentId,
+        { chat: chat._id },
+        { new: true }
+      );
+    }
 
     return res.status(201).json({
       success: true,
@@ -68,11 +92,10 @@ export const getChats = async (req, res) => {
       });
     }
 
-    // Fetch chats for the logged-in user
-    const chats = await Chat.find({ users: userId })
-      .populate("users", "firstname lastname email")
-      .populate("lastMessage.sender", "firstname lastname email")
-      .sort({ updatedAt: -1 }); // Sort by last updated
+    // Fetch all chats for the user, optionally populating documents
+    const chats = await Chat.find({ user: userId })
+      .populate("document", "name uploadedAt") // Populate document details
+      .sort({ updatedAt: -1 }); // Sort by most recently updated
 
     return res.status(200).json({
       success: true,
@@ -96,12 +119,12 @@ export const sendMessage = async (req, res) => {
   try {
     const userId = req.user?._id;
     const chatId = req.params.id;
-    const { content } = req.body;
+    const { content, type } = req.body;
 
     if (!userId || !chatId || !content) {
       return res.status(400).json({
         success: false,
-        message: "Chat ID, sender ID, and content are required",
+        message: "Chat ID, user ID, and message content are required",
       });
     }
 
@@ -115,20 +138,61 @@ export const sendMessage = async (req, res) => {
       });
     }
 
-    // Add the message to the chat
-    const message = {
-      sender: userId,
+    // Add the user's message to the chat
+    const userMessage = {
+      sender: userId, // User as the sender
       content,
+      type: type || "text", // Default type is text
     };
+    chat.messages.push(userMessage);
 
-    chat.messages.push(message);
-    chat.lastMessage = message;
+    // Save the chat after adding the user's message
     await chat.save();
 
+    // Prepare the conversation history for the AI
+    const conversationHistory = chat.messages
+      .map((msg) =>
+        msg.sender === "ai" ? `AI: ${msg.content}` : `User: ${msg.content}`
+      )
+      .join("\n");
+
+    const prompt = `${conversationHistory}\nUser: ${content}\nAI:`;
+
+    // Generate AI response using OpenAI API
+    const aiResponse = await openai.createCompletion({
+      model: "text-davinci-003", // Choose the model you prefer
+      prompt,
+      max_tokens: 150,
+      temperature: 0.7,
+    });
+
+    const aiMessageContent = aiResponse?.data?.choices?.[0]?.text?.trim();
+
+    if (aiMessageContent) {
+      const aiMessage = {
+        sender: "ai", // Mark the sender as AI
+        content: aiMessageContent,
+        type: "text",
+      };
+
+      // Add the AI's message to the chat
+      chat.messages.push(aiMessage);
+
+      // Update the last message in the chat
+      chat.lastMessage = aiMessage;
+
+      // Save the chat after adding the AI's message
+      await chat.save();
+    }
+
+    // Return the updated chat
     return res.status(200).json({
       success: true,
-      message: "Message sent successfully",
-      data: message,
+      message: "Messages sent successfully",
+      data: {
+        userMessage,
+        aiMessage: aiMessageContent ? { content: aiMessageContent } : null,
+      },
     });
   } catch (error) {
     console.error("Error sending message:", error);
@@ -156,10 +220,10 @@ export const deleteChat = async (req, res) => {
       });
     }
 
-    // Find and delete the chat
+    // Find and delete the chat for the user
     const chat = await Chat.findOneAndDelete({
       _id: chatId,
-      users: userId, // Ensure the user is part of the chat
+      user: userId, // Ensure the chat belongs to the user
     });
 
     if (!chat) {
