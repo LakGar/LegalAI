@@ -8,101 +8,119 @@ import {
 } from "react-icons/fa";
 import "./PreviousChats.css";
 
-const PreviousChats = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+const PreviousChats = ({ chats, activeDocument, documents }) => {
   const [activeOptionsModal, setActiveOptionsModal] = useState(null);
-
-  const handleSwapClick = () => {
-    setModalOpen(true);
-  };
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const files = documents || [];
 
   const handleOptionsClick = (index) => {
     setActiveOptionsModal(activeOptionsModal === index ? null : index);
   };
 
-  const previousChats = [
-    { sender: "User", text: "Can you give me a summary of the main points?" },
-    { sender: "User", text: "What are the key terms and obligations?" },
-    {
-      sender: "User",
-      text: "Are there any hidden clauses I should know about?",
-    },
-    { sender: "User", text: "Can you highlight potential risks?" },
-  ];
+  const handlePopup = (message) => {
+    setPopupMessage(message);
+    setIsPopupOpen(true);
+    setTimeout(() => setIsPopupOpen(false), 2000);
+  };
 
   return (
     <div className="previous-chats-container">
-      <div className="document-card">
-        <div className="document-info">
-          <FaFileAlt className="file-icon" />
-          <p className="file-name">Legal_Document.pdf</p>
-          <p className="file-size">Size: 1.2 MB</p>
-        </div>
-        <div className="action-buttons">
-          <button className="action-btn">
-            <FaRobot />
-          </button>
-          <button className="action-btn">
-            <FaExchangeAlt />
-          </button>
-          <button className="action-btn">
-            <FaShareAlt />
-          </button>
-        </div>
+      <div className="chatbox-top">
+        {activeDocument ? (
+          // Display active document
+          <div className="document-card">
+            <div className="document-info">
+              <FaFileAlt className="file-icon" />
+              <p className="file-name">
+                {activeDocument.name || "Untitled Document"}
+              </p>
+              <p className="file-size">
+                Size: {activeDocument.size || "Unknown"}
+              </p>
+            </div>
+            <div className="action-buttons">
+              <button className="action-btn">
+                <FaRobot />
+              </button>
+              <button className="action-btn">
+                <FaExchangeAlt />
+              </button>
+              <button className="action-btn">
+                <FaShareAlt />
+              </button>
+            </div>
+          </div>
+        ) : files?.length ? (
+          // Display the first document if no active document
+          <div className="document-card">
+            <div className="document-info">
+              <FaFileAlt className="file-icon" />
+              <p className="file-name">
+                {files[0].name || "Legal_Document.pdf"}
+              </p>
+              <p className="file-size">Size: {files[0].size || "1.2 MB"}</p>
+            </div>
+            <div className="action-buttons">
+              <button className="action-btn">
+                <FaRobot />
+              </button>
+              <button className="action-btn">
+                <FaExchangeAlt />
+              </button>
+              <button className="action-btn">
+                <FaShareAlt />
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="dividers">
         <div className="divider-lines"></div>
-        <p className="divider-text"> Chats</p>
+        <p className="divider-text">Chats</p>
         <div className="divider-lines"></div>
       </div>
 
-      <div className="previous-chats-list">
-        {previousChats.map((chat, index) => (
-          <div key={index} className="previous-chat">
-            <p className="chat-preview">
-              {chat.text.length > 50
-                ? chat.text.substring(0, 50) + "..."
-                : chat.text}
-            </p>
-            <button
-              className="options-btn"
-              onClick={() => handleOptionsClick(index)}
-            >
-              <FaEllipsisV />
-            </button>
-            {activeOptionsModal === index && (
-              <div className="options-modal">
-                <ul>
-                  <li>Share</li>
-                  <li>Open</li>
-                  <li>Delete</li>
-                  <li>Rename</li>
-                </ul>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="newchat-button">
-        <button className="swap-btn" onClick={handleSwapClick}>
-          Swap Document
-        </button>
-        <button className="add-new-btn" onClick={() => setModalOpen(true)}>
-          Add New Document
-        </button>
-      </div>
-
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Choose Another Document</h2>
-            {/* Placeholder for document list */}
-            <button onClick={() => setModalOpen(false)}>Close</button>
-          </div>
+      {chats.length === 0 ? (
+        <div className="no-chats-message">
+          <p>No chats available. Create a new chat to get started!</p>
+        </div>
+      ) : (
+        <div className="previous-chats-list">
+          {chats.map((chat, index) => (
+            <div key={index} className="previous-chat">
+              <p className="chat-preview">
+                {chat.lastMessage?.content.length > 50
+                  ? chat.lastMessage.content.substring(0, 50) + "..."
+                  : chat.lastMessage?.content || "No messages yet"}
+              </p>
+              <button
+                className="options-btn"
+                onClick={() => handleOptionsClick(index)}
+              >
+                <FaEllipsisV />
+              </button>
+              {activeOptionsModal === index && (
+                <div className="options-modal">
+                  <ul>
+                    <li onClick={() => handlePopup("Opening chat...")}>Open</li>
+                    <li
+                      className="delete-option"
+                      onClick={() => handlePopup("Deleting chat...")}
+                    >
+                      Delete
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
+
+      {/* Popup for options */}
+      {isPopupOpen && <div className="popup-message">{popupMessage}</div>}
     </div>
   );
 };

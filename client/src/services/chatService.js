@@ -11,6 +11,17 @@ export const getChats = async () => {
   return data;
 };
 
+export const getChat = async (chatId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+
+  const { data } = await axios.get(`/api/chat/${chatId}`, config);
+  return data;
+};
+
 export const createChat = async (documentId) => {
   const config = {
     headers: {
@@ -37,4 +48,14 @@ export const sendMessage = async (chatId, content) => {
     config
   );
   return data;
+};
+
+export const deleteChat = async (chatId) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+
+  await axios.delete(`/api/chat/${chatId}`, config);
 };

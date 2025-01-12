@@ -5,7 +5,8 @@ import PreviousChats from "../components/Global/PreviousChats";
 import ChatComponent from "../components/Chats/ChatComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../redux/actions/userAction";
-
+import { getDocuments } from "../redux/actions/documentAction";
+import { listChats } from "../redux/actions/chatActions";
 const Chat = () => {
   const [loading, setLoading] = useState(true);
 
@@ -13,26 +14,23 @@ const Chat = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
   const documentState = useSelector((state) => state.documents);
-  const activeDocument = useSelector((state) => state.documents.activeDocument);
-  const chatState = useSelector((state) => state.chats);
+  const chatState = useSelector((state) => state.chatList);
 
   const { user, error: userError } = userState;
   const { documents = [], loading: documentsLoading } = documentState;
-  // const { chats = [] } = chatState;
+  const { chats = [], loading: chatsLoading, error: chatsError } = chatState;
+  const activeDocument = useSelector((state) => state.documents.activeDocument);
 
-  console.log("User:", user);
-  console.log("Documents:", documents);
-  // console.log("Chats:", chats);
-
-  // Fetch user details and documents on mount
+  // Fetch user details, documents, and chats on mount
   useEffect(() => {
-    dispatch(getUserDetails());
-
-    // Fetch documents only if the state is empty
-    // if (documents.length === 0) {
-    //   dispatch(getDocuments());
-    // }
-  }, [dispatch, documents.length]);
+    dispatch(getUserDetails()); // Fetch user details
+    if (documents.length === 0) {
+      dispatch(getDocuments()); // Fetch documents if not already loaded
+    }
+    if (chats.length === 0) {
+      dispatch(listChats()); // Fetch chats if not already loaded
+    }
+  }, [dispatch, documents.length, chats.length]);
 
   // Use useEffect to trigger the loader for 2 seconds
   useEffect(() => {
@@ -44,7 +42,7 @@ const Chat = () => {
   }, []);
 
   // Show loader if still loading
-  if (loading || documentsLoading) {
+  if (loading || documentsLoading || chatsLoading) {
     return (
       <div className="loader-container">
         <div className="background">
@@ -60,7 +58,7 @@ const Chat = () => {
   return (
     <div className="dashboard-container">
       {/* Background Animation */}
-      <div class="background">
+      <div className="background">
         <div></div>
         <div></div>
         <div></div>
@@ -72,12 +70,17 @@ const Chat = () => {
 
       {/* Dashboard Component */}
       <div className="dashboard-content">
-        <ChatComponent documents={documents} user={user?.data} />
+        <ChatComponent documents={documents} user={user?.data} chats={chats} />
       </div>
 
       {/* Chat Box */}
       <div className="chatbox">
-        <PreviousChats />
+        <PreviousChats
+          chats={chats}
+          activeDocument={activeDocument}
+          documents={documents}
+        />
+        {/* Pass chats to PreviousChats */}
       </div>
     </div>
   );

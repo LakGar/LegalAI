@@ -5,72 +5,85 @@ import {
   CHAT_CREATE_REQUEST,
   CHAT_CREATE_SUCCESS,
   CHAT_CREATE_FAIL,
+  CHAT_DETAILS_REQUEST,
+  CHAT_DETAILS_SUCCESS,
+  CHAT_DETAILS_FAIL,
   CHAT_SEND_MESSAGE_REQUEST,
   CHAT_SEND_MESSAGE_SUCCESS,
   CHAT_SEND_MESSAGE_FAIL,
+  CHAT_DELETE_REQUEST,
+  CHAT_DELETE_SUCCESS,
+  CHAT_DELETE_FAIL,
 } from "../constants/chatConstants";
-import { getChats, createChat, sendMessage } from "../services/chatService";
+import {
+  getChats as fetchChats,
+  getChat as fetchChat,
+  createChat as createNewChat,
+  sendMessage as sendChatMessage,
+  deleteChat as removeChat,
+} from "../../services/chatService";
 
-export const listChats = () => async (dispatch, getState) => {
+export const listChats = () => async (dispatch) => {
   try {
     dispatch({ type: CHAT_LIST_REQUEST });
-
-    const { data } = await getChats();
-
-    dispatch({
-      type: CHAT_LIST_SUCCESS,
-      payload: data,
-    });
+    const data = await fetchChats();
+    dispatch({ type: CHAT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: CHAT_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: error.response?.data?.message || error.message,
     });
   }
 };
 
-export const createNewChat = (documentId) => async (dispatch, getState) => {
+export const getChatDetails = (chatId) => async (dispatch) => {
+  try {
+    dispatch({ type: CHAT_DETAILS_REQUEST });
+    const data = await fetchChat(chatId);
+    dispatch({ type: CHAT_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CHAT_DETAILS_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};
+
+export const createChat = (documentId) => async (dispatch) => {
   try {
     dispatch({ type: CHAT_CREATE_REQUEST });
-
-    const { data } = await createChat(documentId);
-
-    dispatch({
-      type: CHAT_CREATE_SUCCESS,
-      payload: data,
-    });
+    const data = await createNewChat(documentId);
+    dispatch({ type: CHAT_CREATE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: CHAT_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: error.response?.data?.message || error.message,
     });
   }
 };
 
-export const sendChatMessage =
-  (chatId, content) => async (dispatch, getState) => {
-    try {
-      dispatch({ type: CHAT_SEND_MESSAGE_REQUEST });
+export const sendMessage = (chatId, content) => async (dispatch) => {
+  try {
+    dispatch({ type: CHAT_SEND_MESSAGE_REQUEST });
+    const data = await sendChatMessage(chatId, content);
+    dispatch({ type: CHAT_SEND_MESSAGE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CHAT_SEND_MESSAGE_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};
 
-      const { data } = await sendMessage(chatId, content);
-
-      dispatch({
-        type: CHAT_SEND_MESSAGE_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: CHAT_SEND_MESSAGE_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+export const deleteChat = (chatId) => async (dispatch) => {
+  try {
+    dispatch({ type: CHAT_DELETE_REQUEST });
+    await removeChat(chatId);
+    dispatch({ type: CHAT_DELETE_SUCCESS, payload: chatId });
+  } catch (error) {
+    dispatch({
+      type: CHAT_DELETE_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};

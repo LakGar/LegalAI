@@ -111,6 +111,54 @@ export const getChats = async (req, res) => {
 };
 
 /**
+ * Get a  chat
+ * @route GET /chat/:id/
+ * @access Private
+ *
+ */
+/**
+ * Get a single chat
+ * @route GET /chat/:id
+ * @access Private
+ */
+export const getChat = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+    const chatId = req.params.id;
+
+    if (!userId || !chatId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID and Chat ID are required",
+      });
+    }
+
+    // Find the chat and populate necessary details
+    const chat = await Chat.findOne({ _id: chatId, user: userId })
+      .populate("document", "name uploadedAt") // Populate document details
+      .populate("messages.sender", "firstname lastname email"); // Populate sender details in messages
+
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat not found or access denied",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: chat,
+    });
+  } catch (error) {
+    console.error("Error fetching chat:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+/**
  * Send a message in a chat
  * @route POST /chat/:id/message
  * @access Private
