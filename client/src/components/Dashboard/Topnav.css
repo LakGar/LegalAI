@@ -1,11 +1,15 @@
+/* General Styling */
 .topnav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
 }
+
 .topnav-container .icon {
   color: grey;
 }
+
 .topnav-searchbar-container {
   display: flex;
   align-items: center;
@@ -16,11 +20,15 @@
   flex: 1;
   border: 1px solid lightgrey;
 }
+
 .topnav-searchbar-container input {
   flex: 1;
   border: none;
   padding: 10px;
+  outline: none;
+  font-size: 1rem;
 }
+
 .nav-options {
   display: flex;
   gap: 20px;
@@ -28,35 +36,27 @@
   flex: 1;
   justify-content: flex-end;
 }
+
 .nav-options .icon {
   font-size: 1.5rem;
 }
+
 .profile-card {
   display: flex;
   align-items: center;
   gap: 10px;
   justify-content: center;
 }
+
 .profile-card img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
-.profile-card h1 {
-  margin-bottom: 5px;
-  font-size: 1.2rem;
-}
-.profile-card p {
-  margin-bottom: 0;
-  font-size: 0.8rem;
-  color: darkgrey;
-}
-.profile-card .icon {
-  font-size: 1.2rem;
-}
-.noProfileImage {
-  background-color: rgb(255, 106, 106);
+
+.profile-card .noProfileImage {
+  background-color: #ff6a6a;
   font-weight: 500;
   font-size: 1.5rem;
   color: white;
@@ -66,4 +66,105 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+}
+
+/* Search Results Modal */
+.search-results-modal {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  min-height: 90%;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 10px;
+  transition: 0.3s ease-in-out;
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.search-results-modal.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Search Result Item */
+.search-result-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.search-result-item:hover {
+  background-color: #f9f9f9;
+}
+
+.document-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.document-icon {
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+.document-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.document-date {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.document-matching-section {
+  margin-top: 8px;
+  padding-left: 20px;
+  border-left: 2px solid #007bff;
+}
+
+.document-trigger {
+  font-size: 0.7em;
+  margin-bottom: 4px;
+}
+
+.trigger-label {
+  font-weight: 600;
+  color: #444;
+}
+
+/* Highlight Matching Text */
+.highlight {
+  background-color: #ffd700;
+  color: dodgerblue;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  color: #999;
+  font-style: italic;
 }

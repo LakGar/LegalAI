@@ -4,6 +4,7 @@ import "./ChatBox.css";
 import { CiChat1, CiFolderOn } from "react-icons/ci";
 import { BiAnalyse } from "react-icons/bi";
 import { CiImport } from "react-icons/ci";
+import { NavLink } from "react-router-dom";
 
 const ChatBox = ({ user, documents, activeDocument }) => {
   const userName = user?.firstname || "User";
@@ -27,9 +28,11 @@ const ChatBox = ({ user, documents, activeDocument }) => {
               </p>
             </div>
             <div className="action-buttons">
-              <button className="action-btn">
-                <FaRobot />
-              </button>
+              <NavLink to="/chats">
+                <button className="action-btn">
+                  <FaRobot />
+                </button>
+              </NavLink>
               <button className="action-btn">
                 <FaDownload />
               </button>
@@ -164,7 +167,9 @@ const ChatBox = ({ user, documents, activeDocument }) => {
         </div>
       )}
 
-      <div className="navigation-button">Go to chats</div>
+      <NavLink to="/chats" className="navigation-button">
+        Go to chats
+      </NavLink>
     </div>
   );
 };

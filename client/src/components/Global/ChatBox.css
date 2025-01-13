@@ -1,16 +1,13 @@
 /* Container styling */
 .chatbox-container {
   height: 100%;
-  width: 350px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 10px;
-  gap: 20px;
-  z-index: -1;
 }
 
 /* Top section with document card */

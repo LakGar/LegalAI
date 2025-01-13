@@ -9,7 +9,7 @@ import RecentFiles from "./RecentFiles";
 const DashComponent = ({ user, documents }) => {
   return (
     <div className="dash-component-container ">
-      <Topnav user={user} />
+      <Topnav user={user} documents={documents} />
       <div className="dash-component ">
         <Greeting name={user.firstname} />
         <Widgets />
