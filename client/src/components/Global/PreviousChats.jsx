@@ -7,12 +7,21 @@ import {
   FaEllipsisV,
 } from "react-icons/fa";
 import "./PreviousChats.css";
+import { useDispatch } from "react-redux";
+import SwitchDocument from "./SwitchDocument";
+import { setActiveDocument } from "../../redux/actions/documentAction";
 
-const PreviousChats = ({ chats, activeDocument, documents }) => {
+const PreviousChats = ({
+  chats = [],
+  activeDocument,
+  documents,
+  openSwitchDocumentModal,
+}) => {
   const [activeOptionsModal, setActiveOptionsModal] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const files = documents || [];
+  const dispatch = useDispatch(); // Initialize the Redux dispatch
 
   const handleOptionsClick = (index) => {
     setActiveOptionsModal(activeOptionsModal === index ? null : index);
@@ -43,7 +52,7 @@ const PreviousChats = ({ chats, activeDocument, documents }) => {
               <button className="action-btn">
                 <FaRobot />
               </button>
-              <button className="action-btn">
+              <button className="action-btn" onClick={openSwitchDocumentModal}>
                 <FaExchangeAlt />
               </button>
               <button className="action-btn">
@@ -65,7 +74,7 @@ const PreviousChats = ({ chats, activeDocument, documents }) => {
               <button className="action-btn">
                 <FaRobot />
               </button>
-              <button className="action-btn">
+              <button className="action-btn" onClick={openSwitchDocumentModal}>
                 <FaExchangeAlt />
               </button>
               <button className="action-btn">
@@ -82,40 +91,38 @@ const PreviousChats = ({ chats, activeDocument, documents }) => {
         <div className="divider-lines"></div>
       </div>
 
-      {chats.length === 0 ? (
+      {Array.isArray(chats) && chats.length > 0 ? (
+        chats.map((chat, index) => (
+          <div key={index} className="previous-chat">
+            <p className="chat-preview">
+              {chat.lastMessage?.content.length > 50
+                ? chat.lastMessage.content.substring(0, 50) + "..."
+                : chat.lastMessage?.content || "No messages yet"}
+            </p>
+            <button
+              className="options-btn"
+              onClick={() => handleOptionsClick(index)}
+            >
+              <FaEllipsisV />
+            </button>
+            {activeOptionsModal === index && (
+              <div className="options-modal">
+                <ul>
+                  <li onClick={() => handlePopup("Opening chat...")}>Open</li>
+                  <li
+                    className="delete-option"
+                    onClick={() => handlePopup("Deleting chat...")}
+                  >
+                    Delete
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        ))
+      ) : (
         <div className="no-chats-message">
           <p>No chats available. Create a new chat to get started!</p>
-        </div>
-      ) : (
-        <div className="previous-chats-list">
-          {chats.map((chat, index) => (
-            <div key={index} className="previous-chat">
-              <p className="chat-preview">
-                {chat.lastMessage?.content.length > 50
-                  ? chat.lastMessage.content.substring(0, 50) + "..."
-                  : chat.lastMessage?.content || "No messages yet"}
-              </p>
-              <button
-                className="options-btn"
-                onClick={() => handleOptionsClick(index)}
-              >
-                <FaEllipsisV />
-              </button>
-              {activeOptionsModal === index && (
-                <div className="options-modal">
-                  <ul>
-                    <li onClick={() => handlePopup("Opening chat...")}>Open</li>
-                    <li
-                      className="delete-option"
-                      onClick={() => handlePopup("Deleting chat...")}
-                    >
-                      Delete
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
         </div>
       )}
 

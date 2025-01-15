@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import "./ChatView.css";
-import aiProfile from "../../assets/mike-logo.png"; // AI profile image
-import userProfile from "../../assets/video-thumbnail.jpg"; // User profile image
 import { IoSend } from "react-icons/io5";
 import { LuContainer } from "react-icons/lu";
-import { IoMdAddCircleOutline } from "react-icons/io";
+import { IoMdAddCircleOutline, IoMdTrash } from "react-icons/io";
+import SwitchDocument from "../Global/SwitchDocument";
 
-const ChatView = () => {
+const ChatView = ({ documents, user }) => {
   const [isNewChat, setIsNewChat] = useState(true);
   const [newMessage, setNewMessage] = useState(""); // Current message being typed
   const [messages, setMessages] = useState([]); // Array to store all messages
+  const [isSwitchDocModalOpen, setIsSwitchDocModalOpen] = useState(false); // Modal state
+  const [attachedDocument, setAttachedDocument] = useState(null); // Attached document
 
   // Handle sending a message
   const handleSendMessage = () => {
@@ -24,10 +25,21 @@ const ChatView = () => {
     setIsNewChat(false); // Transition from "new chat" to chat area
   };
 
-  const handleNewchat = () => {
+  const handleNewChat = () => {
     setIsNewChat(true);
     setNewMessage("");
     setMessages([]);
+    setAttachedDocument(null); // Clear the attached document
+  };
+
+  const handleDocumentSelect = (document) => {
+    setAttachedDocument(document); // Set the selected document
+    setIsSwitchDocModalOpen(false); // Close the modal
+  };
+
+  const handleRemoveDocument = () => {
+    setAttachedDocument(null); // Remove the attached document
+    setIsNewChat(true); // Reset the chat to default
   };
 
   return (
@@ -37,7 +49,8 @@ const ChatView = () => {
           <>
             <div className="new-chat-greetings">
               <span>
-                Hi there, Lakshay <br /> What would you like to know?
+                Hi there, {user?.firstname || "User"} <br /> What would you like
+                to know?
               </span>
               <p>
                 Use one of the most common prompts
@@ -69,8 +82,12 @@ const ChatView = () => {
         {!isNewChat && (
           <div className="chat-area">
             <div className="chat-header">
-              <p className="chat-name">Untitled chat ✏️</p>
-              <p className="new-chat-button" onClick={handleNewchat}>
+              {!attachedDocument ? (
+                <p className="chat-name">General Chat</p>
+              ) : (
+                <p className="chat-name">{attachedDocument.name} chat</p>
+              )}
+              <p className="new-chat-button" onClick={handleNewChat}>
                 New Chat
               </p>
             </div>
@@ -79,74 +96,72 @@ const ChatView = () => {
                 {msg.content}
               </div>
             ))}
-            {messages.map((msg, index) => (
-              <div key={index} className={`chat-message ai`}>
-                {msg.content}
-              </div>
-            ))}
           </div>
         )}
 
         {/* Chat input */}
         <div
-          className={`new-chat-chat-box-container  ${
+          className={`new-chat-chat-box-container ${
             !isNewChat ? "active-chat-box" : ""
           }`}
         >
-          {!isNewChat && (
-            <div className="new-chat-line-one">
-              <textarea
-                type="text"
-                placeholder="Type your message here..."
-                className="new-chat-input"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-              />
-              <div className="send-button-container">
-                <p className="character-count">{newMessage.length}/1000</p>
-                <button className="send-button" onClick={handleSendMessage}>
-                  <div className="svg-wrapper-1">
-                    <div className="svg-wrapper">
-                      <IoSend size={14} />
-                    </div>
+          <div className="new-chat-line-one">
+            <textarea
+              type="text"
+              placeholder="Type your message here..."
+              className="new-chat-input"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+            />
+            <div className="send-button-container">
+              <p className="character-count">{newMessage.length}/1000</p>
+              <button className="send-button" onClick={handleSendMessage}>
+                <div className="svg-wrapper-1">
+                  <div className="svg-wrapper">
+                    <IoSend size={14} />
                   </div>
-                  <p>Send</p>
-                </button>
+                </div>
+                <p>Send</p>
+              </button>
+            </div>
+          </div>
+
+          {/* Attach Document */}
+          {!attachedDocument ? (
+            <div className="new-chat-line-two">
+              <div
+                className="attach-document-button"
+                onClick={() => setIsSwitchDocModalOpen(true)}
+              >
+                <IoMdAddCircleOutline />
+                <p>Attach Document</p>
               </div>
             </div>
-          )}
-          {isNewChat && (
-            <>
-              <div className="new-chat-line-one">
-                <textarea
-                  type="text"
-                  placeholder="Type your message here..."
-                  className="new-chat-input"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                />
-              </div>
-              <div className="new-chat-line-two">
-                <div className="attach-document-button">
-                  <IoMdAddCircleOutline />
-                  <p>Attach Document</p>
-                </div>
-                <div className="send-button-container">
-                  <p className="character-count">{newMessage.length}/1000</p>
-                  <button className="send-button" onClick={handleSendMessage}>
-                    <div className="svg-wrapper-1">
-                      <div className="svg-wrapper">
-                        <IoSend size={14} />
-                      </div>
-                    </div>
-                    <p>Send</p>
-                  </button>
-                </div>
-              </div>
-            </>
+          ) : (
+            <div className="attached-document">
+              <p>
+                <strong>Attached:</strong> {attachedDocument.name}
+              </p>
+              <button
+                className="remove-document-button"
+                onClick={handleRemoveDocument}
+              >
+                <IoMdTrash size={18} />
+                Remove
+              </button>
+            </div>
           )}
         </div>
       </div>
+
+      {/* Switch Document Modal */}
+      {isSwitchDocModalOpen && (
+        <SwitchDocument
+          documents={documents}
+          closeModal={() => setIsSwitchDocModalOpen(false)}
+          setActiveDocument={handleDocumentSelect}
+        />
+      )}
     </div>
   );
 };

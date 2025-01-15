@@ -124,6 +124,38 @@
 .attach-document-button:hover {
   color: black;
 }
+.attached-document {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-left: 4px solid #007bff;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.attached-document p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.remove-document-button {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.remove-document-button:hover {
+  color: #d9363e;
+}
+
 .send-button-container {
   display: flex;
   align-items: center;

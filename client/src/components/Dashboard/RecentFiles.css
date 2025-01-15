@@ -31,6 +31,7 @@
   gap: 10px; /* Add spacing between file info and avatars */
   max-width: 300px;
   min-width: 250px;
+  height: 150px;
   position: relative;
   cursor: pointer;
   border: 1px solid rgba(211, 211, 211, 0.164);

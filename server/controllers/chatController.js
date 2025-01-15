@@ -1,17 +1,11 @@
+import OpenAI from "openai";
 import { Chat } from "../models/chatModel.js";
 import { User } from "../models/userModel.js";
-// Initialize OpenAI API
-const openai = new OpenAIApi(
-  new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  })
-);
 
-/**
- * Create a new chat
- * @route POST /chat
- * @access Private
- */
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
 export const createChat = async (req, res) => {
   try {
     const userId = req.user?._id;
@@ -188,9 +182,9 @@ export const sendMessage = async (req, res) => {
 
     // Add the user's message to the chat
     const userMessage = {
-      sender: userId, // User as the sender
+      sender: userId,
       content,
-      type: type || "text", // Default type is text
+      type: type || "text",
     };
     chat.messages.push(userMessage);
 
@@ -198,27 +192,22 @@ export const sendMessage = async (req, res) => {
     await chat.save();
 
     // Prepare the conversation history for the AI
-    const conversationHistory = chat.messages
-      .map((msg) =>
-        msg.sender === "ai" ? `AI: ${msg.content}` : `User: ${msg.content}`
-      )
-      .join("\n");
-
-    const prompt = `${conversationHistory}\nUser: ${content}\nAI:`;
+    const messages = chat.messages.map((msg) => ({
+      role: msg.sender === "ai" ? "assistant" : "user",
+      content: msg.content,
+    }));
 
     // Generate AI response using OpenAI API
-    const aiResponse = await openai.createCompletion({
-      model: "text-davinci-003", // Choose the model you prefer
-      prompt,
-      max_tokens: 150,
-      temperature: 0.7,
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", // Choose the model you prefer
+      messages,
     });
 
-    const aiMessageContent = aiResponse?.data?.choices?.[0]?.text?.trim();
+    const aiMessageContent = aiResponse.choices[0]?.message?.content?.trim();
 
     if (aiMessageContent) {
       const aiMessage = {
-        sender: "ai", // Mark the sender as AI
+        sender: "ai",
         content: aiMessageContent,
         type: "text",
       };

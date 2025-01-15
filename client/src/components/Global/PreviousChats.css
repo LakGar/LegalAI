@@ -1,6 +1,5 @@
 .previous-chats-container {
   height: 100%;
-  width: 340px;
   background-color: #fdfdfd;
   display: flex;
   flex-direction: column;
@@ -9,8 +8,7 @@
   border-radius: 12px;
   gap: 20px;
 }
-
-.action-btn {
+.chat- .action-btn {
   background-color: #ffffff;
   color: #007bff;
   border: none;

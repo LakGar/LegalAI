@@ -42,6 +42,8 @@ app.use("/api/businesses", businessRoutes);
 import documentRoutes from "./routes/documentRoutes.js";
 app.use("/api/documents", documentRoutes);
 import folderRoutes from "./routes/folderRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
+app.use("/api/chat", chatRoutes);
 app.use("/api/folders", folderRoutes);
 import noteRoutes from "./routes/noteRoutes.js";
 app.use("/api/notes", noteRoutes);

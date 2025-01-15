@@ -5,8 +5,12 @@ import PreviousChats from "../components/Global/PreviousChats";
 import ChatComponent from "../components/Chats/ChatComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../redux/actions/userAction";
-import { getDocuments } from "../redux/actions/documentAction";
+import {
+  getDocuments,
+  setActiveDocument,
+} from "../redux/actions/documentAction";
 import { listChats } from "../redux/actions/chatActions";
+import SwitchDocument from "../components/Global/SwitchDocument";
 const Chat = () => {
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +24,7 @@ const Chat = () => {
   const { documents = [], loading: documentsLoading } = documentState;
   const { chats = [], loading: chatsLoading, error: chatsError } = chatState;
   const activeDocument = useSelector((state) => state.documents.activeDocument);
+  const [isSwitchDocModal, setIsSwitchDocModal] = useState(false);
 
   // Fetch user details, documents, and chats on mount
   useEffect(() => {
@@ -40,6 +45,18 @@ const Chat = () => {
 
     return () => clearTimeout(timer); // Clean up the timer
   }, []);
+
+  const handleSetActiveDocument = (document) => {
+    // Dispatch the action to update the active document in Redux state
+    dispatch(setActiveDocument(document));
+  };
+
+  const openSwitchDocumentModal = () => {
+    setIsSwitchDocModal(true);
+  };
+  const closeSwitchDocumentModal = () => {
+    setIsSwitchDocModal(false);
+  };
 
   // Show loader if still loading
   if (loading || documentsLoading || chatsLoading) {
@@ -79,9 +96,18 @@ const Chat = () => {
           chats={chats}
           activeDocument={activeDocument}
           documents={documents}
+          openSwitchDocumentModal={openSwitchDocumentModal}
         />
         {/* Pass chats to PreviousChats */}
       </div>
+      {/* Switch document modal */}
+      {isSwitchDocModal && (
+        <SwitchDocument
+          documents={documents}
+          setActiveDocument={handleSetActiveDocument} // Pass the handler here
+          closeModal={closeSwitchDocumentModal}
+        />
+      )}
     </div>
   );
 };

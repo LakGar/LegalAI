@@ -11,20 +11,16 @@
 .sidenav {
   flex: 0 0 250px; /* Fixed width of 300px */
   height: 100%;
-  position: relative;
   transform: translateX(-100%); /* Start off-screen */
   animation: slideInLeft 1s forwards 0.5s; /* Slide in from the left */
-  z-index: 0;
 }
 
 /* Chat Box */
 .chatbox {
   flex: 0 0 350px; /* Fixed width of 350px */
   height: 100%;
-  position: relative;
   transform: translateX(100%); /* Start off-screen */
   animation: slideInRight 1s forwards 0.5s; /* Slide in from the right */
-  z-index: 0;
 }
 
 /* Dashboard Content */
@@ -34,6 +30,7 @@
   overflow-y: auto; /* Enable scrolling for overflow */
   opacity: 0; /* Start hidden */
   animation: fadeIn 1s forwards 1s; /* Fade in */
+  z-index: 2;
 }
 
 /* Responsive Design Adjustments */
