@@ -4,32 +4,52 @@ import { IoSend } from "react-icons/io5";
 import { LuContainer } from "react-icons/lu";
 import { IoMdAddCircleOutline, IoMdTrash } from "react-icons/io";
 import SwitchDocument from "../Global/SwitchDocument";
+import { useDispatch, useSelector } from "react-redux";
+import { createChat, sendMessage } from "../../redux/actions/chatActions";
 
 const ChatView = ({ documents, user }) => {
   const [isNewChat, setIsNewChat] = useState(true);
   const [newMessage, setNewMessage] = useState(""); // Current message being typed
-  const [messages, setMessages] = useState([]); // Array to store all messages
   const [isSwitchDocModalOpen, setIsSwitchDocModalOpen] = useState(false); // Modal state
   const [attachedDocument, setAttachedDocument] = useState(null); // Attached document
+  const [activeChatId, setActiveChatId] = useState(null); // Track active chat ID
+  const dispatch = useDispatch();
 
-  // Handle sending a message
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!newMessage.trim()) return; // Do nothing if the input is empty
 
-    // Add new message to messages array
-    setMessages((prev) => [
-      ...prev,
-      { sender: "user", content: newMessage, timestamp: Date.now() },
-    ]);
-    setNewMessage(""); // Clear the input
-    setIsNewChat(false); // Transition from "new chat" to chat area
+    try {
+      let chatId = activeChatId;
+
+      // Create a new chat if no active chat exists
+      if (!chatId) {
+        const response = await dispatch(createChat(attachedDocument?._id));
+        chatId = response?.data?.data?._id;
+        console.log(response.data);
+
+        if (!chatId) {
+          throw new Error("Chat creation failed.");
+        }
+
+        setActiveChatId(chatId); // Update the active chat ID
+      }
+
+      // Send the message
+      await dispatch(sendMessage(chatId, newMessage));
+
+      // Clear the input and update the chat view
+      setNewMessage(""); // Clear the input
+      setIsNewChat(false); // Transition from "new chat" to chat area
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
   const handleNewChat = () => {
     setIsNewChat(true);
     setNewMessage("");
-    setMessages([]);
     setAttachedDocument(null); // Clear the attached document
+    setActiveChatId(null); // Reset active chat ID
   };
 
   const handleDocumentSelect = (document) => {
@@ -39,7 +59,6 @@ const ChatView = ({ documents, user }) => {
 
   const handleRemoveDocument = () => {
     setAttachedDocument(null); // Remove the attached document
-    setIsNewChat(true); // Reset the chat to default
   };
 
   return (
@@ -91,11 +110,6 @@ const ChatView = ({ documents, user }) => {
                 New Chat
               </p>
             </div>
-            {messages.map((msg, index) => (
-              <div key={index} className={`chat-message ${msg.sender}`}>
-                {msg.content}
-              </div>
-            ))}
           </div>
         )}
 

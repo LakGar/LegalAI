@@ -52,26 +52,48 @@ export const getChatDetails = (chatId) => async (dispatch) => {
 export const createChat = (documentId) => async (dispatch) => {
   try {
     dispatch({ type: CHAT_CREATE_REQUEST });
-    const data = await createNewChat(documentId);
-    dispatch({ type: CHAT_CREATE_SUCCESS, payload: data });
+
+    const { data } = await createNewChat(documentId);
+
+    dispatch({
+      type: CHAT_CREATE_SUCCESS,
+      payload: data,
+    });
+
+    return data; // Return the created chat data
   } catch (error) {
     dispatch({
       type: CHAT_CREATE_FAIL,
-      payload: error.response?.data?.message || error.message,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
+    throw error; // Ensure the error propagates for handling
   }
 };
 
-export const sendMessage = (chatId, content) => async (dispatch) => {
+export const sendMessage = (chatId, message) => async (dispatch) => {
   try {
     dispatch({ type: CHAT_SEND_MESSAGE_REQUEST });
-    const data = await sendChatMessage(chatId, content);
-    dispatch({ type: CHAT_SEND_MESSAGE_SUCCESS, payload: data });
+
+    const { data } = await sendChatMessage(chatId, message);
+
+    dispatch({
+      type: CHAT_SEND_MESSAGE_SUCCESS,
+      payload: data,
+    });
+
+    return data; // Return the message data
   } catch (error) {
     dispatch({
       type: CHAT_SEND_MESSAGE_FAIL,
-      payload: error.response?.data?.message || error.message,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
+    throw error; // Ensure the error propagates for handling
   }
 };
 
