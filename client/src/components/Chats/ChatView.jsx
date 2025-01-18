@@ -13,6 +13,7 @@ const ChatView = ({ documents, user }) => {
   const [isSwitchDocModalOpen, setIsSwitchDocModalOpen] = useState(false); // Modal state
   const [attachedDocument, setAttachedDocument] = useState(null); // Attached document
   const [activeChatId, setActiveChatId] = useState(null); // Track active chat ID
+  const [chatMessages, setChatMessages] = useState([]); // Store chat messages
   const dispatch = useDispatch();
 
   const handleSendMessage = async () => {
@@ -23,9 +24,10 @@ const ChatView = ({ documents, user }) => {
 
       // Create a new chat if no active chat exists
       if (!chatId) {
-        const response = await dispatch(createChat(attachedDocument?._id));
-        chatId = response?.data?.data?._id;
-        console.log(response.data);
+        const data = await dispatch(createChat(attachedDocument?._id));
+        chatId = data?._id; // Correctly access the chatId
+        console.log("Chat created:", data);
+        console.log(chatId);
 
         if (!chatId) {
           throw new Error("Chat creation failed.");
@@ -35,11 +37,21 @@ const ChatView = ({ documents, user }) => {
       }
 
       // Send the message
-      await dispatch(sendMessage(chatId, newMessage));
+      const messageResponse = await dispatch(sendMessage(chatId, newMessage));
 
-      // Clear the input and update the chat view
-      setNewMessage(""); // Clear the input
-      setIsNewChat(false); // Transition from "new chat" to chat area
+      // Update the local message state
+      setChatMessages((prev) => [
+        ...prev,
+        { sender: "user", content: newMessage },
+        {
+          sender: "ai",
+          content: messageResponse.aiMessage?.content || "",
+        },
+      ]);
+
+      // Clear the input and transition to chat area
+      setNewMessage("");
+      setIsNewChat(false);
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -48,8 +60,9 @@ const ChatView = ({ documents, user }) => {
   const handleNewChat = () => {
     setIsNewChat(true);
     setNewMessage("");
-    setAttachedDocument(null); // Clear the attached document
-    setActiveChatId(null); // Reset active chat ID
+    setAttachedDocument(null);
+    setActiveChatId(null);
+    setChatMessages([]); // Reset chat messages
   };
 
   const handleDocumentSelect = (document) => {
@@ -109,6 +122,25 @@ const ChatView = ({ documents, user }) => {
               <p className="new-chat-button" onClick={handleNewChat}>
                 New Chat
               </p>
+            </div>
+            <div className="chat-messages">
+              {chatMessages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`chat-message-container ${
+                    msg.sender === "ai" ? "ai-message" : "user-message"
+                  }`}
+                >
+                  {msg.sender === "ai" && (
+                    <div className="gooey-container">
+                      <div className="gooey"></div>
+                    </div>
+                  )}
+                  <div className={`chat-message ${msg.sender}`}>
+                    {msg.content}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

@@ -1,0 +1,84 @@
+2025-01-18T00:23:45.075Z [INFO]: Starting chat creation process.
+2025-01-18T00:23:45.077Z [INFO]: Checking for existing chat with documentId: null
+2025-01-18T00:23:45.164Z [INFO]: Existing chat found.
+2025-01-18T00:25:45.851Z [INFO]: Starting chat creation process.
+2025-01-18T00:25:45.951Z [INFO]: Chat created with ID: 678af5096a44c428f5a0c340
+2025-01-18T00:25:46.046Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T00:28:34.084Z [INFO]: Starting chat creation process.
+2025-01-18T00:28:34.199Z [INFO]: Chat created with ID: 678af5b26a44c428f5a0c348
+2025-01-18T00:28:34.297Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T00:29:37.513Z [INFO]: Starting chat creation process.
+2025-01-18T00:29:37.607Z [INFO]: Chat created with ID: 678af5f16a44c428f5a0c34c
+2025-01-18T00:29:37.694Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T00:32:28.218Z [INFO]: Starting chat creation process.
+2025-01-18T00:32:28.319Z [INFO]: Chat created with ID: 678af69c6a44c428f5a0c350
+2025-01-18T00:32:28.403Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T00:32:42.278Z [INFO]: Starting chat creation process.
+2025-01-18T00:32:42.372Z [INFO]: Chat created with ID: 678af6aa6a44c428f5a0c354
+2025-01-18T00:32:42.469Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T00:33:32.395Z [INFO]: Starting chat creation process.
+2025-01-18T00:33:32.579Z [INFO]: Chat created with ID: 678af6dc6a44c428f5a0c358
+2025-01-18T00:33:32.665Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T00:33:32.760Z [INFO]: Attempting to send message to chat.
+2025-01-18T00:33:32.851Z [INFO]: Added user message to chat ID: 678af6dc6a44c428f5a0c358
+2025-01-18T00:33:32.853Z [ERROR]: Error sending message: Chat validation failed: messages.0.sender: `6753cc1572ba526378319e2a` is not a valid enum value for path `sender`.
+2025-01-18T00:37:00.620Z [INFO]: Attempting to send message to chat.
+2025-01-18T00:37:00.708Z [INFO]: Added user message to chat ID: 678af6dc6a44c428f5a0c358
+2025-01-18T00:37:01.776Z [INFO]: AI response added to chat.
+2025-01-18T00:37:08.228Z [INFO]: Fetching all chats for user.
+2025-01-18T00:37:08.410Z [INFO]: Fetched 13 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T00:37:08.506Z [INFO]: Fetching all chats for user.
+2025-01-18T00:37:08.691Z [INFO]: Fetched 13 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T00:37:08.780Z [INFO]: Fetching all chats for user.
+2025-01-18T00:37:08.955Z [INFO]: Fetched 13 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T00:37:13.517Z [INFO]: Starting chat creation process.
+2025-01-18T00:37:13.600Z [INFO]: Chat created with ID: 678af7b9e2732d172dc523a8
+2025-01-18T00:37:13.685Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T00:37:13.782Z [INFO]: Attempting to send message to chat.
+2025-01-18T00:37:13.863Z [INFO]: Added user message to chat ID: 678af7b9e2732d172dc523a8
+2025-01-18T00:37:14.662Z [INFO]: AI response added to chat.
+2025-01-18T00:43:49.232Z [INFO]: Attempting to send message to chat.
+2025-01-18T00:43:49.317Z [INFO]: Added user message to chat ID: 678af7b9e2732d172dc523a8
+2025-01-18T00:43:50.337Z [INFO]: AI response added to chat.
+2025-01-18T00:43:58.413Z [INFO]: Attempting to send message to chat.
+2025-01-18T00:43:58.498Z [INFO]: Added user message to chat ID: 678af7b9e2732d172dc523a8
+2025-01-18T00:43:59.297Z [INFO]: AI response added to chat.
+2025-01-18T00:44:10.472Z [INFO]: Attempting to send message to chat.
+2025-01-18T00:44:10.556Z [INFO]: Added user message to chat ID: 678af7b9e2732d172dc523a8
+2025-01-18T00:44:12.048Z [INFO]: AI response added to chat.
+2025-01-18T00:53:41.608Z [INFO]: Attempting to send message to chat.
+2025-01-18T00:53:41.704Z [INFO]: Added user message to chat ID: 678af7b9e2732d172dc523a8
+2025-01-18T00:53:44.064Z [INFO]: AI response added to chat.
+2025-01-18T01:01:22.315Z [INFO]: Fetching all chats for user.
+2025-01-18T01:01:22.490Z [INFO]: Fetched 14 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T01:01:22.591Z [INFO]: Fetching all chats for user.
+2025-01-18T01:01:22.784Z [INFO]: Fetched 14 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T01:01:22.876Z [INFO]: Fetching all chats for user.
+2025-01-18T01:01:23.071Z [INFO]: Fetched 14 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T01:01:31.729Z [INFO]: Starting chat creation process.
+2025-01-18T01:01:31.837Z [INFO]: Chat created with ID: 678afd6be2732d172dc5244f
+2025-01-18T01:01:31.920Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T01:01:32.022Z [INFO]: Attempting to send message to chat.
+2025-01-18T01:01:32.106Z [INFO]: Added user message to chat ID: 678afd6be2732d172dc5244f
+2025-01-18T01:01:32.967Z [INFO]: AI response added to chat.
+2025-01-18T01:03:37.266Z [INFO]: Attempting to send message to chat.
+2025-01-18T01:03:37.350Z [INFO]: Added user message to chat ID: 678afd6be2732d172dc5244f
+2025-01-18T01:03:42.043Z [INFO]: AI response added to chat.
+2025-01-18T01:04:51.276Z [INFO]: Attempting to send message to chat.
+2025-01-18T01:04:51.362Z [INFO]: Added user message to chat ID: 678afd6be2732d172dc5244f
+2025-01-18T01:04:56.634Z [INFO]: AI response added to chat.
+2025-01-18T01:19:29.445Z [INFO]: Attempting to send message to chat.
+2025-01-18T01:19:29.541Z [INFO]: Added user message to chat ID: 678afd6be2732d172dc5244f
+2025-01-18T01:19:30.828Z [INFO]: AI response added to chat.
+2025-01-18T01:21:58.971Z [INFO]: Fetching all chats for user.
+2025-01-18T01:21:59.229Z [INFO]: Fetched 15 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T01:21:59.332Z [INFO]: Fetching all chats for user.
+2025-01-18T01:21:59.503Z [INFO]: Fetched 15 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T01:21:59.588Z [INFO]: Fetching all chats for user.
+2025-01-18T01:21:59.753Z [INFO]: Fetched 15 chats for user: 6753cc1572ba526378319e2a
+2025-01-18T05:49:03.898Z [INFO]: Starting chat creation process.
+2025-01-18T05:49:04.001Z [INFO]: Chat created with ID: 678b40cfe2732d172dc52520
+2025-01-18T05:49:04.101Z [INFO]: Chat added to user: 6753cc1572ba526378319e2a
+2025-01-18T05:49:04.203Z [INFO]: Attempting to send message to chat.
+2025-01-18T05:49:04.293Z [INFO]: Added user message to chat ID: 678b40cfe2732d172dc52520
+2025-01-18T05:49:05.897Z [INFO]: AI response added to chat.
