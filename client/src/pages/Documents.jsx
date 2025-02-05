@@ -17,6 +17,7 @@ const Documents = () => {
 
   const { user, error: userError } = userState;
   const { documents = [], loading: documentsLoading } = documentState;
+  const activeDocument = useSelector((state) => state.documents.activeDocument);
   // Fetch user details and documents
   useEffect(() => {
     dispatch(getUserDetails());
@@ -61,16 +62,16 @@ const Documents = () => {
 
       {/* Dashboard Component */}
       <div className="dashboard-content">
-        {documents.length > 0 ? (
-          <DocComponent documents={documents} user={user?.data} />
-        ) : (
-          <p className="no-documents-message">No documents available.</p>
-        )}
+        <DocComponent documents={documents} user={user?.data} />
       </div>
 
       {/* Chat Box */}
       <div className="chatbox">
-        <ChatBox user={user?.data} />
+        <ChatBox
+          user={user?.data}
+          documents={documents}
+          activeDocument={activeDocument}
+        />
       </div>
     </div>
   );

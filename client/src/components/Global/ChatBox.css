@@ -12,7 +12,7 @@
 
 /* Top section with document card */
 .chatbox-top {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 .document-card {
@@ -101,6 +101,7 @@
 /* Chat container styling */
 .chatbox-chat-container {
   flex: 1;
+  max-height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -192,4 +193,90 @@
 .navigation-button:hover {
   background-color: rgb(66, 160, 253);
   cursor: pointer;
+}
+
+.chat-preview {
+  padding: 10px;
+  cursor: pointer;
+  width: inherit;
+}
+
+.chat-preview-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.chat-preview-content:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.truncated-message {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+}
+
+.options-container {
+  position: relative;
+}
+
+.options-icon {
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  visibility: hidden;
+}
+
+.chat-preview-content:hover .options-icon {
+  visibility: visible;
+}
+
+.options-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  display: none;
+  z-index: 9999;
+  min-width: 120px;
+}
+
+.options-icon:hover + .options-dropdown,
+.options-dropdown:hover {
+  display: block;
+}
+
+.option-item {
+  display: block;
+  padding: 8px 15px;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.option-item:hover {
+  background: #f5f5f5;
+}
+
+.delete-option {
+  color: #ff4444;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: 8px 15px;
+}
+
+.delete-option:hover {
+  background: #f5f5f5;
 }

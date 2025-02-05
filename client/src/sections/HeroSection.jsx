@@ -25,12 +25,12 @@ const HeroSection = ({ scrollToSection }) => {
           <button className="cta-secondary">Watch the demo</button>
         </div>
       </div>
-      <div className="hero-visual">
-        <div className="visual-container">
-          <div className="floating-ui">
-            <div className="ui-element"></div>
-            <div className="ui-element"></div>
-            <div className="ui-element"></div>
+      <div className="hero-visual1">
+        <div className="visual-container1">
+          <div className="floating-ui1">
+            <div className="ui-element1"></div>
+            <div className="ui-element1"></div>
+            <div className="ui-element1"></div>
           </div>
         </div>
       </div>

@@ -23,8 +23,7 @@ const Sidenav = ({ user }) => {
       <div className="sidenav-top">
         {/* Logo */}
         <div className="sidenav-logo">
-          {/* <img src={Logo} alt="Logo" className="logo" /> */}
-          <span>LegalAI</span>
+          <span className="logo-text">LegalAI</span>
         </div>
 
         {/* Navigation Links */}

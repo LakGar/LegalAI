@@ -10,8 +10,8 @@ const StorageCard = () => {
         <p>Storage</p>
       </div>
       <div className="storage-progress">
-        <div className="progress-bar">
-          <div className="progress" style={{ width: "88%" }}></div>{" "}
+        <div className="progress-bar1">
+          <div className="progress1" style={{ width: "88%" }}></div>{" "}
           {/* 88% for 1.75 GB left from 15 GB */}
         </div>
       </div>

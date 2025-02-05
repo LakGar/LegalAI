@@ -20,18 +20,20 @@ const Topnav = ({ user, documents }) => {
       setIsLoading(true);
 
       setTimeout(() => {
-        const results = documents.filter((doc) => {
-          // Check if the query matches any of the searchable fields
-          const fields = [
-            doc.name,
-            doc.type,
-            doc.description,
-            ...(doc.tags || []),
-          ];
-          return fields.some((field) =>
-            field?.toString().toLowerCase().includes(query)
-          );
-        });
+        const results = documents?.length
+          ? documents.filter((doc) => {
+              // Check if the query matches any of the searchable fields
+              const fields = [
+                doc.name,
+                doc.type,
+                doc.description,
+                ...(doc.tags || []),
+              ];
+              return fields.some((field) =>
+                field?.toString().toLowerCase().includes(query)
+              );
+            })
+          : [];
 
         setFilteredDocuments(results);
         setIsLoading(false);

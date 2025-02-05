@@ -6,11 +6,20 @@ import { BiAnalyse } from "react-icons/bi";
 import { CiImport } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 
+const stripHtmlTags = (html) => {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "");
+};
+
 const ChatBox = ({ user, documents, activeDocument }) => {
   const userName = user?.firstname || "User";
   const files = documents || [];
   const chats = user?.chats || [];
-  const chatMessages = chats;
+
+  // Find chat associated with active document
+  const activeChat = activeDocument
+    ? chats.find((chat) => chat.document === activeDocument._id)
+    : null;
 
   return (
     <div className="chatbox-container">
@@ -124,41 +133,85 @@ const ChatBox = ({ user, documents, activeDocument }) => {
         <div className="divider-line"></div>
       </div>
 
-      {chatMessages.length ? (
-        <div className="chatbox-chat-container">
-          {chatMessages.map((message, index) => (
-            <div
-              key={index}
-              className={`chat-message ${
-                message.sender === "AI" ? "ai-message" : "user-message"
-              }`}
-            >
-              <div className="message-icon">
-                {message.sender === "AI" ? (
-                  <img
-                    src="https://images.unsplash.com/photo-1666597107756-ef489e9f1f09?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGFpfGVufDB8fDB8fHww"
-                    alt="AI Profile"
-                    className="user-img"
-                  />
-                ) : (
-                  <img
-                    src="https://images.unsplash.com/photo-1717719405891-c60737ef4082?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ4fHxncmFkaWVudCUyMHNreXxlbnwwfHwwfHx8MA%3D%3D"
-                    alt="User Profile"
-                    className="user-img"
-                  />
-                )}
-              </div>
+      {activeDocument ? (
+        activeChat ? (
+          // Show messages for active document's chat
+          <div className="chatbox-chat-container">
+            {activeChat.messages.map((message, index) => (
               <div
-                className={`message ${
-                  message.sender === "AI" ? "ai-chat" : "user-chat"
+                key={index}
+                className={`chat-message ${
+                  message.sender === "ai" ? "ai-message" : "user-message"
                 }`}
               >
-                {message.text}
+                <div className="message-icon">
+                  {message.sender === "ai" ? (
+                    <img
+                      src="https://images.unsplash.com/photo-1666597107756-ef489e9f1f09?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGFpfGVufDB8fDB8fHww"
+                      alt="AI Profile"
+                      className="user-img"
+                    />
+                  ) : (
+                    <img
+                      src="https://images.unsplash.com/photo-1717719405891-c60737ef4082?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ4fHxncmFkaWVudCUyMHNreXxlbnwwfHwwfHx8MA%3D%3D"
+                      alt="User Profile"
+                      className="user-img"
+                    />
+                  )}
+                </div>
+                <div
+                  className={`message ${
+                    message.sender === "ai" ? "ai-chat" : "user-chat"
+                  }`}
+                >
+                  {message.content}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          // Show prompt to start chat for this document
+          <div className="no-chats" style={{ flex: 1 }}>
+            <p
+              style={{ padding: "20px", fontWeight: "500", fontSize: "0.8rem" }}
+            >
+              No chat found for this document. Start a conversation to analyze
+              it!
+            </p>
+            <NavLink to="/chats" className="navigation-button">
+              Start New Chat
+            </NavLink>
+          </div>
+        )
+      ) : chats.length > 0 ? (
+        // Show preview of first chat when no document is active
+        <div className="chat-preview">
+          <div className="chat-preview-content">
+            <div className="truncated-message">
+              {(() => {
+                const cleanContent = stripHtmlTags(
+                  chats[0]?.lastMessage?.content
+                );
+                return cleanContent?.length > 100
+                  ? `${cleanContent.substring(0, 100)}...`
+                  : cleanContent;
+              })()}
+            </div>
+            <div className="options-container">
+              <div className="options-icon">⋮</div>
+              <div className="options-dropdown">
+                <NavLink to="/chats" className="option-item">
+                  Go to Chat
+                </NavLink>
+                <button className="option-item delete-option">
+                  Delete Chat
+                </button>
               </div>
             </div>
-          ))}
+          </div>
         </div>
       ) : (
+        // Show default no chats message
         <div className="no-chats" style={{ flex: 1 }}>
           <p style={{ padding: "20px", fontWeight: "500", fontSize: "0.8rem" }}>
             No chats yet. Start a new conversation with our AI assistant!

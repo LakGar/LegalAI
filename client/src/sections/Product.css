@@ -135,11 +135,13 @@
 }
 
 .product-content h2 {
-  font-size: 48px;
   line-height: 1.1;
-  font-weight: 600;
   letter-spacing: -0.002em;
-  color: #1d1d1f;
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 16px;
 }
 

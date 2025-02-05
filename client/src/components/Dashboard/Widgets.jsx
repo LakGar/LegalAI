@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Widget.css";
 import { CiChat1, CiFolderOn } from "react-icons/ci";
 import { BiAnalyse } from "react-icons/bi";
 import { CiImport } from "react-icons/ci";
-
+import { useNavigate } from "react-router-dom";
+import FileUploadModal from "../Global/FileUploadModal";
 const Widgets = () => {
+  const navigate = useNavigate();
+  const [documentModal, setDocumentModal] = useState(false);
+  const closeModal = () => {
+    setDocumentModal(false);
+  };
   return (
     <div className="widget-container">
       <div className="widget one">
         <div className="icon-container icon-1">
           <CiChat1 />
         </div>
-        <div className="text-container">
+        <div className="text-container" onClick={() => navigate("/chats")}>
           <h4>New chat</h4>
           <p>Ask general questions</p>
         </div>
@@ -20,7 +26,7 @@ const Widgets = () => {
         <div className="icon-container icon-2">
           <CiFolderOn />
         </div>
-        <div className="text-container">
+        <div className="text-container" onClick={() => navigate("/chat")}>
           <h4>New Folder</h4>
           <p>Create a new repository</p>
         </div>
@@ -34,7 +40,7 @@ const Widgets = () => {
           <p>Analyze a document</p>
         </div>
       </div>
-      <div className="widget four">
+      <div className="widget four" onClick={() => setDocumentModal(true)}>
         <div className="icon-container icon-4">
           <CiImport />
         </div>
@@ -43,6 +49,7 @@ const Widgets = () => {
           <p>Bring in your pdf file</p>
         </div>
       </div>
+      {documentModal && <FileUploadModal closeModal={closeModal} />}
     </div>
   );
 };

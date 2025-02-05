@@ -69,11 +69,7 @@ const Dashboard = () => {
 
       {/* Dashboard Component */}
       <div className="dashboard-content">
-        {documents.length > 0 ? (
-          <DashComponent documents={documents} user={user?.data} />
-        ) : (
-          <p className="no-documents-message">No documents available.</p>
-        )}
+        <DashComponent documents={documents} user={user?.data} />
       </div>
 
       {/* Chat Box */}
