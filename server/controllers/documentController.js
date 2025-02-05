@@ -4,9 +4,15 @@ import { Business } from "../models/businessModel.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import OpenAI from "openai";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Initialize OpenAI
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 /**
  * Upload a new document
@@ -264,4 +270,176 @@ export const getFile = (req, res) => {
       });
     }
   });
+};
+
+/**
+ * Analyze a document using OpenAI
+ * @route POST /api/documents/analyze
+ * @access Private
+ */
+export const analyzeDocument = async (req, res) => {
+  try {
+    const { documentUrl } = req.body;
+    if (!documentUrl) {
+      return res.status(400).json({
+        success: false,
+        message: "Document URL required",
+      });
+    }
+
+    // First, check if we already have an analysis for this document
+    const existingDocument = await Document.findOne({ documentUrl });
+    if (existingDocument && existingDocument.analysisResult) {
+      console.log("Returning cached analysis");
+      return res.status(200).json({
+        success: true,
+        analysisText: existingDocument.analysisResult,
+        cached: true,
+      });
+    }
+
+    // If no existing analysis, proceed with new analysis
+    const filePath = path.join(__dirname, "..", documentUrl);
+    console.log("Attempting to read file at:", filePath);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        success: false,
+        message: `File not found at path: ${filePath}`,
+      });
+    }
+
+    try {
+      // Read and parse the PDF file
+      const dataBuffer = fs.readFileSync(filePath);
+      const pdfParse = (await import("pdf-parse/lib/pdf-parse.js")).default;
+      const pdfData = await pdfParse(dataBuffer);
+      const pdfText = pdfData.text;
+
+      // Construct the messages array for OpenAI with comprehensive analysis instructions
+      const messages = [
+        {
+          role: "system",
+          content: `You are an expert legal analyst and attorney with deep experience in document analysis. 
+Your task is to provide a comprehensive analysis of the document that will serve as a foundation for future chat-based interactions.
+
+Format your response using HTML tags for better readability:
+- Use <h3> for main section headings
+- Use <h4> for subsection headings
+- Use <p> for paragraphs
+- Use <ul> and <li> for bullet points
+- Use <ol> and <li> for numbered lists
+- Use <strong> for emphasis on important points
+- Use <em> for dates, terms, and definitions
+- Use <br> for line breaks
+- Use <blockquote> for direct quotes from the document
+
+Provide a thorough analysis including:
+
+1. Document Overview
+   - Document type and purpose
+   - Parties involved
+   - Jurisdiction and governing law
+   - Effective date and duration
+
+2. Key Terms and Definitions
+   - List and explain important defined terms
+   - Highlight any unusual or noteworthy definitions
+
+3. Main Provisions
+   - Detailed breakdown of major sections
+   - Key obligations for each party
+   - Important conditions and requirements
+
+4. Critical Dates and Deadlines
+   - All mentioned dates
+   - Recurring deadlines
+   - Notice periods
+   - Term and termination dates
+
+5. Rights and Obligations
+   - Detailed list of rights for each party
+   - Responsibilities and obligations
+   - Performance requirements
+
+6. Risk Analysis
+   - Potential vulnerabilities
+   - Hidden obligations
+   - Unclear or ambiguous terms
+   - Unfavorable provisions
+   - Liability exposure
+
+7. Financial Implications
+   - Payment terms
+   - Fees and expenses
+   - Financial obligations
+   - Penalties and damages
+
+8. Termination and Exit
+   - Termination conditions
+   - Notice requirements
+   - Post-termination obligations
+   - Survival clauses
+
+9. Special Considerations
+   - Unusual provisions
+   - Industry-specific terms
+   - Regulatory compliance requirements
+   - Privacy and data protection
+
+10. Recommendations
+    - Areas requiring clarification
+    - Suggested modifications
+    - Points for negotiation
+    - Additional protections needed
+
+Be thorough and detailed, as this analysis will serve as the knowledge base for future chat interactions about the document.`,
+        },
+        {
+          role: "user",
+          content: `Document text: """${pdfText}"""`,
+        },
+      ];
+
+      // Call the OpenAI API with GPT-4 and higher token limit
+      const aiResponse = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo", // Using GPT-4 for more comprehensive analysis
+        messages,
+        temperature: 0.7,
+        max_tokens: 4000, // Increased token limit
+        presence_penalty: 0.3, // Encourage covering new topics
+        frequency_penalty: 0.3, // Reduce repetition
+      });
+
+      const analysisText = aiResponse.choices[0]?.message?.content?.trim();
+
+      // Save the analysis to the document
+      if (existingDocument) {
+        existingDocument.analysisResult = analysisText;
+        existingDocument.status = "analyzed";
+        existingDocument.analyzedAt = new Date();
+        await existingDocument.save();
+      }
+
+      return res.status(200).json({
+        success: true,
+        analysisText,
+        cached: false,
+      });
+    } catch (pdfError) {
+      console.error("PDF processing error:", pdfError);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to process PDF file.",
+        error: pdfError.message,
+      });
+    }
+  } catch (error) {
+    console.error("Error analyzing document:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to analyze document.",
+      error: error.message,
+    });
+  }
 };

@@ -1,408 +1,163 @@
-/* Hero Section Container */
-.hero-container {
+/* HeroSection.css */
+
+.hero-section {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  text-align: center;
-  position: sticky;
-  background-color: black;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 0 120px;
+  background-color: #fbfbfd;
+  overflow: hidden;
+  width: 100%;
 }
 
 .hero-content {
-  animation: fadeIn 1s ease-in-out forwards;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+  max-width: 600px;
+  padding-top: 80px;
+}
+
+.hero-content h1 {
+  font-size: 56px;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.002em;
+  color: #1d1d1f;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 21px;
+  line-height: 1.5;
+  color: #86868b;
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+.cta-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
 }
 
-/* Hero Title */
-.hero-content h1 {
-  color: lightgrey;
-  font-size: 4rem;
-  font-weight: 700;
-  opacity: 0;
-  animation: slideIn 1s ease-in-out forwards 0.5s; /* Slide in after 0.5s */
-}
-
-/* Hero Description */
-.hero-content p {
-  font-size: 1.2rem;
-  color: lightgrey;
-  opacity: 0;
-  animation: fadeIn 1.5s ease-in-out forwards 1s; /* Fade in after 1s */
-  font-weight: 500;
-}
-
-/* Hero Button */
-.hero-container .button {
-  --black-700: hsla(0 0% 12% / 1);
-  --border_radius: 9999px;
-  --transtion: 0.3s ease-in-out;
-  --offset: 2px;
-
+.cta-primary {
+  background: #1d1d1f;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: 400;
   cursor: pointer;
-  position: relative;
-
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-
-  transform-origin: center;
-
-  padding: 1rem 2rem;
-  background-color: transparent;
-
-  border: none;
-  border-radius: var(--border_radius);
-  transform: scale(calc(1 + (var(--active, 0) * 0.1)));
-
-  transition: transform var(--transtion);
+  gap: 8px;
+  transition: all 0.3s ease;
 }
 
-.hero-container .button::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 100%;
-  height: 100%;
-  background-color: var(--black-700);
-
-  border-radius: var(--border_radius);
-  box-shadow: inset 0 0.5px hsl(0, 0%, 100%), inset 0 -1px 2px 0 hsl(0, 0%, 0%),
-    0px 4px 10px -4px hsla(0 0% 0% / calc(1 - var(--active, 0))),
-    0 0 0 calc(var(--active, 0) * 0.375rem) hsl(260 97% 50% / 0.75);
-
-  transition: all var(--transtion);
-  z-index: 0;
-}
-
-.hero-container .button::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 100%;
-  height: 100%;
-  background-color: hsla(255, 82%, 65%, 0.75);
-  background-image: radial-gradient(
-      at 51% 89%,
-      hsla(266, 45%, 74%, 1) 0px,
-      transparent 50%
-    ),
-    radial-gradient(at 100% 100%, hsla(266, 36%, 60%, 1) 0px, transparent 50%),
-    radial-gradient(at 22% 91%, hsla(266, 36%, 60%, 1) 0px, transparent 50%);
-  background-position: top;
-
-  opacity: var(--active, 0);
-  border-radius: var(--border_radius);
-  transition: opacity var(--transtion);
-  z-index: 2;
-}
-
-.hero-container .button:is(:hover, :focus-visible) {
-  --active: 1;
-}
-.hero-container .button:active {
-  transform: scale(0.8);
-}
-
-.hero-container .button .dots_border {
-  --size_border: calc(100% + 2px);
-
-  overflow: hidden;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: var(--size_border);
-  height: var(--size_border);
-  background-color: transparent;
-
-  border-radius: var(--border_radius);
-  z-index: -10;
-}
-
-.hero-container .button .dots_border::before {
-  content: "";
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transform-origin: left;
-  transform: rotate(0deg);
-
-  width: 100%;
-  height: 2rem;
-  background-color: white;
-
-  mask: linear-gradient(transparent 0%, white 120%);
-  animation: rotate 2s linear infinite;
-}
-
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.hero-container .button .sparkle {
-  position: relative;
-  z-index: 10;
-
-  width: 1.75rem;
-}
-
-.hero-container .button .sparkle .path {
-  fill: currentColor;
+.cta-primary svg {
   stroke: currentColor;
-
-  transform-origin: center;
-
-  color: hsl(0, 0%, 100%);
+  stroke-width: 2;
+  transition: transform 0.3s ease;
 }
 
-.hero-container .button:is(:hover, :focus) .sparkle .path {
-  animation: path 1.5s linear 0.5s infinite;
+.cta-primary:hover svg {
+  transform: translateX(4px);
 }
 
-.hero-container .button .sparkle .path:nth-child(1) {
-  --scale_path_1: 1.2;
-}
-.hero-container .button .sparkle .path:nth-child(2) {
-  --scale_path_2: 1.2;
-}
-.hero-container .button .sparkle .path:nth-child(3) {
-  --scale_path_3: 1.2;
-}
-
-@keyframes path {
-  0%,
-  34%,
-  71%,
-  100% {
-    transform: scale(1);
-  }
-  17% {
-    transform: scale(var(--scale_path_1, 1));
-  }
-  49% {
-    transform: scale(var(--scale_path_2, 1));
-  }
-  83% {
-    transform: scale(var(--scale_path_3, 1));
-  }
+.cta-secondary {
+  background: transparent;
+  color: #0066cc;
+  border: none;
+  padding: 12px 28px;
+  font-size: 17px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.hero-container .button .text_button {
+.cta-secondary:hover {
+  text-decoration: underline;
+}
+
+.hero-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  z-index: 10;
-
-  background-image: linear-gradient(
-    90deg,
-    hsla(0 0% 100% / 1) 0%,
-    hsla(0 0% 100% / var(--active, 0)) 120%
-  );
-  background-clip: text;
-
-  font-size: 1rem;
-  color: transparent;
+  height: 100%;
 }
 
-/* Hero Background Animation */
-.background {
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -10000;
-  opacity: 0.8;
-}
-span {
-  font-size: 1.4em;
-  font-weight: bold;
-  font-family: sans-serif;
-  text-decoration: none;
-  background: rgba(0, 0, 0, 0) -webkit-gradient(
-      linear,
-      left top,
-      right top,
-      from(#90f3b3),
-      color-stop(#90e9f3),
-      color-stop(#909ff3),
-      color-stop(#cc90f3),
-      color-stop(#f390d1),
-      color-stop(#f39a90),
-      color-stop(#f3e590),
-      to(#b8f390)
-    ) repeat scroll 0% 0%/200% 200%;
-  background: rgba(0, 0, 0, 0)
-    linear-gradient(
-      90deg,
-      #90f3b3,
-      #90e9f3,
-      #909ff3,
-      #cc90f3,
-      #f390d1,
-      #f39a90,
-      #f3e590,
-      #b8f390
-    )
-    repeat scroll 0% 0%/200% 200%;
-  background-clip: border-box;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
+.visual-container {
+  width: 600px;
+  height: 600px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-span:hover {
-  -webkit-animation: GradientAnimation 2s ease infinite;
-  animation: GradientAnimation 2s ease infinite;
+.floating-ui {
+  width: 400px;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+  animation: float 6s ease-in-out infinite;
 }
 
-@keyframes GradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.ui-element {
+  height: 40px;
+  background: #f5f5f7;
+  border-radius: 10px;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
   100% {
-    background-position: 0% 50%;
-  }
-}
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
     transform: translateY(0);
   }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
-@keyframes move {
+@keyframes pulse {
+  0%,
   100% {
-    transform: translate3d(0, 0, 1px) rotate(360deg);
+    opacity: 0.5;
   }
-}
-.background1 {
-  position: absolute;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: linear-gradient(to right, #000000, #000000);
-  display: flex;
-  flex-grow: 1;
-  z-index: -1;
-}
-
-.background1 div {
-  position: absolute;
-  border-radius: 100%;
-  height: 0;
-  filter: blur(240vw);
-  opacity: 0.4;
-}
-
-.background1 div:nth-child(1) {
-  background: linear-gradient(132deg, #1fcfc3 0%, #1f91cf 100%);
-  width: 30%;
-  padding-top: 30%;
-  left: 20%;
-  top: 41%;
-  transform: translateX(-50%) translateY(-50%);
-}
-
-.background1 div:nth-child(2) {
-  background: linear-gradient(132deg, #0800ff 0%, #e32be3 100%);
-  width: 40%;
-  padding-top: 40%;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
-
-.background1 div:nth-child(3) {
-  background: linear-gradient(132deg, #1fcfc3 0%, #1f91cf 100%);
-  width: 30%;
-  padding-top: 30%;
-  left: 80%;
-  top: 80%;
-  transform: translateX(-50%) translateY(-50%);
-}
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-  .hero-content h1 {
-    font-size: 3rem; /* Adjusted font size for tablets */
-  }
-
-  .hero-content p {
-    font-size: 1rem; /* Adjusted description font size */
-  }
-
-  .hero-content button {
-    font-size: 1rem; /* Adjusted button font size */
-    padding: 0.6rem 1.5rem; /* Reduced padding */
+  50% {
+    opacity: 0.8;
   }
 }
 
-@media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 2.5rem; /* Adjusted font size for smaller tablets */
+@media (max-width: 1200px) {
+  .hero-section {
+    padding: 0 40px;
+    flex-direction: column;
+    text-align: center;
   }
 
-  .hero-content p {
-    font-size: 0.9rem; /* Smaller font size for descriptions */
+  .hero-content {
+    padding-top: 120px;
   }
 
-  .hero-content button {
-    font-size: 0.9rem;
-    padding: 0.5rem 1.2rem; /* Reduced padding for buttons */
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-content h1 {
-    font-size: 4rem; /* Smaller font size for mobile */
+  .cta-container {
+    justify-content: center;
   }
 
-  .hero-content p {
-    font-size: 1rem; /* Even smaller font size for descriptions */
-    padding: 0 20px;
+  .hero-visual {
+    margin-top: 60px;
   }
 
-  .hero-content button {
-    font-size: 1.3rem;
-    padding: 0.4rem 1.3rem; /* Smaller padding for mobile */
-  }
-
-  .background div {
-    filter: blur(120vw); /* Reduced blur for smaller screens */
+  .visual-container {
+    width: 400px;
+    height: 400px;
   }
 }

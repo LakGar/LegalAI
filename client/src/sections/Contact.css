@@ -2,135 +2,163 @@
 .footer {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  color: white;
-  width: 100vw;
+  color: #1d1d1f;
+  width: 100%;
   position: relative;
+  background: #ffffff;
+  overflow: hidden;
 }
 
 .footer-container {
+  padding: 80px 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-main {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap; /* Ensures responsiveness */
-  align-items: flex-start;
-  padding: 40px;
+  gap: 60px;
 }
 
 .footer-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
-
-.footer-section img {
-  width: 300px;
-  height: auto;
-  transition: transform 0.3s ease-in-out;
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 60px;
 }
-
-.footer-section img:hover {
-  transform: scale(1.1);
+.footer-logo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  object-position: center;
+  margin: -60px;
 }
-
-.footer-section p {
-  font-size: 1.2rem;
+.logo-text {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #8093fe, #d18ffe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.footer-section p {
+  font-size: 1rem;
   line-height: 1.6;
-  color: #ccc;
+  color: #666;
+  max-width: 400px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.social-link {
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  color: #8b5cf6;
+  transform: translateY(-2px);
+}
+
+.footer-links-group {
+  display: flex;
+  gap: 80px;
 }
 
 .footer h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 20px;
 }
+
 .footer-links {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
-.footer a {
-  color: #aaa;
+.footer-links a {
+  color: #666;
   text-decoration: none;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  position: relative;
 }
 
-.footer a:hover {
-  color: #1e90ff;
-  transform: translateX(3px);
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #8b5cf6;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #8b5cf6;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+.contact-button {
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
 }
 
 .footer-bottom {
-  display: flex;
-  width: 100vw;
-  justify-content: space-between;
-  align-items: center;
-  background-color: dodgerblue;
-  padding: 20px 60px;
-  margin-top: 20px;
-  gap: 20px;
-  animation: fadeInFooter 0.5s ease-in-out;
+  width: 100%;
+  background: #f5f5f7;
+  padding: 24px 40px;
+  margin-top: auto;
 }
 
-@keyframes fadeInFooter {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.footer-bottom-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-bottom p {
   font-size: 0.9rem;
-  color: #ccc;
+  color: #666;
 }
 
-.footer-bottom .supporting-links {
+.supporting-links {
   display: flex;
-  gap: 15px;
-}
-
-.footer-bottom a {
-  color: #aaa;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.footer-bottom a:hover {
-  color: #1e90ff;
-}
-
-.contact-button {
-  background-color: #1e90ff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  animation: bounceInButton 0.8s ease;
-}
-
-.contact-button:hover {
-  background-color: #156bc6;
-  transform: scale(1.05);
-}
-
-@keyframes bounceInButton {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
+  gap: 24px;
 }
 
 /* Contact Modal */
@@ -140,88 +168,125 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeInModal 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease;
 }
 
 .contact-modal {
   background: #ffffff;
-  border-radius: 10px;
-  padding: 30px;
+  border-radius: 20px;
+  padding: 40px;
   width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
   position: relative;
-  animation: slideInModal 0.4s ease-out;
-}
-
-@keyframes fadeInModal {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideInModal {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  animation: slideUp 0.4s ease;
 }
 
 .contact-modal h2 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-  animation: fadeInHeader 0.5s ease;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 8px;
 }
 
-@keyframes fadeInHeader {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.modal-subtitle {
+  color: #666;
+  margin-bottom: 32px;
+  font-size: 0.95rem;
 }
 
 .contact-modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 1.5rem;
-  color: #aaa;
+  top: 24px;
+  right: 24px;
+  color: #666;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 50%;
+  background: #f5f5f7;
 }
 
 .contact-modal-close:hover {
-  color: #000;
-  transform: rotate(90deg);
+  background: #e5e7eb;
+  color: #1d1d1f;
 }
 
 .contact-modal-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  animation: fadeInForm 0.5s ease;
+  gap: 24px;
 }
 
-@keyframes fadeInForm {
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+
+.contact-modal input,
+.contact-modal textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #f9fafb;
+}
+
+.contact-modal input:focus,
+.contact-modal textarea:focus {
+  border-color: #8b5cf6;
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+}
+
+.contact-modal .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contact-modal button {
+  background: linear-gradient(135deg, #000000 0%, #352262 50%, #000000 100%);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-modal button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -232,44 +297,54 @@
   }
 }
 
-.contact-modal input,
-.contact-modal textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+@media (max-width: 1024px) {
+  .footer-main {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .footer-section {
+    width: 100% !important;
+  }
+
+  .footer-links-group {
+    gap: 40px;
+  }
 }
 
-.contact-modal input:focus,
-.contact-modal textarea:focus {
-  border-color: #1e90ff;
-  box-shadow: 0 0 8px rgba(30, 144, 255, 0.5);
-}
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 40px 20px;
+  }
 
-.contact-modal .row {
-  display: flex;
-  gap: 15px;
-}
+  .footer-links-group {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
 
-.contact-modal .row input {
-  flex: 1;
-}
+  .footer-bottom {
+    padding: 20px;
+  }
 
-.contact-modal button {
-  background-color: #1e90ff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
+  .footer-bottom-content {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
 
-.contact-modal button:hover {
-  background-color: #156bc6;
-  transform: scale(1.05);
+  .supporting-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .contact-modal {
+    width: 90%;
+    padding: 30px;
+    margin: 20px;
+  }
+
+  .contact-modal .row {
+    grid-template-columns: 1fr;
+  }
 }

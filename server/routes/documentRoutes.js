@@ -6,6 +6,7 @@ import {
   updateDocument,
   deleteDocument,
   getFile,
+  analyzeDocument,
 } from "../controllers/documentController.js";
 import { upload } from "../config/multer.js"; // Assuming multer is configured for file uploads
 import { protect } from "../middleware/authMiddleware.js"; // Middleware to verify user authentication
@@ -28,5 +29,7 @@ router.put("/:id", protect, updateDocument);
 router.delete("/:id", protect, deleteDocument);
 
 router.get("/file/:fileName", protect, getFile);
+
+router.post("/analyze", protect, analyzeDocument);
 
 export default router;

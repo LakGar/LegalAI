@@ -10,29 +10,74 @@ import Contact from "../sections/Contact";
 
 const Home = () => {
   const [activeSection, setActiveSection] = useState(1);
-  const sectionRefs = useRef([]); // Store section references
+  const sectionRefs = useRef([]);
 
   console.log(localStorage.getItem("token"));
 
-  // Scroll to section handler
+  // Scroll to section handler with offset calculation
   const scrollToSection = (index) => {
-    sectionRefs.current[index].scrollIntoView({ behavior: "smooth" });
+    const section = sectionRefs.current[index];
+    const content = document.querySelector(".main-content");
+    const offset = section.offsetTop;
+
+    content.scrollTo({
+      top: offset,
+      behavior: "smooth",
+    });
   };
 
-  // Handle scroll
+  // Enhanced scroll handler for variable height sections
   const handleScroll = () => {
+    const content = document.querySelector(".main-content");
+    const scrollPosition = content.scrollTop;
+    const viewportHeight = window.innerHeight;
+
+    // Find the current section based on scroll position
+    let currentSection = 0;
+    let accumulatedHeight = 0;
+
     sectionRefs.current.forEach((section, index) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
-        setActiveSection(index);
+      if (!section) return;
+
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop;
+      const sectionBottom = sectionTop + sectionHeight;
+
+      // Check if we're within this section
+      if (
+        scrollPosition >= sectionTop - viewportHeight / 2 &&
+        scrollPosition < sectionBottom - viewportHeight / 3
+      ) {
+        currentSection = index;
       }
     });
+
+    setActiveSection(currentSection);
   };
 
   useEffect(() => {
     const content = document.querySelector(".main-content");
-    content.addEventListener("scroll", handleScroll);
-    return () => content.removeEventListener("scroll", handleScroll);
+
+    // Debounced scroll handler for better performance
+    let timeoutId = null;
+    const debouncedScroll = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(handleScroll, 50);
+    };
+
+    content.addEventListener("scroll", debouncedScroll);
+
+    // Initial check
+    handleScroll();
+
+    return () => {
+      content.removeEventListener("scroll", debouncedScroll);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
   return (
@@ -43,43 +88,48 @@ const Home = () => {
 
       {/* Main Content with Scroll Snap */}
       <div className="main-content">
+        {/* Full-height sections */}
         <section
           ref={(el) => (sectionRefs.current[0] = el)}
-          className="section"
+          className="snap-section"
         >
           <HeroSection scrollToSection={scrollToSection} />
         </section>
         <section
           ref={(el) => (sectionRefs.current[1] = el)}
-          className="section"
+          className="snap-section"
         >
-          <Product />
-        </section>
-        <section
-          ref={(el) => (sectionRefs.current[2] = el)}
-          className="section"
-        >
+          {" "}
           <Services />
         </section>
         <section
+          ref={(el) => (sectionRefs.current[2] = el)}
+          className="snap-section"
+        >
+          <Product />
+        </section>
+
+        {/* Auto-height section */}
+        <section
           ref={(el) => (sectionRefs.current[3] = el)}
-          className="section"
+          className="flow-section"
         >
           <HowItWorks />
         </section>
+
+        {/* Back to full-height sections */}
         <section
           ref={(el) => (sectionRefs.current[4] = el)}
-          className="section"
+          className="snap-section"
         >
           <TestimonialsSection />
         </section>
-        <div
-          style={{ backgroundColor: "black" }}
+        <section
           ref={(el) => (sectionRefs.current[5] = el)}
-          className="section"
+          className="snap-section"
         >
           <Contact />
-        </div>
+        </section>
       </div>
 
       {/* Right-side navigation buttons */}
@@ -88,7 +138,7 @@ const Home = () => {
           <div
             key={index}
             onClick={() => scrollToSection(index)}
-            className={activeSection === index ? "active-button" : "button"}
+            className={activeSection === index ? "active-button" : ""}
           ></div>
         ))}
       </div>

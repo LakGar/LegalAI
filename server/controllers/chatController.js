@@ -203,14 +203,32 @@ export const sendMessage = async (req, res) => {
 
     await chat.save();
 
-    const messages = chat.messages.map((msg) => ({
-      role: msg.sender === "ai" ? "assistant" : "user",
-      content: msg.content,
-    }));
+    const messages = [
+      {
+        role: "system",
+        content: `You are a helpful assistant. Format your responses using HTML tags for better readability. 
+        Use:
+        - <p> for paragraphs
+        - <strong> or <b> for bold text
+        - <em> or <i> for italic text
+        - <ul> and <li> for unordered lists
+        - <ol> and <li> for ordered lists
+        - <code> for inline code
+        - <pre> for code blocks
+        - <h3> for subheadings (don't use h1 or h2)
+        - <br> for line breaks
+        Keep the formatting semantic and clean.`,
+      },
+      ...chat.messages.map((msg) => ({
+        role: msg.sender === "ai" ? "assistant" : "user",
+        content: msg.content,
+      })),
+    ];
 
     const aiResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages,
+      temperature: 0.7,
     });
 
     const aiMessageContent = aiResponse.choices[0]?.message?.content?.trim();

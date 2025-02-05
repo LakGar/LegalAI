@@ -1,26 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
+import DOMPurify from "dompurify";
 
 import "./FileDetailView.css";
 import { IoChevronBack } from "react-icons/io5";
+import { analyzeDocument } from "../../services/documentService";
 
 const DocumentDisplay = ({ file, closeModal }) => {
   const fileUrl = `http://localhost:8000/${file.documentUrl}`;
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState("");
+  const [analysisError, setAnalysisError] = useState("");
+  const [isCached, setIsCached] = useState(false);
 
-  const handleAnalyze = () => {
-    setloading(true);
-    // Perform document analysis here
-    // For example, you can use a library like Tesseract.js to extract text from the PDF
-    // Then analyze the text for keywords, phrases, or other insights
+  // Check for existing analysis in the file object on mount
+  useEffect(() => {
+    console.log("Document data:", file); // Debug log to see document data
+    if (file.analysisResult) {
+      console.log("Found existing analysis");
+      setAnalysisResult(file.analysisResult);
+      setIsCached(true);
+    }
+  }, [file]);
 
-    // After analysis, set loading to false and set foundEasterEgg to true
-    // This will display the "Easter Egg Found" message
-    setTimeout(() => {
-      setloading(false);
-    }, 2000);
+  const handleAnalyze = async () => {
+    setLoading(true);
+    setAnalysisError("");
+
+    try {
+      const response = await analyzeDocument(file.documentUrl);
+      console.log("Analysis response:", response);
+
+      if (response.success) {
+        setAnalysisResult(response.analysisText);
+        setIsCached(response.cached);
+      } else {
+        setAnalysisError(response.message || "Analysis failed");
+      }
+    } catch (err) {
+      console.error("Analysis error:", err);
+      setAnalysisError("Analysis failed: " + (err.message || "Unknown error"));
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div className="document-display-container">
       {/* Back button */}
@@ -40,16 +65,46 @@ const DocumentDisplay = ({ file, closeModal }) => {
 
       <div className="document-display-options">
         <div className="document-analysis-container">
-          <div className="no-analysis">
+          <div className="analysis-section">
             <h4>Document Analysis</h4>
-            <p>
-              Analyze the document's content, structure, and relationships. This
-              will help you identify any potential issues or areas for
-              improvement.
-            </p>
-            <div className="container">
-              <button className="button">Analyze</button>
-            </div>
+
+            {loading ? (
+              <div className="loading-container">
+                <div className="analysis-loader">
+                  <div className="loader-circle"></div>
+                  <p>Analyzing document...</p>
+                </div>
+              </div>
+            ) : analysisError ? (
+              <div className="analysis-error">
+                <p>{analysisError}</p>
+              </div>
+            ) : analysisResult ? (
+              <div className="analysis-result">
+                {isCached && (
+                  <span className="cached-badge">Cached Analysis</span>
+                )}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(analysisResult),
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="no-analysis">
+                <p>
+                  Would you like to analyze this document? Our AI will act as
+                  your personal attorney by providing a detailed, simplified
+                  summary, listing important dates and flagging any
+                  vulnerabilities you should be aware of before signing.
+                </p>
+                <div className="container">
+                  <button onClick={handleAnalyze} disabled={loading}>
+                    Analyze Document
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="document-button-container">

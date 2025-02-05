@@ -1,79 +1,102 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import "./HowItWorks.css";
-import { FaUpload, FaBrain, FaUsers, FaChartLine } from "react-icons/fa";
 
-function HowItWorksSection() {
+const HowItWorksSection = () => {
   const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    const steps = section.querySelectorAll(".timeline-step");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.2 } // Trigger when 20% of the element is in view
-    );
-
-    // Observe each timeline step
-    steps.forEach((step) => observer.observe(step));
-
-    return () => {
-      steps.forEach((step) => observer.unobserve(step));
-    };
-  }, []);
+  const [isVisible, setIsVisible] = useState(false);
 
   const steps = [
     {
-      icon: <FaUpload />,
-      title: "Upload a Contract",
+      number: "01",
+      title: "Upload Documents",
       description:
-        "Drag and drop your contract into LegalAI for automated analysis.",
+        "Drag and drop your legal documents. We support PDF, DOCX, and all major formats.",
+      gifUrl:
+        "https://i.pinimg.com/originals/6f/d8/56/6fd856304e0353edeeb34005bca51b48.gif", // Replace with your actual gif URL
+      align: "right",
     },
     {
-      icon: <FaBrain />,
-      title: "AI-Powered Analysis",
+      number: "02",
+      title: "AI Processing",
       description:
-        "LegalAI scans your contract, highlighting key terms, obligations, and risks.",
+        "Our advanced AI analyzes your documents, identifying key elements and patterns.",
+      gifUrl: "https://bleuje.com/gifs/tuto6_example1.gif", // Replace with your actual gif URL
+      align: "left",
     },
     {
-      icon: <FaUsers />,
-      title: "Collaborate with Team",
+      number: "03",
+      title: "Review Insights",
       description:
-        "Work with your team or legal experts in real-time on contract review.",
+        "Get instant summaries and key insights from your legal documents.",
+      gifUrl:
+        "https://cdn.prod.website-files.com/59e16042ec229e00016d3a66/60b8f057616cb823051a2fda_blog-listing%20(11).gif", // Replace with your actual gif URL
+      align: "right",
     },
     {
-      icon: <FaChartLine />,
-      title: "Track Progress",
+      number: "04",
+      title: "Take Action",
       description:
-        "Monitor contract changes, access history, and completion through a dashboard.",
+        "Make informed decisions based on clear, actionable insights.",
+      gifUrl:
+        "https://cdn.dribbble.com/users/1501052/screenshots/4545496/media/13e279b5c3bd2e8f79067239da3d8633.gif", // Replace with your actual gif URL
+      align: "left",
     },
   ];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section
-      id="how-it-works"
-      className="how-it-works-section"
-      ref={sectionRef}
-    >
-      <div className="container">
-        <h2>How It Works</h2>
-        <div className="timeline">
+    <div ref={sectionRef} className="process-section">
+      <div className="process-content">
+        <motion.div
+          className="process-header"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <h2>How It Works</h2>
+          <p>Four simple steps to transform your legal document analysis</p>
+        </motion.div>
+
+        <div className="process-timeline">
           {steps.map((step, index) => (
-            <div className="timeline-step" key={index}>
-              <div className="step-icon">{step.icon}</div>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </div>
+            <motion.div
+              key={index}
+              className={`process-card ${step.align}-aligned`}
+              initial={{ opacity: 0, x: step.align === "left" ? -100 : 100 }}
+              animate={isVisible ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+            >
+              <div className="process-card-content">
+                <div className="process-card-number">{step.number}</div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+              <div className="process-card-gif">
+                <img src={step.gifUrl} alt={step.title} />
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
-}
+};
 
 export default HowItWorksSection;

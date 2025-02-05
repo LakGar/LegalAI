@@ -64,6 +64,11 @@ const RecentFiles = ({ documents }) => {
     }
   }, [files]);
 
+  // Compute the most recent four files by sorting in descending order based on uploadedAt
+  const recentFourFiles = [...updatedFiles]
+    .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt))
+    .slice(0, 4);
+
   return (
     <div className="recent-files-container">
       {updatedFiles.length === 0 ? (
@@ -88,7 +93,7 @@ const RecentFiles = ({ documents }) => {
             </div>
           </div>
           <div className="file-list">
-            {updatedFiles.map((file, index) => (
+            {recentFourFiles.map((file, index) => (
               <div
                 className="file-item"
                 key={index}

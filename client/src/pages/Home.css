@@ -18,29 +18,15 @@
 /* Main content area with hidden scrollbar but still scrollable */
 .main-content {
   width: 100%;
-  height: 100vh;
   overflow-y: scroll;
-  /* scroll-snap-type: y mandatory; */
+  scroll-snap-type: y proximity;
   -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
   scrollbar-width: none; /* Hide scrollbar in Firefox */
+  position: relative;
 }
 
 .main-content::-webkit-scrollbar {
   display: none; /* Hide scrollbar in Chrome, Safari, and Opera */
-}
-
-/* Section Styles */
-section {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  scroll-snap-align: start;
-  transition: opacity 0.5s ease-in-out;
-  text-align: center;
-  position: relative;
-  z-index: 1; /* Set default z-index */
 }
 
 /* Sticky Hero Section */
@@ -99,5 +85,63 @@ section {
 @media (max-width: 1024px) {
   .section-buttons {
     display: none;
+  }
+}
+
+.full-height-section {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  position: relative;
+  z-index: 1;
+}
+
+.auto-height-section {
+  width: 100%;
+  min-height: 100vh; /* minimum height */
+  height: auto; /* allows content to expand */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Snap sections (full height with snap) */
+.snap-section {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  z-index: 1;
+}
+
+/* Flow section (natural height without snap) */
+.flow-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+  .flow-section {
+    padding: 60px 0;
+  }
+
+  .snap-section,
+  .flow-section {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }

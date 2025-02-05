@@ -1,94 +1,107 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "./TestimonialsSection.css";
 
-// Replace with actual Unsplash URLs for random images
-const unsplashImages = [
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60",
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&auto=format&fit=crop&q=60",
-  "https://images.unsplash.com/photo-1570158268183-d296b2892211?w=800&auto=format&fit=crop&q=60",
-  "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=800&auto=format&fit=crop&q=60",
-];
-
-function TestimonialsSection() {
+const TestimonialsSection = () => {
   const testimonials = [
     {
-      text: "LegalAI has transformed our legal workflow, saving us countless hours.",
+      text: "LegalAI has transformed our legal workflow, saving us countless hours in document review.",
       clientName: "Sarah Thompson",
       clientPosition: "CEO, Startup Inc.",
-      clientPhoto: unsplashImages[0],
+      clientPhoto:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60",
     },
     {
-      text: "The AI-powered analysis has been a game-changer for our contract management.",
+      text: "The AI-powered analysis provides insights we would have missed. It's been revolutionary.",
       clientName: "James Wilson",
-      clientPosition: "COO, Tech Solutions",
-      clientPhoto: unsplashImages[1],
+      clientPosition: "Legal Director, Tech Solutions",
+      clientPhoto:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&auto=format&fit=crop&q=60",
     },
     {
-      text: "We no longer worry about missing deadlines or compliance issues thanks to LegalAI.",
+      text: "Deadlines and compliance tracking have never been easier. This tool is indispensable.",
       clientName: "Linda Monroe",
       clientPosition: "General Counsel, FinCorp",
-      clientPhoto: unsplashImages[2],
+      clientPhoto:
+        "https://images.unsplash.com/photo-1570158268183-d296b2892211?w=800&auto=format&fit=crop&q=60",
     },
     {
-      text: "Collaborating with our legal team has never been easier. LegalAI is a must-have.",
+      text: "The accuracy and speed of document analysis have exceeded our expectations.",
       clientName: "Michael Brown",
-      clientPosition: "Managing Partner, Legal Partners LLP",
-      clientPhoto: unsplashImages[3],
+      clientPosition: "Managing Partner, Legal Partners",
+      clientPhoto:
+        "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=800&auto=format&fit=crop&q=60",
+    },
+    {
+      text: "Integration was seamless. Our team adapted to it within days.",
+      clientName: "Emma Davis",
+      clientPosition: "Operations Head, LegalTech Co",
+      clientPhoto:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&auto=format&fit=crop&q=60",
+    },
+    {
+      text: "The automated summaries and key point extraction save us valuable time.",
+      clientName: "David Chen",
+      clientPosition: "Legal Analyst, Global Corp",
+      clientPhoto:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60",
     },
   ];
 
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [fadeIn, setFadeIn] = useState(true); // State for fade effect
+  const scrollerRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setFadeIn(false); // Trigger fade-out before changing slide
-      setTimeout(() => {
-        setActiveSlide((prev) =>
-          prev === testimonials.length - 1 ? 0 : prev + 1
-        );
-        setFadeIn(true); // Trigger fade-in after slide change
-      }, 600); // Match the timing of the fade-out duration
-    }, 10000); // Switch slides every 10 seconds
+    const scrollers = document.querySelectorAll(".scroller");
 
-    return () => clearInterval(interval); // Clean up the interval
-  }, [testimonials.length]);
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      addAnimation();
+    }
+
+    function addAnimation() {
+      scrollers.forEach((scroller) => {
+        scroller.setAttribute("data-animated", true);
+
+        const scrollerInner = scroller.querySelector(".scroller-inner");
+        const scrollerContent = Array.from(scrollerInner.children);
+
+        scrollerContent.forEach((item) => {
+          const duplicatedItem = item.cloneNode(true);
+          duplicatedItem.setAttribute("aria-hidden", true);
+          scrollerInner.appendChild(duplicatedItem);
+        });
+      });
+    }
+  }, []);
 
   return (
-    <section id="testimonials" className="testimonials-section">
-      <div className="container">
+    <section className="testimonials-section">
+      <div className="testimonials-container">
         <h2>What Our Clients Say</h2>
-        <div className="testimonial-wrapper">
-          <div
-            className={`testimonial-item ${fadeIn ? "fade-in" : "fade-out"}`}
-          >
-            <p className="testimonial-text">
-              "{testimonials[activeSlide].text}"
-            </p>
-            <div className="client-info">
-              <img
-                src={testimonials[activeSlide].clientPhoto}
-                alt={testimonials[activeSlide].clientName}
-                className="client-photo"
-              />
-              <h4>{testimonials[activeSlide].clientName}</h4>
-              <p>{testimonials[activeSlide].clientPosition}</p>
-            </div>
+
+        <div className="scroller" data-speed="slow">
+          <div className="scroller-inner">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="testimonial-card">
+                <div className="testimonial-content">
+                  <p className="testimonial-text">"{testimonial.text}"</p>
+                  <div className="client-info">
+                    <img
+                      src={testimonial.clientPhoto}
+                      alt={testimonial.clientName}
+                      className="client-photo"
+                    />
+                    <div className="client-details">
+                      <h4>{testimonial.clientName}</h4>
+                      <p>{testimonial.clientPosition}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-        {/* Pagination Dots */}
-        <div className="pagination-dots">
-          {testimonials.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${index === activeSlide ? "active" : ""}`}
-              onClick={() => setActiveSlide(index)} // Allow manual slide selection
-            ></span>
-          ))}
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default TestimonialsSection;

@@ -1,0 +1,41 @@
+.rating-feedback {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.rating-feedback p {
+  margin: 4px 0;
+  font-size: 0.75rem;
+}
+
+.rating-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.star {
+  width: 22px;
+  height: 22px;
+  fill: #d1d1d1;
+  transition: transform 0.2s ease, fill 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.star:hover {
+  transform: scale(1.15);
+}
+
+.star.filled {
+  fill: #f1c40f;
+  transform: scale(1.1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.rating-confirmation {
+  font-size: 0.7rem;
+  color: #555;
+}
