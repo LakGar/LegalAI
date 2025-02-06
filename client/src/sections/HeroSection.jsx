@@ -28,9 +28,33 @@ const HeroSection = ({ scrollToSection }) => {
       <div className="hero-visual1">
         <div className="visual-container1">
           <div className="floating-ui1">
+            <div className="scan-line"></div>
             <div className="ui-element1"></div>
             <div className="ui-element1"></div>
             <div className="ui-element1"></div>
+            <div className="analysis-results">
+              <div className="result-item">
+                <div className="result-icon"></div>
+                <span className="result-text">Contract: Service Agreement</span>
+                <div className="confidence-bar">
+                  <div className="confidence-fill"></div>
+                </div>
+              </div>
+              <div className="result-item">
+                <div className="result-icon"></div>
+                <span className="result-text">Risk Level: Low</span>
+                <div className="confidence-bar">
+                  <div className="confidence-fill"></div>
+                </div>
+              </div>
+              <div className="result-item">
+                <div className="result-icon"></div>
+                <span className="result-text">Key Terms Identified: 12</span>
+                <div className="confidence-bar">
+                  <div className="confidence-fill"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

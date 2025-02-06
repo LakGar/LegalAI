@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Navigation.css";
 import { useNavigate } from "react-router-dom";
-const Navigation = () => {
+
+const Navigation = ({ scrollToSection }) => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState("");
@@ -10,19 +11,39 @@ const Navigation = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      // Optional: Update active link based on scroll position
-      const sections = document.querySelectorAll("section[id]");
-      sections.forEach((section) => {
-        const sectionTop = section.offsetTop;
-        if (window.scrollY >= sectionTop - 100) {
-          setActiveLink(section.getAttribute("id"));
-        }
-      });
+      // Update active link based on scroll position
+      const content = document.querySelector(".main-content");
+      if (content) {
+        const scrollPosition = content.scrollTop;
+        const sections = document.querySelectorAll(
+          ".snap-section, .flow-section"
+        );
+
+        sections.forEach((section, index) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+
+          if (scrollPosition >= sectionTop - sectionHeight / 3) {
+            setActiveLink(index);
+          }
+        });
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const content = document.querySelector(".main-content");
+    if (content) {
+      content.addEventListener("scroll", handleScroll);
+      return () => content.removeEventListener("scroll", handleScroll);
+    }
   }, []);
+
+  const navLinks = [
+    { name: "Home", index: 0 },
+    { name: "Services", index: 1 },
+    { name: "Product", index: 2 },
+    { name: "How it works", index: 3 },
+    { name: "Testimonials", index: 4 },
+  ];
 
   return (
     <nav className={`nav ${isScrolled ? "scrolled" : ""}`}>
@@ -32,31 +53,20 @@ const Navigation = () => {
         </div>
 
         <div className="nav-links">
-          <a
-            href="#features"
-            className={activeLink === "features" ? "active" : ""}
-          >
-            Features
-            <span className="link-indicator"></span>
-          </a>
-          <a
-            href="#how-it-works"
-            className={activeLink === "how-it-works" ? "active" : ""}
-          >
-            How it works
-            <span className="link-indicator"></span>
-          </a>
-          <a
-            href="#pricing"
-            className={activeLink === "pricing" ? "active" : ""}
-          >
-            Pricing
-            <span className="link-indicator"></span>
-          </a>
-          <a href="#about" className={activeLink === "about" ? "active" : ""}>
-            About
-            <span className="link-indicator"></span>
-          </a>
+          {navLinks.map((link) => (
+            <a
+              key={link.index}
+              href={`#${link.name.toLowerCase().replace(" ", "-")}`}
+              className={activeLink === link.index ? "active1" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(link.index);
+              }}
+            >
+              {link.name}
+              <span className="link-indicator"></span>
+            </a>
+          ))}
         </div>
 
         <div className="nav-auth">

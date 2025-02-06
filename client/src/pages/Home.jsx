@@ -131,17 +131,6 @@ const Home = () => {
           <Contact />
         </section>
       </div>
-
-      {/* Right-side navigation buttons */}
-      <div className="section-buttons">
-        {[...Array(6).keys()].map((index) => (
-          <div
-            key={index}
-            onClick={() => scrollToSection(index)}
-            className={activeSection === index ? "active-button" : ""}
-          ></div>
-        ))}
-      </div>
     </div>
   );
 };
