@@ -101,6 +101,9 @@ const DocumentDisplay = ({ file, closeModal }) => {
                 <div className="container">
                   <button onClick={handleAnalyze} disabled={loading}>
                     Analyze Document
+                    <div className="hoverEffect">
+                      <div></div>
+                    </div>
                   </button>
                 </div>
               </div>

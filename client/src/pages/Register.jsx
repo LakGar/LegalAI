@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { RiAppleFill } from "react-icons/ri";
 import { CiSquareCheck } from "react-icons/ci";
 import { IoMdArrowBack } from "react-icons/io";
-import Logo from "../assets/logologo.png";
+import Logo from "../assets/logo.png";
 import { signup } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const navigate = useNavigate();
   const images = [
@@ -53,6 +54,12 @@ const Register = () => {
       return;
     }
 
+    // Add terms validation
+    if (!acceptedTerms) {
+      setError("Please accept the Terms and Conditions");
+      return;
+    }
+
     try {
       setLoading(true);
       console.log("Attempting signup");
@@ -70,8 +77,8 @@ const Register = () => {
   };
 
   return (
-    <div className="hero-container">
-      <div className="background1">
+    <div className="auth-page-container">
+      <div className="authbackground">
         <div></div>
         <div></div>
         <div></div>
@@ -83,7 +90,7 @@ const Register = () => {
           <div className="overlay-container">
             <div className="top">
               <img src={Logo} className="img" alt="Logo" />
-              <div className="button1">
+              <div className="button1" onClick={() => navigate("/")}>
                 <IoMdArrowBack />
                 Back to website
               </div>
@@ -163,10 +170,20 @@ const Register = () => {
             )}
 
             <div className="terms-n-conditions-container">
-              <CiSquareCheck />
-              <span className="terms-n-conditions-text">
-                I agree to the <a href="/#">Terms and Conditions</a>
-              </span>
+              <input
+                type="checkbox"
+                id="terms"
+                checked={acceptedTerms}
+                onChange={(e) => setAcceptedTerms(e.target.checked)}
+                className="checkbox-input"
+                required
+              />
+              <label htmlFor="terms" className="terms-n-conditions-text">
+                I agree to the{" "}
+                <a href="/terms" target="_blank">
+                  Terms and Conditions
+                </a>
+              </label>
             </div>
 
             <div className="buttons-container">

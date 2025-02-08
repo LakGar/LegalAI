@@ -4,7 +4,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineEmail } from "react-icons/md";
 import { BiLockAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom"; // For navigation
-import Logo from "../assets/logologo.png";
+import Logo from "../assets/logo.png";
 import { verifyEmail } from "../services/authService"; // Import the verifyEmail function
 
 const EmailVerification = () => {

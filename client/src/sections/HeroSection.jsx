@@ -16,7 +16,7 @@ const HeroSection = ({ scrollToSection }) => {
         </p>
         <div className="cta-container">
           <button className="cta-primary" onClick={() => scrollToSection(1)}>
-            Try it now
+            Learn more
             <svg width="13" height="10" viewBox="0 0 13 10">
               <path d="M1,5 L11,5"></path>
               <polyline points="8 1 12 5 8 9"></polyline>

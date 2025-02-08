@@ -199,6 +199,7 @@
   padding: 10px;
   cursor: pointer;
   width: inherit;
+  flex: 1;
 }
 
 .chat-preview-content {

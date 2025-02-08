@@ -14,7 +14,7 @@ import { IoChatbox } from "react-icons/io5";
 import { BsPlusCircle } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import "./Sidenav.css";
-import Logo from "../../assets/logologo.png";
+import Logo from "../../assets/logo.png";
 import StorageCard from "./StorageCard";
 
 const Sidenav = ({ user }) => {

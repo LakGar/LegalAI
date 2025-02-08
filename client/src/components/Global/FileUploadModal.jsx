@@ -6,6 +6,9 @@ import { uploadNewDocument } from "../../redux/actions/documentAction";
 
 const FileUploadModal = ({ closeModal }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
   const [metadata, setMetadata] = useState({
     name: "",
     type: "other",
@@ -16,10 +19,59 @@ const FileUploadModal = ({ closeModal }) => {
 
   const dispatch = useDispatch();
 
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      if (file.type === "application/pdf") {
+        setSelectedFile(file);
+        // Auto-fill name from file name (without extension)
+        const fileName = file.name.replace(".pdf", "");
+        setMetadata((prev) => ({
+          ...prev,
+          name: fileName,
+        }));
+      } else {
+        setError("Please upload a PDF file only");
+      }
+    }
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedFile(file);
+      if (file.type === "application/pdf") {
+        setSelectedFile(file);
+        // Auto-fill name from file name (without extension)
+        const fileName = file.name.replace(".pdf", "");
+        setMetadata((prev) => ({
+          ...prev,
+          name: fileName,
+        }));
+      } else {
+        setError("Please upload a PDF file only");
+      }
     }
   };
 
@@ -44,19 +96,57 @@ const FileUploadModal = ({ closeModal }) => {
     }));
   };
 
-  const handleUpload = () => {
-    if (selectedFile) {
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      setError("Please select a file");
+      return;
+    }
+    if (!metadata.name.trim()) {
+      setError("Document name is required");
+      return;
+    }
+    if (!metadata.description.trim()) {
+      setError("Description is required");
+      return;
+    }
+
+    try {
+      setLoading(true);
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("name", metadata.name);
       formData.append("type", metadata.type);
       formData.append("description", metadata.description);
-      formData.append("tags", metadata.tags.join(",")); // Send tags as a comma-separated string
+      formData.append("tags", metadata.tags.join(","));
 
-      dispatch(uploadNewDocument(formData));
+      await dispatch(uploadNewDocument(formData));
       closeModal();
+    } catch (err) {
+      setError("Upload failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="file-upload-modal-container">
+        <div className="file-upload-loading-overlay">
+          <div className="file-upload-loader-spinner" />
+          <div className="file-upload-progress-container">
+            <div className="file-upload-progress">
+              <div className="file-upload-progress-bar" />
+            </div>
+            <span className="file-upload-progress-text">Uploading... 75%</span>
+          </div>
+          <p className="file-upload-loading-text">Processing your document</p>
+          <p className="file-upload-loading-subtext">
+            Please wait while we upload your file
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="file-upload-modal-container">
@@ -64,19 +154,30 @@ const FileUploadModal = ({ closeModal }) => {
         <div className="file-upload-modal-content">
           <h3 className="file-upload-title">Upload Your File</h3>
           <p className="file-upload-description">
-            Drag and drop a file or select a file to upload.
+            Drag and drop a PDF file or select a file to upload.
           </p>
 
           {!selectedFile ? (
-            <div className="drag-drop-area">
+            <div
+              className={`drag-drop-area ${isDragging ? "dragging" : ""}`}
+              onDragEnter={handleDragEnter}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
               <FaCloudUploadAlt className="drag-drop-icon" />
-              <p className="drag-drop-text">Drag & Drop Your File Here</p>
+              <p className="drag-drop-text">
+                {isDragging
+                  ? "Drop your file here"
+                  : "Drag & Drop Your PDF Here"}
+              </p>
               <span className="drag-drop-or">or</span>
               <label className="file-input-label">
                 <input
                   type="file"
                   className="file-input"
                   onChange={handleFileChange}
+                  accept=".pdf"
                 />
                 Select File
               </label>
@@ -103,14 +204,19 @@ const FileUploadModal = ({ closeModal }) => {
           )}
           <div className="file-details">
             <div className="row">
-              <input
-                type="text"
-                placeholder="Document Name"
-                value={metadata.name}
-                onChange={(e) =>
-                  setMetadata({ ...metadata, name: e.target.value })
-                }
-              />
+              <div className="input-group">
+                <label>
+                  Document Name <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter document name"
+                  value={metadata.name}
+                  onChange={(e) =>
+                    setMetadata({ ...metadata, name: e.target.value })
+                  }
+                />
+              </div>
               <select
                 value={metadata.type}
                 onChange={(e) =>
@@ -124,13 +230,18 @@ const FileUploadModal = ({ closeModal }) => {
                 <option value="other">Other</option>
               </select>
             </div>
-            <textarea
-              placeholder="Description"
-              value={metadata.description}
-              onChange={(e) =>
-                setMetadata({ ...metadata, description: e.target.value })
-              }
-            ></textarea>
+            <div className="input-group">
+              <label>
+                Description <span className="required">*</span>
+              </label>
+              <textarea
+                placeholder="Enter document description"
+                value={metadata.description}
+                onChange={(e) =>
+                  setMetadata({ ...metadata, description: e.target.value })
+                }
+              />
+            </div>
 
             <div className="tags-input">
               {metadata.tags.map((tag, index) => (
@@ -152,6 +263,8 @@ const FileUploadModal = ({ closeModal }) => {
                 onKeyDown={handleAddTag}
               />
             </div>
+
+            {error && <div className="error-message">{error}</div>}
           </div>
 
           <div className="file-upload-actions">

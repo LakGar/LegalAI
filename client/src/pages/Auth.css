@@ -5,12 +5,63 @@
   box-sizing: border-box;
 }
 
+/* Auth page container */
+.auth-page-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: #111111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient blobs */
+.authbackground {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.authbackground div {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.authbackground div:nth-child(1) {
+  top: -200px;
+  right: -200px;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(139, 92, 246, 0) 70%
+  );
+}
+
+.authbackground div:nth-child(2) {
+  bottom: -200px;
+  left: -200px;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle,
+    rgba(236, 72, 153, 0.1) 0%,
+    rgba(236, 72, 153, 0) 70%
+  );
+}
+
 /* Auth container styling */
-.hero-container .auth-container {
-  background-color: rgba(255, 255, 255, 0.088);
+.auth-page-container .auth-container {
+  background-color: rgba(255, 255, 255, 0.036);
   width: 70vw;
   height: 90vh;
   border-radius: 20px;
+  backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
@@ -18,6 +69,8 @@
   padding: 20px;
   gap: 20px;
   animation: fadeIn 1.5s ease-in-out;
+  position: relative;
+  z-index: 2;
 }
 
 .auth-left,
@@ -156,16 +209,23 @@ form {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin: 10px 0;
 }
 
-.terms-n-conditions-container span {
-  font-size: 0.8rem;
-  color: grey;
-  font-weight: 500;
+.terms-n-conditions-container label {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
 
-.terms-n-conditions-text {
-  margin-left: 10px;
+.terms-n-conditions-container a {
+  color: #8093fe;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.terms-n-conditions-container a:hover {
+  color: #d18ffe;
 }
 
 .buttons-container {
@@ -271,4 +331,37 @@ form {
 }
 .error {
   color: red;
+}
+
+/* Add these styles to your existing Auth.css */
+.checkbox-input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.checkbox-input:checked {
+  background: linear-gradient(135deg, #8093fe, #d18ffe);
+  border-color: transparent;
+}
+
+.checkbox-input:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-input:hover {
+  border-color: rgba(255, 255, 255, 0.4);
 }
