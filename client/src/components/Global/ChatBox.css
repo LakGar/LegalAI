@@ -192,6 +192,8 @@
 }
 .navigation-button:hover {
   background-color: rgb(66, 160, 253);
+  transition: background-color 0.3s ease;
+  color: white;
   cursor: pointer;
 }
 
@@ -207,7 +209,7 @@
   align-items: center;
   gap: 10px;
   position: relative;
-  padding: 12px;
+  padding: 0 12px;
   border-radius: 8px;
   transition: background-color 0.2s ease;
 }

@@ -2,7 +2,7 @@
   position: fixed;
   width: 100vw;
   display: flex;
-  z-index: 1000;
+  z-index: 121100;
   padding: 25px 30px; /* Reduced padding for smaller screens */
   align-items: center;
   justify-content: space-between;

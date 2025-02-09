@@ -1,36 +1,4 @@
 /* ---------------------------------------------------
-   CSS Variables & Base Styles
------------------------------------------------------ */
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #4a90e2;
-  --background-color: #f5f7fa;
-  --chat-bg: #ffffff;
-  --ai-msg-bg: #e9ebee;
-  --user-msg-bg: #007bff;
-  --ai-msg-text: #333333;
-  --user-msg-text: #ffffff;
-  --border-radius: 10px;
-  --transition-speed: 0.3s;
-  --font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
-  --shadow-light: 0px 2px 6px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0px 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-* {
-  box-sizing: border-box;
-  transition: var(--transition-speed);
-}
-
-body,
-html {
-  font-family: var(--font-family);
-  background-color: var(--background-color);
-  margin: 0;
-  padding: 0;
-}
-
-/* ---------------------------------------------------
    Container / New Chat Container
 ----------------------------------------------------- */
 .chat-view-container {

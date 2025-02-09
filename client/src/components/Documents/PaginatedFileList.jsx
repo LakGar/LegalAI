@@ -1,31 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaComment, FaTrash } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import "./PaginatedFileList.css";
 import FileUploadModal from "../Global/FileUploadModal";
 import { getUserById } from "../../services/userServices"; // Make sure this function is implemented correctly
+import {
+  setActiveDocument,
+  deleteExistingDocument,
+} from "../../redux/actions/documentAction"; // Import the action
+import { useDispatch } from "react-redux";
+import FileDetailView from "../Global/FileDetailView";
+import Notification from "../Global/Notification";
+import { deleteDocument } from "../../services/documentService";
+import FileLoader from "../Common/FileLoader";
 
 const PaginatedFileList = ({ documents }) => {
   const [loading, setLoading] = useState(true);
   const files = documents || []; // Ensure `files` is always an array
-
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const filesPerPage = 20;
   const [sortCriteria, setSortCriteria] = useState("name");
   const [filterOwner, setFilterOwner] = useState("");
   const [fileUploadModal, setFileUploadModal] = useState(false);
-
   // Store updated files with owner's firstname
   const [updatedFiles, setUpdatedFiles] = useState(files);
+  const [fileDetailModal, setFileDetailModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [showOptions, setShowOptions] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [notification, setNotification] = useState(null);
 
-  const closeModal = () => {
-    setFileUploadModal(false);
-  };
+  useEffect(() => {
+    setUpdatedFiles(documents || []);
+  }, [documents]);
 
   const openModal = () => {
     setFileUploadModal(true);
   };
 
+  const closeModal = () => {
+    setFileUploadModal(false);
+    setFileDetailModal(false); // Close file detail modal
+  };
+
+  const openFileDetailModal = (file) => {
+    setSelectedFile(file); // Set the selected file
+    dispatch(setActiveDocument(file)); // Dispatch the action to update the active document
+    setFileDetailModal(true); // Open the file detail modal
+  };
   // Fetch file owners by user ID
   const fetchFileOwners = async (userId) => {
     try {
@@ -98,24 +121,69 @@ const PaginatedFileList = ({ documents }) => {
     return new Date(date).toLocaleDateString("en-US", options);
   };
 
+  const handleRowClick = (file) => {
+    openFileDetailModal(file);
+  };
+
+  const handleOptionsClick = (e, file) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Toggling options for file:", file._id);
+    setSelectedFile(file);
+    setShowOptions((prevState) => (prevState === file._id ? null : file._id));
+  };
+
+  const handleDeleteClick = (e, file) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Delete clicked for file:", file._id);
+    setSelectedFile(file);
+    setShowDeleteModal(true);
+  };
+
+  const handleChatClick = (e, file) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Chat clicked for file:", file._id);
+    openFileDetailModal(file);
+    setShowOptions(null);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setNotification({
+      message: "Deleting file...",
+      type: "info",
+    });
+
+    try {
+      await dispatch(deleteExistingDocument(selectedFile._id));
+      setNotification({
+        message: "File deleted successfully",
+        type: "success",
+      });
+
+      const newFiles = updatedFiles.filter(
+        (file) => file._id !== selectedFile._id
+      );
+      setUpdatedFiles(newFiles);
+    } catch (error) {
+      setNotification({
+        message: error.message || "Failed to delete file",
+        type: "error",
+      });
+    }
+  };
+
   return (
     <div className="paginated-file-list-container">
-      {files.length === 0 ? ( // Handle empty files case
-        <>
-          <div className="section-header">
-            <p className="section-header-text">Documents</p>
-          </div>
-          <div className="no-files-container">
-            <p className="no-files-message">No documents found.</p>
-            <div
-              className="container-btn-file"
-              style={{ maxWidth: 400, alignSelf: "center" }}
-              onClick={openModal}
-            >
-              Add Document
-            </div>
-          </div>
-        </>
+      {updatedFiles.length === 0 ? (
+        <div className="empty-state-text">
+          <p>No documents found</p>
+          <button className="container-btn-file" onClick={openModal}>
+            Add Document
+          </button>
+        </div>
       ) : (
         <>
           <div className="section-header">
@@ -163,7 +231,7 @@ const PaginatedFileList = ({ documents }) => {
                 <th>Date uploaded</th>
                 <th>Last updated</th>
                 <th>Owner</th>
-                <th>Options</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -176,7 +244,11 @@ const PaginatedFileList = ({ documents }) => {
                     </tr>
                   ))
                 : displayedFiles.map((file, index) => (
-                    <tr className="item-tr" key={index}>
+                    <tr
+                      className="item-tr"
+                      key={file._id || index}
+                      onClick={() => handleRowClick(file)}
+                    >
                       <td>
                         <FaFilePdf
                           style={{ color: "red", marginRight: "8px" }}
@@ -190,8 +262,12 @@ const PaginatedFileList = ({ documents }) => {
                       <td>{formatDate(file.updatedAt)}</td>
                       <td>{file.firstname}</td>
                       <td>
-                        <button className="options-btn">
-                          <FiMoreVertical />
+                        <button
+                          className="delete-btn"
+                          onClick={(e) => handleDeleteClick(e, file)}
+                          title="Delete file"
+                        >
+                          <FaTrash />
                         </button>
                       </td>
                     </tr>
@@ -220,6 +296,37 @@ const PaginatedFileList = ({ documents }) => {
         </>
       )}
       {fileUploadModal && <FileUploadModal closeModal={closeModal} />}
+      {fileDetailModal && (
+        <FileDetailView file={selectedFile} closeModal={closeModal} />
+      )}
+      {notification && (
+        <Notification {...notification} onClose={() => setNotification(null)} />
+      )}
+      {showDeleteModal && (
+        <div className="delete-modal-overlay">
+          <div className="delete-modal">
+            <h3 className="delete-modal-header">Delete File</h3>
+            <p className="delete-modal-content">
+              Are you sure you want to delete "{selectedFile?.name}"? This
+              action cannot be undone.
+            </p>
+            <div className="delete-modal-actions">
+              <button
+                className="delete-modal-btn cancel"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="delete-modal-btn delete"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

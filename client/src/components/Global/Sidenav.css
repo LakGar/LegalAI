@@ -8,6 +8,7 @@
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 10px;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidenav-top {
@@ -20,9 +21,17 @@
   align-items: center;
   gap: 5px;
   margin-bottom: 60px;
+  transition: all 0.3s ease-in-out;
+}
+.logo-image {
+  width: 50px;
+  height: 50px;
+  transition: all 0.3s ease-in-out;
 }
 .sidenav-logo span {
   font-size: 2.5rem;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
 }
 
 /* Navigation Links */
@@ -30,6 +39,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidenav-link {
@@ -40,13 +50,15 @@
   font-size: 16px;
   color: #333;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: all 0.3s ease-in-out;
   text-decoration: none;
 }
 .sidenav-link span {
   color: grey;
   font-weight: 500;
   font-size: 0.9rem;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
 }
 .sidenav-link:hover {
   color: black; /* This changes the text color */
@@ -64,6 +76,7 @@
 .sidenav-link .icon {
   font-size: 18px;
   color: grey;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidenav-link .plus-icon {
@@ -81,8 +94,8 @@
   font-weight: bold;
   color: #000; /* Black color for active link */
   background-color: #e0e0e0; /* Optional background highlight */
-  padding: 12px;
   border-radius: 6px;
+  padding: 12px;
 }
 
 /* CTA Upgrade Section */
@@ -90,6 +103,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
 }
 
 .upgrade-section {
@@ -134,6 +149,7 @@
   flex-direction: column;
   gap: 10px;
   font-size: 14px;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidenav-bottom .help-link,
@@ -143,6 +159,7 @@
   gap: 10px;
   align-items: center;
   color: grey;
+  transition: all 0.3s ease-in-out;
 }
 .sidenav-bottom .help-link span,
 .sidenav-bottom .logout-link span {
@@ -152,8 +169,130 @@
   font-weight: 400;
   text-decoration: none;
   font-size: 0.8rem;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
 }
 .sidenav-bottom .help-link:hover,
 .sidenav-bottom .logout-link:hover {
   color: #080707;
+}
+/* responsive */
+@media (max-width: 1500px) {
+  .sidenav-container {
+    max-width: 70px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+  }
+  .sidenav-container .logo-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+  }
+  .sidenav-link-text {
+    display: none;
+  }
+  .storage-card-container {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  .sidenav-cta {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  .sidenav-links {
+    align-items: center;
+  }
+  .sidenav-links .active {
+    transform: scale(1.2);
+  }
+  .sidenav-link {
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  .sidenav-link .icon {
+    font-size: 20px;
+  }
+  .sidenav-bottom {
+    align-items: center;
+  }
+  .help-link,
+  .logout-link {
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  .help-link span,
+  .logout-link span {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+  }
+}
+
+/* Hover Effects */
+.sidenav-link:hover {
+  transform: translateX(5px);
+}
+
+@media (max-width: 1200px) {
+  .sidenav-link:hover {
+    transform: scale(1.1);
+  }
+}
+
+/* Add these styles for gesture scrolling and dynamic scrollbar */
+
+/* For any scrollable container */
+.scrollable-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+  cursor: grab;
+}
+
+.scrollable-container:active {
+  cursor: grabbing;
+}
+
+/* Hide scrollbar by default */
+.scrollable-container::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Show scrollbar only when scrolling */
+.scrollable-container:hover::-webkit-scrollbar-thumb,
+.scrollable-container:active::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 147, 254, 0.3);
+}
+
+.scrollable-container:hover::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(128, 147, 254, 0.5);
+}
+
+/* For Firefox */
+.scrollable-container:hover {
+  scrollbar-color: rgba(128, 147, 254, 0.3) transparent;
+}
+
+/* Prevent text selection during scroll */
+.scrollable-container {
+  user-select: none;
+  -webkit-user-select: none;
 }

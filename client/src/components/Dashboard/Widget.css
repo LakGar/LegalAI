@@ -122,3 +122,24 @@
 .widget:hover .icon-container {
   transform: scale(1.1);
 }
+@media (max-width: 1400px) {
+  .widget {
+    padding: 15px;
+  }
+  .text-container h4 {
+    font-size: 0.8rem;
+  }
+  .text-container p {
+    font-size: 0.6rem;
+  }
+  .icon-container {
+    width: 30px;
+    height: 30px;
+  }
+  .icon-1,
+  .icon-2,
+  .icon-3,
+  .icon-4 {
+    font-size: 1rem;
+  }
+}

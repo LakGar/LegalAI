@@ -15,6 +15,7 @@ import Chats from "./pages/Chats";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Team from "./pages/Team";
+import "./App.css";
 
 const App = () => {
   return (

@@ -54,7 +54,7 @@ const FileList = ({ user, documents }) => {
   };
   return (
     <div className="file-list-container">
-      {!updatedFiles ? (
+      {updatedFiles.length === 0 ? (
         <div className="container1">
           <div className="snow"></div>
           <div className="tree1"></div>

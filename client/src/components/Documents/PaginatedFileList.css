@@ -2,6 +2,11 @@
   width: 100%;
   margin-top: 20px;
   padding: 20px;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .section-header {
@@ -21,7 +26,13 @@
   display: flex;
   gap: 10px;
 }
-
+.empty-state-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 .sort-btn,
 .filter-btn {
   padding: 6px 12px;
@@ -76,4 +87,168 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+/* Replace options styling with delete button styling */
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.delete-btn:hover {
+  color: #f44336;
+  background: rgba(244, 67, 54, 0.1);
+  transform: scale(1.1);
+}
+
+.delete-btn svg {
+  font-size: 1.1rem;
+}
+
+/* Keep the delete modal styling */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.delete-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.delete-modal-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.delete-modal-content {
+  margin-bottom: 24px;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.delete-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.delete-modal-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.delete-modal-btn.cancel {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.delete-modal-btn.delete {
+  background: #f44336;
+  color: white;
+}
+
+.delete-modal-btn:hover {
+  transform: translateY(-1px);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Make sure table cells have proper positioning */
+.file-list-table td {
+  position: relative;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure the table doesn't clip the dropdown */
+.file-list-table {
+  position: relative;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Ensure the last column can show the dropdown */
+.file-list-table td:last-child {
+  position: relative;
+  overflow: visible;
+}
+
+.no-files-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.no-files-message {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.container-btn-file {
+  padding: 10px 20px;
+  background-color: dodgerblue;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.container-btn-file:hover {
+  background-color: #0077ea;
+  transform: translateY(-1px);
 }

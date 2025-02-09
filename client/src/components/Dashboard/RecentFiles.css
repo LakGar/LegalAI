@@ -1,163 +1,198 @@
 .recent-files-container {
   width: 100%;
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 20px 0x;
+  margin-top: 10px;
+  transition: all 0.3s ease;
 }
 
 .section-header {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.section-header p {
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 600;
+}
+
+.see-all-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: dodgerblue;
+  color: white;
+  cursor: pointer;
+  font-size: clamp(0.75rem, 1.3vw, 0.85rem);
+  transition: all 0.3s ease;
 }
 
 .file-list {
   display: flex;
-  flex-direction: row;
-  gap: 15px;
+  gap: 20px;
+  padding: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
 }
 
 .file-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 15px;
-  background-color: #fafafa;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  gap: 10px; /* Add spacing between file info and avatars */
-  max-width: 300px;
-  min-width: 250px;
-  height: 150px;
-  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
   cursor: pointer;
-  border: 1px solid rgba(211, 211, 211, 0.164);
-}
-
-.file-item:hover {
-  background-color: #f0f4f8;
+  min-width: 260px;
+  min-height: 130px;
+  scroll-snap-align: start;
+  position: relative;
 }
 
 .file-info {
   display: flex;
-  align-items: center;
+  gap: 12px;
+  align-items: flex-start;
 }
 
-.file-info .file-icon {
-  font-size: 2.5rem; /* Adjusted size for vertical layout */
-  color: red;
-  margin-right: 10px;
+.recent-files-container .file-icon {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  color: #8093fe;
 }
 
 .file-name {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: clamp(0.85rem, 1.6vw, 1rem);
+  font-weight: 600;
+  margin-bottom: 4px;
   color: #333;
 }
 
-.recent-files-container .file-size {
-  font-size: 0.85rem;
-  color: #777;
-  text-align: left;
-  margin-top: 5px;
+.file-size {
+  font-size: clamp(0.75rem, 1.3vw, 0.85rem);
+  color: #666;
+  margin-bottom: 4px;
 }
 
-.recent-files-container .file-date {
-  font-size: 0.8rem;
-  color: #9c9a9a;
-  text-align: right;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+.file-date {
+  font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+  color: #999;
 }
 
 .file-avatars {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 .avatar-circle {
-  width: 30px;
-  height: 30px;
+  width: clamp(28px, 4vw, 32px);
+  height: clamp(28px, 4vw, 32px);
   border-radius: 50%;
+  background: #8093fe;
+  color: white;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #ee7d7d; /* Faint background color */
-  text-transform: uppercase;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  justify-content: center;
+  font-size: clamp(0.75rem, 1.3vw, 0.9rem);
 }
 
-.additional-users {
-  width: 30px;
-  height: 30px;
-  background-color: lightgrey;
-  color: grey;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border: 1px solid #fff;
-  margin: 0;
-  margin-left: -20px;
-}
 .no-file-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 200px;
-  height: 200px;
-  color: #777;
-  font-size: 1rem;
-  margin-top: 20px;
+  text-align: center;
+  padding: clamp(20px, 5vw, 40px);
+}
+
+.no-files-message {
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  color: #666;
+  margin-bottom: 20px;
 }
 
 .container-btn-file {
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(26, 127, 228);
-  color: #fff;
-  border-style: none;
-  padding: 0.5em 1.5em;
-  border-radius: 0.5em;
-  overflow: hidden;
-  z-index: 1;
-  box-shadow: 4px 8px 10px -3px rgba(0, 0, 0, 0.356);
-  transition: all 250ms;
+  display: inline-block;
+  padding: 8px 18px;
+  background: #8093fe;
+  color: white;
+  border-radius: 20px;
   cursor: pointer;
+  font-size: clamp(0.8rem, 1.6vw, 0.9rem);
+  transition: all 0.3s ease;
 }
-.container-btn-file input[type="file"] {
+
+/* Responsive Layout */
+@media (max-width: 1200px) {
+  .file-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .recent-files-container {
+    padding: 15px;
+  }
+
+  .file-list {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+  }
+
+  .file-item {
+    padding: 10px;
+    min-width: 200px;
+  }
+
+  .file-info {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recent-files-container {
+    padding: 10px;
+  }
+
+  .file-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .file-item {
+    padding: 8px;
+  }
+
+  .section-header p {
+    font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+  }
+
+  .file-info {
+    gap: 8px;
+  }
+}
+
+/* Hover Effects */
+@media (hover: hover) {
+  .see-all-btn:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    color: dodgerblue;
+  }
+
+  .container-btn-file:hover {
+    background: #6574d6;
+    transform: translateY(-2px);
+  }
+
+  .file-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+.file-date {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+  bottom: 10px;
+  left: 10px;
 }
-.container-btn-file > svg {
-  margin-right: 1em;
-}
-.container-btn-file::before {
-  content: "";
+.file-avatars {
   position: absolute;
-  height: 100%;
-  width: 0;
-  border-radius: 0.5em;
-  background-color: dodgerblue;
-  z-index: -1;
-  transition: all 350ms;
-}
-.container-btn-file:hover::before {
-  width: 100%;
+  bottom: 10px;
+  right: 10px;
 }

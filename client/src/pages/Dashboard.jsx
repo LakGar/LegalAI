@@ -6,7 +6,7 @@ import DashComponent from "../components/Dashboard/DashComponent";
 import "./Dashboard.css"; // Create this CSS file for animation styles
 import { getUserDetails } from "../redux/actions/userAction";
 import { getDocuments } from "../redux/actions/documentAction";
-
+import Logo from "../assets/logo.png";
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
@@ -42,13 +42,14 @@ const Dashboard = () => {
   // Show loader if still loading
   if (loading || documentsLoading) {
     return (
-      <div className="loader-container">
-        <div className="background">
-          <div></div>
-          <div></div>
-          <div></div>
+      <div className="loader-container" style={{ backgroundColor: "white" }}>
+        <div className="logo-container">
+          <img
+            src="https://cdn.dribbble.com/users/2367833/screenshots/15980259/media/d0f1510468542c69c8902b683430699c.gif"
+            alt="background"
+            className="footer-logo"
+          />
         </div>
-        <div className="loader1"></div>
       </div>
     );
   }

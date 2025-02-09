@@ -34,3 +34,11 @@
 }
 
 /* Optional: Add some padding to prevent content from touching the right edge */
+@media (max-width: 1200px) {
+  .dash-component-container {
+    padding: 20px 20px;
+  }
+  .greetings-container {
+    font-size: 0.8rem;
+  }
+}

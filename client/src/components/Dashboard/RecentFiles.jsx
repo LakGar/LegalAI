@@ -6,6 +6,7 @@ import "./RecentFiles.css";
 import FileUploadModal from "../Global/FileUploadModal";
 import { getUserById } from "../../services/userServices"; // Ensure this service is implemented
 import FileDetailView from "../Global/FileDetailView";
+import ScrollableContainer from "../Common/ScrollableContainer"; // Import the ScrollableContainer
 
 const RecentFiles = ({ documents }) => {
   const files = documents || []; // Ensure files is always an array
@@ -92,7 +93,7 @@ const RecentFiles = ({ documents }) => {
               Add File
             </div>
           </div>
-          <div className="file-list">
+          <ScrollableContainer className="file-list">
             {recentFourFiles.map((file, index) => (
               <div
                 className="file-item"
@@ -116,7 +117,7 @@ const RecentFiles = ({ documents }) => {
                 </div>
               </div>
             ))}
-          </div>
+          </ScrollableContainer>
         </div>
       )}
       {fileUploadModal && <FileUploadModal closeModal={closeModal} />}

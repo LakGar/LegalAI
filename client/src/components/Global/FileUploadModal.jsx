@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import "./FileUploadModal.css";
 import { uploadNewDocument } from "../../redux/actions/documentAction";
+import { createPortal } from "react-dom";
 
 const FileUploadModal = ({ closeModal }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -46,7 +48,6 @@ const FileUploadModal = ({ closeModal }) => {
     if (file) {
       if (file.type === "application/pdf") {
         setSelectedFile(file);
-        // Auto-fill name from file name (without extension)
         const fileName = file.name.replace(".pdf", "");
         setMetadata((prev) => ({
           ...prev,
@@ -63,7 +64,6 @@ const FileUploadModal = ({ closeModal }) => {
     if (file) {
       if (file.type === "application/pdf") {
         setSelectedFile(file);
-        // Auto-fill name from file name (without extension)
         const fileName = file.name.replace(".pdf", "");
         setMetadata((prev) => ({
           ...prev,
@@ -73,10 +73,6 @@ const FileUploadModal = ({ closeModal }) => {
         setError("Please upload a PDF file only");
       }
     }
-  };
-
-  const removeFile = () => {
-    setSelectedFile(null);
   };
 
   const handleAddTag = (e) => {
@@ -148,41 +144,40 @@ const FileUploadModal = ({ closeModal }) => {
     );
   }
 
-  return (
+  const modalContent = (
     <div className="file-upload-modal-container">
       <div className="file-upload-modal">
+        <button className="file-upload-modal-close-button" onClick={closeModal}>
+          <IoClose />
+        </button>
         <div className="file-upload-modal-content">
-          <h3 className="file-upload-title">Upload Your File</h3>
+          <h2 className="file-upload-title">Upload Document</h2>
           <p className="file-upload-description">
-            Drag and drop a PDF file or select a file to upload.
+            Drag and drop your file here, or click to select
           </p>
 
-          {!selectedFile ? (
-            <div
-              className={`drag-drop-area ${isDragging ? "dragging" : ""}`}
-              onDragEnter={handleDragEnter}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <FaCloudUploadAlt className="drag-drop-icon" />
-              <p className="drag-drop-text">
-                {isDragging
-                  ? "Drop your file here"
-                  : "Drag & Drop Your PDF Here"}
-              </p>
-              <span className="drag-drop-or">or</span>
-              <label className="file-input-label">
-                <input
-                  type="file"
-                  className="file-input"
-                  onChange={handleFileChange}
-                  accept=".pdf"
-                />
-                Select File
-              </label>
-            </div>
-          ) : (
+          <div
+            className={`drag-drop-area ${isDragging ? "dragging" : ""}`}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <FaCloudUploadAlt className="drag-drop-icon" />
+            <p className="drag-drop-text">Drag & Drop your file here</p>
+            <p className="drag-drop-or">or</p>
+            <label className="file-input-label">
+              Browse Files
+              <input
+                type="file"
+                className="file-input"
+                accept=".pdf"
+                onChange={handleFileChange}
+              />
+            </label>
+          </div>
+
+          {selectedFile && (
             <div className="selected-file-area">
               <div className="selected-file-preview">
                 <img
@@ -197,7 +192,10 @@ const FileUploadModal = ({ closeModal }) => {
                   {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                 </p>
               </div>
-              <button className="remove-file-button" onClick={removeFile}>
+              <button
+                className="remove-file-button"
+                onClick={() => setSelectedFile(null)}
+              >
                 &times;
               </button>
             </div>
@@ -275,13 +273,15 @@ const FileUploadModal = ({ closeModal }) => {
               className={`upload-button ${!selectedFile ? "disabled" : ""}`}
               onClick={handleUpload}
             >
-              Upload
+              {loading ? "Uploading..." : "Upload Document"}
             </div>
           </div>
         </div>
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export default FileUploadModal;

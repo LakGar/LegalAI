@@ -40,8 +40,14 @@ const Documents = () => {
   // Show loader if still loading
   if (loading || documentsLoading) {
     return (
-      <div className="loader-container">
-        <div className="loader"></div>
+      <div className="loader-container" style={{ backgroundColor: "white" }}>
+        <div className="logo-container">
+          <img
+            src="https://cdn.dribbble.com/users/2367833/screenshots/15980259/media/d0f1510468542c69c8902b683430699c.gif"
+            alt="background"
+            className="footer-logo"
+          />
+        </div>
       </div>
     );
   }

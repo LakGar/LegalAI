@@ -9,16 +9,15 @@
 
 /* Side Navigation (Sidenav) */
 .sidenav {
-  flex: 0 0 250px; /* Fixed width of 300px */
   height: 100%;
+  max-width: 250px;
   transform: translateX(-100%); /* Start off-screen */
   animation: slideInLeft 1s forwards 0.5s; /* Slide in from the left */
 }
 
 /* Chat Box */
 .chatbox {
-  flex: 0 0 350px; /* Fixed width of 350px */
-  max-width: 350px;
+  max-width: 250px;
   height: 100%;
   transform: translateX(100%); /* Start off-screen */
   animation: slideInRight 1s forwards 0.5s; /* Slide in from the right */
@@ -33,30 +32,11 @@
   animation: fadeIn 1s forwards 1s; /* Fade in */
   z-index: 2;
 }
-
-/* Responsive Design Adjustments */
-@media (max-width: 1024px) {
-  .sidenav {
-    flex: 0 0 200px; /* Adjust width for smaller screens */
-  }
-
-  .chatbox {
-    flex: 0 0 250px; /* Adjust width for smaller screens */
-  }
-}
-
-@media (max-width: 768px) {
-  .sidenav,
+@media (max-width: 1100px) {
   .chatbox {
     display: none; /* Hide Sidenav and ChatBox on smaller screens */
   }
-
-  .dashboard-content {
-    flex: 1; /* Fill the full width */
-    padding: 10px; /* Adjust padding for smaller screens */
-  }
 }
-
 /* Slide-in animation from the left */
 @keyframes slideInLeft {
   from {

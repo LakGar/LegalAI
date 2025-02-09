@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaFileAlt, FaDownload, FaShareAlt, FaRobot } from "react-icons/fa";
 import "./ChatBox.css";
 import { CiChat1, CiFolderOn } from "react-icons/ci";
 import { BiAnalyse } from "react-icons/bi";
 import { CiImport } from "react-icons/ci";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import FileUploadModal from "./FileUploadModal";
+import Notification from "./Notification";
 
 const stripHtmlTags = (html) => {
   if (!html) return "";
@@ -12,9 +14,57 @@ const stripHtmlTags = (html) => {
 };
 
 const ChatBox = ({ user, documents, activeDocument }) => {
+  const navigate = useNavigate();
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [notification, setNotification] = useState(null);
+
   const userName = user?.firstname || "User";
   const files = documents || [];
   const chats = user?.chats || [];
+
+  const handleNewChat = () => {
+    navigate("/chats");
+  };
+
+  const handleNewFolder = () => {
+    setNotification({
+      type: "info",
+      message: "Folder creation feature coming soon!",
+      duration: 3000,
+    });
+  };
+
+  const handleAnalyze = () => {
+    if (files.length === 0) {
+      setNotification({
+        type: "warning",
+        message: "Please upload documents first before analyzing.",
+        duration: 3000,
+      });
+      return;
+    }
+
+    const unanalyzedDocs = files.filter((doc) => !doc.analyzed);
+    if (unanalyzedDocs.length === 0) {
+      setNotification({
+        type: "info",
+        message: "All documents have been analyzed!",
+        duration: 3000,
+      });
+      return;
+    }
+
+    // TODO: Implement analysis logic here
+    setNotification({
+      type: "success",
+      message: `Found ${unanalyzedDocs.length} documents to analyze.`,
+      duration: 3000,
+    });
+  };
+
+  const handleImport = () => {
+    setShowUploadModal(true);
+  };
 
   // Find chat associated with active document
   const activeChat = activeDocument
@@ -73,7 +123,6 @@ const ChatBox = ({ user, documents, activeDocument }) => {
             </div>
           </div>
         ) : (
-          // Display upload prompt if no files
           <div className="widget-container" style={{ flexDirection: "column" }}>
             <h4 style={{ fontSize: "1.5rem" }}>Welcome {userName}!</h4>
             <p
@@ -87,7 +136,7 @@ const ChatBox = ({ user, documents, activeDocument }) => {
             >
               Please upload a document to start chatting
             </p>
-            <div className="widget one">
+            <div className="widget one" onClick={handleNewChat}>
               <div className="icon-container icon-1">
                 <CiChat1 />
               </div>
@@ -96,7 +145,7 @@ const ChatBox = ({ user, documents, activeDocument }) => {
                 <p>Ask general questions</p>
               </div>
             </div>
-            <div className="widget two">
+            <div className="widget two" onClick={handleNewFolder}>
               <div className="icon-container icon-2">
                 <CiFolderOn />
               </div>
@@ -105,7 +154,7 @@ const ChatBox = ({ user, documents, activeDocument }) => {
                 <p>Create a new repository</p>
               </div>
             </div>
-            <div className="widget three ">
+            <div className="widget three" onClick={handleAnalyze}>
               <div className="icon-container icon-3">
                 <BiAnalyse />
               </div>
@@ -114,7 +163,7 @@ const ChatBox = ({ user, documents, activeDocument }) => {
                 <p>Analyze a document</p>
               </div>
             </div>
-            <div className="widget four">
+            <div className="widget four" onClick={handleImport}>
               <div className="icon-container icon-4">
                 <CiImport />
               </div>
@@ -173,10 +222,14 @@ const ChatBox = ({ user, documents, activeDocument }) => {
           // Show prompt to start chat for this document
           <div className="no-chats" style={{ flex: 1 }}>
             <p
-              style={{ padding: "20px", fontWeight: "500", fontSize: "0.8rem" }}
+              style={{
+                paddingBottom: 10,
+                paddingTop: 10,
+                fontWeight: "500",
+                fontSize: "0.8rem",
+              }}
             >
-              No chat found for this document. Start a conversation to analyze
-              it!
+              No chat found for this document.
             </p>
             <NavLink to="/chats" className="navigation-button">
               Start New Chat
@@ -223,6 +276,14 @@ const ChatBox = ({ user, documents, activeDocument }) => {
       <NavLink to="/chats" className="navigation-button">
         Go to chats
       </NavLink>
+
+      {showUploadModal && (
+        <FileUploadModal closeModal={() => setShowUploadModal(false)} />
+      )}
+
+      {notification && (
+        <Notification {...notification} onClose={() => setNotification(null)} />
+      )}
     </div>
   );
 };

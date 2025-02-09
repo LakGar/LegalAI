@@ -28,13 +28,14 @@
 }
 
 .document-display-pdf {
-  flex: 1.2;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 40px 0;
   padding-bottom: 20px;
   border-radius: 12px;
+  max-width: 400px;
 }
 /* Style for Viewer to make it wider */
 .rpv-core__page-layer {
