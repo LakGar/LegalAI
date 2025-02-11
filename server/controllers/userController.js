@@ -1,6 +1,5 @@
-import User from "../models/userModel.js";
-import Business from "../models/businessModel.js";
 import { upload } from "../config/multer.js";
+import { User } from "../models/userModel.js";
 
 /**
  * Get user details with populated fields.
@@ -19,14 +18,14 @@ export const getUser = async (req, res) => {
       });
     }
 
-    // Get user with essential populations
+    // Get user with essential populations only
     const user = await User.findById(userId)
       .populate("documents")
       .populate("chats")
       .populate("subscription")
-      .populate("business") // ✅ Added business population
-      .lean()
-      .setOptions({ strictPopulate: false });
+      .populate("folders")
+      .populate("teams")
+      .lean();
 
     if (!user) {
       return res.status(404).json({

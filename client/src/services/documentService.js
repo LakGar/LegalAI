@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://legalaiserver.vercel.app/api/documents";
+const API_URL = "http://localhost:8000/api/documents";
 
 /**
  * Fetch all documents for the logged-in user.

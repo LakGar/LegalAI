@@ -5,8 +5,12 @@ import axios from "axios";
 const API_URL = "https://legalaiserver.vercel.app/api/auth";
 
 // Axios instance to handle requests with credentials (cookies)
-export const axiosInstance = axios.create({
-  withCredentials: true, // This ensures cookies are sent with each request
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // User Signup
