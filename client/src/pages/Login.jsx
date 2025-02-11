@@ -80,7 +80,11 @@ const Login = () => {
 
       <div className="auth-container">
         <div className="auth-left">
-          <img src={images[2]} className="img" alt="Background" />
+          <img
+            src={images[1]}
+            className="auth-background-img"
+            alt="Background"
+          />
           <div className="overlay-container">
             <div className="top">
               <img src={Logo} className="img" alt="Logo" />
