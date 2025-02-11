@@ -3,64 +3,55 @@ import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
+import fs from "fs";
+import vercel from "@vercel/node"; // ✅ Fix Import Issue
+
+dotenv.config();
 
 const app = express();
-dotenv.config();
 
 // Allow credentials from the specific origin
 app.use(
   cors({
-    origin: true, // Frontend origin
-    credentials: true, // Allow cookies or credentials
+    origin: true,
+    credentials: true,
   })
 );
 
 app.use("/uploads", express.static("uploads"));
-// Parse JSON body
 app.use(express.json());
-
 app.use(cookieParser());
 
-import "./models/businessModel.js";
-import "./models/userModel.js";
-import "./models/subscriptionModel.js";
-import "./models/chatModel.js";
-import "./models/documentModel.js";
-import "./models/folderModel.js";
-import "./models/noteModel.js";
-import "./models/teamModel.js";
-import "./models/paymentModel.js";
-import "./models/feedBackModl.js";
+// Connect to Database
+connectDB();
 
 // Routes
 import authRoutes from "./routes/authRoutes.js";
-app.use("/api/auth", authRoutes);
 import userRoutes from "./routes/userRoutes.js";
-app.use("/api/users", userRoutes);
 import businessRoutes from "./routes/businessRoutes.js";
-app.use("/api/businesses", businessRoutes);
 import documentRoutes from "./routes/documentRoutes.js";
-app.use("/api/documents", documentRoutes);
 import folderRoutes from "./routes/folderRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
-app.use("/api/chat", chatRoutes);
-app.use("/api/folders", folderRoutes);
 import noteRoutes from "./routes/noteRoutes.js";
-app.use("/api/notes", noteRoutes);
 import teamRoutes from "./routes/teamRoutes.js";
+
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/businesses", businessRoutes);
+app.use("/api/documents", documentRoutes);
+app.use("/api/folders", folderRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/notes", noteRoutes);
 app.use("/api/teams", teamRoutes);
 
 // Test Route
-app.get("/test", (req, res) => {
+app.get("/api/test", (req, res) => {
   res.send("Hello, World!");
 });
 
-// Start the server
-app.listen(process.env.PORT || 8000, () => {
-  connectDB();
-  console.log("Server is running on port", process.env.PORT || 8000);
-});
-
+// File Serving Route (Ensure __dirname is properly handled)
+const __dirname = path.resolve();
 app.get("/file/:id", async (req, res) => {
   const fileId = req.params.id;
   const filePath = path.join(__dirname, "uploads", fileId);
@@ -71,3 +62,8 @@ app.get("/file/:id", async (req, res) => {
 
   res.sendFile(filePath);
 });
+
+// ✅ Export for Vercel
+const { createServer } = vercel;
+const server = createServer(app);
+export default server;
