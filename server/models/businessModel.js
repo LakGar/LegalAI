@@ -71,40 +71,9 @@ const businessSchema = new mongoose.Schema(
         ref: "Subscription",
       },
     ],
-    notes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Note",
-      },
-    ],
-    folders: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Folder",
-      },
-    ],
-    chats: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Chat",
-      },
-    ],
-    goals: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
   { timestamps: true }
 );
 
-export const Business = mongoose.model("Business", businessSchema);
+const Business = mongoose.model("Business", businessSchema);
+export default Business;

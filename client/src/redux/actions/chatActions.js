@@ -57,7 +57,7 @@ export const initiateChat = (documentId) => async (dispatch) => {
     console.log("Creating chat with document ID:", documentId);
 
     const response = await axios.post(
-      "http://localhost:8000/api/chat",
+      "https://legalaiserver.vercel.app/api/chat",
       { documentId },
       {
         headers: {

@@ -41,10 +41,6 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
 
-    business: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Business",
-    },
     documents: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -57,41 +53,33 @@ const userSchema = new mongoose.Schema(
         ref: "Chat",
       },
     ],
-    subscriptions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Subscription",
-      },
-    ],
-    folder: [
+    subscription: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subscription",
+    },
+    folders: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Folder",
       },
     ],
-    notes: [
+    teams: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Note",
+        ref: "Team",
       },
     ],
-    team: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    payment: {
+    business: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Payment",
+      ref: "Business",
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     verificationToken: String,
     verificationExpires: Date,
   },
-
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;

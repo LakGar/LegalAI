@@ -5,23 +5,56 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import fs from "fs";
-import vercel from "@vercel/node"; // ✅ Fix Import Issue
+
+// Import all models first
+import "./models/subscriptionModel.js";
+import "./models/userModel.js";
+import "./models/businessModel.js";
+import "./models/documentModel.js";
+import "./models/chatModel.js";
+import "./models/folderModel.js";
+import "./models/teamModel.js";
+import "./models/paymentModel.js";
 
 dotenv.config();
 
 const app = express();
 
-// Allow credentials from the specific origin
+// CORS Configuration
 app.use(
   cors({
-    origin: true,
+    origin: ["http://localhost:3000", "https:legalai.dev"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+    ],
   })
 );
 
-app.use("/uploads", express.static("uploads"));
+// Other middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static("uploads"));
+
+// Add headers middleware
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Connect to Database
 connectDB();
@@ -50,7 +83,7 @@ app.get("/api/test", (req, res) => {
   res.send("Hello, World!");
 });
 
-// File Serving Route (Ensure __dirname is properly handled)
+// File Serving Route
 const __dirname = path.resolve();
 app.get("/file/:id", async (req, res) => {
   const fileId = req.params.id;
@@ -63,7 +96,10 @@ app.get("/file/:id", async (req, res) => {
   res.sendFile(filePath);
 });
 
-// ✅ Export for Vercel
-const { createServer } = vercel;
-const server = createServer(app);
-export default server;
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+export default app;

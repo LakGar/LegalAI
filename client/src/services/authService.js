@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // Base URL for the API (adjust this to your backend's actual base URL)
-const API_URL = "http://localhost:8000/api/auth";
+const API_URL = "https://legalaiserver.vercel.app/api/auth";
 
 // Axios instance to handle requests with credentials (cookies)
 export const axiosInstance = axios.create({

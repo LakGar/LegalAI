@@ -31,7 +31,6 @@ const teamSchema = new mongoose.Schema(
     business: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Business",
-      required: false, // Optional if the team is associated with a business
     },
     projects: [
       {
@@ -57,4 +56,5 @@ const teamSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Team = mongoose.model("Team", teamSchema);
+const Team = mongoose.model("Team", teamSchema);
+export default Team;

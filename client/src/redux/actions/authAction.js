@@ -7,7 +7,7 @@ import {
 } from "../constants/authConstants";
 
 // Define the base API URL for the backend
-const API_URL = "http://localhost:8000/api/auth";
+const API_URL = "https://legalaiserver.vercel.app/api/auth";
 
 // redux/actions/authActions.js
 import axios from "axios";

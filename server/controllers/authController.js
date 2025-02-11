@@ -48,11 +48,7 @@ export const signup = async (req, res) => {
     // JWT
 
     // Send verification email with plain token (not hashed)
-    sendVerificationEmail(
-      "lakgarg2002@gmail.com",
-      verificationCode,
-      user.firstname
-    );
+    sendVerificationEmail(email, verificationCode, user.firstname);
     generateTokenAndSetCookie(res, user._id);
 
     res.status(201).json({
@@ -163,11 +159,7 @@ export const resetPasswordRequest = async (req, res) => {
     await user.save();
 
     // Send email with the reset password token (not hashed)
-    sendVerificationEmail(
-      "lakgarg2002@gmail.com",
-      resetPasswordToken,
-      user.firstname
-    );
+    sendVerificationEmail(email, resetPasswordToken, user.firstname);
 
     return res.status(200).json({
       success: true,

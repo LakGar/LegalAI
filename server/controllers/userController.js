@@ -1,4 +1,5 @@
-import { User } from "../models/userModel.js";
+import User from "../models/userModel.js";
+import Business from "../models/businessModel.js";
 import { upload } from "../config/multer.js";
 
 /**
@@ -9,7 +10,8 @@ import { upload } from "../config/multer.js";
 export const getUser = async (req, res) => {
   try {
     console.log("getting user...");
-    const userId = req.user?._id; // Ensure `userId` exists
+    const userId = req.user?._id;
+
     if (!userId) {
       return res.status(400).json({
         success: false,
@@ -17,19 +19,15 @@ export const getUser = async (req, res) => {
       });
     }
 
-    // Fetch user with populated fields
+    // Get user with essential populations
     const user = await User.findById(userId)
-      .populate("business")
       .populate("documents")
       .populate("chats")
-      .populate("subscriptions")
-      .populate("folder")
-      .populate("notes")
-      .populate("team")
-      .populate("payment")
-      .exec();
+      .populate("subscription")
+      .populate("business") // ✅ Added business population
+      .lean()
+      .setOptions({ strictPopulate: false });
 
-    // If user not found
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -37,39 +35,20 @@ export const getUser = async (req, res) => {
       });
     }
 
-    // Respond with user data
+    // Return user data
     return res.status(200).json({
       success: true,
       data: {
-        _id: user._id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        profileImage: user.profileImage,
-        lastLogin: user.lastLogin,
-        isVerified: user.isVerified,
-        business: user.business,
-        role: user.role,
-        business: user.business,
-        documents: user.documents,
-        chats: user.chats,
-        subscriptions: user.subscriptions,
-        folder: user.folder,
-        notes: user.notes,
-        team: user.team,
-        payment: user.payment,
+        ...user,
+        password: undefined,
       },
     });
   } catch (error) {
     console.error("Error fetching user:", error);
-
-    // Use a generic error message for production
     return res.status(500).json({
       success: false,
-      message:
-        process.env.NODE_ENV === "production"
-          ? "Something went wrong"
-          : error.message,
+      message: "Error fetching user",
+      error: error.message,
     });
   }
 };

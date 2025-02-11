@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://legalaiserver.vercel.app/api/",
 });
 
 // Add the token to the Authorization header for every request
@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const response = await axiosInstance.get("/api/auth/verify-token");
+        const response = await axiosInstance.get("auth/verify-token");
         if (response.data.success) {
           setIsAuthenticated(true);
         } else {

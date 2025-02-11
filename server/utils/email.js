@@ -5,27 +5,33 @@ import {
   WELCOME_EMAIL_TEMPLATE,
 } from "./emailTemplate.js";
 import { mailtrapClient, sender } from "../config/mailtrap.js";
+import { MailtrapClient } from "mailtrap";
 
-export const sendVerificationEmail = async (email, verificationToken, name) => {
-  const recipient = [{ email }];
+const client = new MailtrapClient({ token: process.env.MAILTRAP_TOKEN });
 
+export const sendVerificationEmail = async (to, code, name) => {
   try {
-    const response = await mailtrapClient.send({
+    const sender = {
+      email: "noreply@legalai.com",
+      name: "LegalAI Team",
+    };
+
+    await client.send({
       from: sender,
-      to: recipient,
-      subject: "Verify your email",
-      html: VERIFICATION_EMAIL_TEMPLATE.replace(
-        "{verificationCode}",
-        verificationToken
-      ).replace("{name}", name),
-      category: "Email Verification",
+      to: [{ email: to }],
+      subject: "Verify your email address",
+      html: `
+        <h1>Welcome to LegalAI!</h1>
+        <p>Hi ${name},</p>
+        <p>Your verification code is: <strong>${code}</strong></p>
+        <p>This code will expire in 30 minutes.</p>
+      `,
     });
 
-    console.log("Email sent successfully", response);
+    console.log("Verification email sent successfully");
   } catch (error) {
-    console.error(`Error sending verification`, error);
-
-    throw new Error(`Error sending verification email: ${error}`);
+    console.error("Error sending verification email:", error);
+    throw error;
   }
 };
 

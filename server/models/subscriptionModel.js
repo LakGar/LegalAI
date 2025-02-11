@@ -26,64 +26,35 @@ const subscriptionSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    documentLimit: {
-      type: Number,
-      required: true,
-      default: 1,
-    },
-    chatLimit: {
-      type: Number,
-      required: true,
-      default: 10,
-    },
-    storageLimit: {
-      type: Number, // In MB or GB
-      required: true,
-      default: 1,
-    },
-    currentUsage: {
-      documents: {
-        type: Number,
-        default: 0,
-      },
-      chats: {
-        type: Number,
-        default: 0,
-      },
-      storage: {
-        type: Number, // In MB or GB
-        default: 0,
-      },
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-    lastPaymentDate: {
-      type: Date,
+    status: {
+      type: String,
+      enum: ["active", "expired", "cancelled"],
+      default: "active",
     },
     paymentHistory: [
       {
-        amount: {
-          type: Number,
-          required: true,
-        },
-        date: {
-          type: Date,
-          default: Date.now,
-        },
-        transactionId: {
-          type: String,
-        },
-        status: {
-          type: String,
-          enum: ["success", "failed", "pending"],
-          default: "success",
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Payment",
       },
     ],
+    features: {
+      documentLimit: {
+        type: Number,
+        default: 10,
+      },
+      storageLimit: {
+        type: Number,
+        default: 1024, // in MB
+      },
+      aiChatLimit: {
+        type: Number,
+        default: 100,
+      },
+    },
   },
   { timestamps: true }
 );
 
-export const Subscription = mongoose.model("Subscription", subscriptionSchema);
+// Create and export the model
+const Subscription = mongoose.model("Subscription", subscriptionSchema);
+export default Subscription;
