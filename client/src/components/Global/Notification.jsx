@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import "./Notification.css";
 
 const Notification = ({
@@ -15,7 +16,7 @@ const Notification = ({
     return () => clearTimeout(timer);
   }, [duration, onClose]);
 
-  return (
+  const notificationContent = (
     <div className="notifications-container">
       <div className={`notification-alert ${type}`} role="alert">
         <svg
@@ -32,7 +33,9 @@ const Notification = ({
             strokeLinecap="round"
           ></path>
         </svg>
-        <p className="notification-message">{message}</p>
+        <p className="notification-message">
+          {typeof message === "string" ? message : message}
+        </p>
         <div
           className="notification-progress"
           style={{ animationDuration: `${duration}ms` }}
@@ -40,6 +43,8 @@ const Notification = ({
       </div>
     </div>
   );
+
+  return createPortal(notificationContent, document.body);
 };
 
 export default Notification;

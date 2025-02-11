@@ -33,11 +33,11 @@
   height: 60px;
 }
 .footer-logo {
-  width: 160px;
-  height: 160px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   object-position: center;
-  margin: -60px;
+  margin: 0px;
 }
 .logo-text {
   font-family: "Poppins", sans-serif;

@@ -62,6 +62,10 @@ const ChatBox = ({ user, documents, activeDocument }) => {
     });
   };
 
+  const handleChatClick = (document) => {
+    navigate(`/chats?documentId=${document._id}`);
+  };
+
   const handleImport = () => {
     setShowUploadModal(true);
   };
@@ -87,11 +91,12 @@ const ChatBox = ({ user, documents, activeDocument }) => {
               </p>
             </div>
             <div className="action-buttons">
-              <NavLink to="/chats">
-                <button className="action-btn">
-                  <FaRobot />
-                </button>
-              </NavLink>
+              <button
+                className="action-btn"
+                onClick={() => handleChatClick(activeDocument)}
+              >
+                <FaRobot />
+              </button>
               <button className="action-btn">
                 <FaDownload />
               </button>
@@ -111,7 +116,10 @@ const ChatBox = ({ user, documents, activeDocument }) => {
               <p className="file-size">Size: {files[0].size || "1.2 MB"}</p>
             </div>
             <div className="action-buttons">
-              <button className="action-btn">
+              <button
+                className="action-btn"
+                onClick={() => handleChatClick(files[0])}
+              >
                 <FaRobot />
               </button>
               <button className="action-btn">
@@ -269,7 +277,9 @@ const ChatBox = ({ user, documents, activeDocument }) => {
           <p style={{ padding: "20px", fontWeight: "500", fontSize: "0.8rem" }}>
             No chats yet. Start a new conversation with our AI assistant!
           </p>
-          <div className="navigation-button">Start Chat</div>
+          <div className="navigation-button" onClick={handleNewChat}>
+            Start Chat
+          </div>
         </div>
       )}
 

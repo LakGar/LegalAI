@@ -6,14 +6,14 @@ import DOMPurify from "dompurify";
 import "./FileDetailView.css";
 import { IoChevronBack } from "react-icons/io5";
 import { analyzeDocument } from "../../services/documentService";
-
+import { useNavigate } from "react-router-dom";
 const DocumentDisplay = ({ file, closeModal }) => {
   const fileUrl = `http://localhost:8000/${file.documentUrl}`;
   const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState("");
   const [analysisError, setAnalysisError] = useState("");
   const [isCached, setIsCached] = useState(false);
-
+  const navigate = useNavigate();
   // Check for existing analysis in the file object on mount
   useEffect(() => {
     console.log("Document data:", file); // Debug log to see document data
@@ -111,7 +111,10 @@ const DocumentDisplay = ({ file, closeModal }) => {
           </div>
         </div>
         <div className="document-button-container">
-          <button className="document-chat-btn">
+          <button
+            className="document-chat-btn"
+            onClick={() => navigate(`/chats?documentId=${file._id}`)}
+          >
             <div className="button__icon-wrapper">
               <svg
                 viewBox="0 0 14 15"

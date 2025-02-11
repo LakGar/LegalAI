@@ -323,3 +323,306 @@
 2025-02-09T05:15:30.338Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
 2025-02-09T05:15:30.449Z [INFO]: Fetching all chats for user.
 2025-02-09T05:15:30.541Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:31:28.407Z [INFO]: Fetching all chats for user.
+2025-02-11T02:31:28.507Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:31:28.604Z [INFO]: Fetching all chats for user.
+2025-02-11T02:31:28.775Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:38:24.889Z [INFO]: Fetching all chats for user.
+2025-02-11T02:38:24.971Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:38:25.147Z [INFO]: Fetching all chats for user.
+2025-02-11T02:38:25.235Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:56:20.825Z [INFO]: Fetching all chats for user.
+2025-02-11T02:56:20.915Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:56:21.007Z [INFO]: Fetching all chats for user.
+2025-02-11T02:56:21.093Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:58:13.949Z [INFO]: Fetching all chats for user.
+2025-02-11T02:58:14.072Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:58:14.176Z [INFO]: Fetching all chats for user.
+2025-02-11T02:58:14.267Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:58:50.859Z [INFO]: Fetching all chats for user.
+2025-02-11T02:58:50.953Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:58:51.043Z [INFO]: Fetching all chats for user.
+2025-02-11T02:58:51.131Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T02:58:51.293Z [INFO]: Fetching all chats for user.
+2025-02-11T02:58:51.380Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:00:07.082Z [INFO]: Fetching all chats for user.
+2025-02-11T03:00:07.175Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:00:07.317Z [INFO]: Fetching all chats for user.
+2025-02-11T03:00:07.407Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:00:07.490Z [INFO]: Fetching all chats for user.
+2025-02-11T03:00:07.574Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:04:33.364Z [INFO]: Starting chat creation process.
+2025-02-11T03:04:33.365Z [INFO]: Checking for existing chat with documentId: 67aabc02c1fc98e658333daa
+2025-02-11T03:04:33.543Z [INFO]: Chat created with ID: 67aabe41c1fc98e658333eac
+2025-02-11T03:04:33.651Z [INFO]: Chat added to user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:04:33.651Z [ERROR]: Error creating chat: Document is not defined
+2025-02-11T03:06:23.015Z [INFO]: Starting chat creation process.
+2025-02-11T03:06:23.015Z [INFO]: Checking for existing chat with documentId: 67aabc02c1fc98e658333daa
+2025-02-11T03:06:23.101Z [INFO]: Existing chat found.
+2025-02-11T03:06:53.946Z [INFO]: Starting chat creation process.
+2025-02-11T03:06:53.946Z [INFO]: Checking for existing chat with documentId: 67aabc02c1fc98e658333daa
+2025-02-11T03:06:54.158Z [INFO]: Chat created with ID: 67aabecec1fc98e658333ebf
+2025-02-11T03:06:54.250Z [INFO]: Chat added to user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:06:54.250Z [ERROR]: Error creating chat: Document is not defined
+2025-02-11T03:08:13.158Z [INFO]: Starting chat creation process.
+2025-02-11T03:08:13.158Z [INFO]: Checking for existing chat with documentId: 67aabc02c1fc98e658333daa
+2025-02-11T03:08:13.324Z [INFO]: Existing chat found.
+2025-02-11T03:08:19.934Z [INFO]: Starting chat creation process.
+2025-02-11T03:08:19.934Z [INFO]: Checking for existing chat with documentId: 67aabc02c1fc98e658333daa
+2025-02-11T03:08:20.025Z [INFO]: Existing chat found.
+2025-02-11T03:11:54.934Z [INFO]: Fetching all chats for user.
+2025-02-11T03:11:55.099Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:11:55.199Z [INFO]: Fetching all chats for user.
+2025-02-11T03:11:55.292Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:20:58.144Z [INFO]: Fetching all chats for user.
+2025-02-11T03:20:58.256Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:20:58.349Z [INFO]: Fetching all chats for user.
+2025-02-11T03:20:58.442Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:20:58.539Z [INFO]: Fetching all chats for user.
+2025-02-11T03:20:58.621Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:21:28.752Z [INFO]: Fetching all chats for user.
+2025-02-11T03:21:28.841Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:21:28.931Z [INFO]: Fetching all chats for user.
+2025-02-11T03:21:29.021Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:21:29.187Z [INFO]: Fetching all chats for user.
+2025-02-11T03:21:29.275Z [INFO]: Fetched 0 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:21:36.082Z [INFO]: Starting chat creation process.
+2025-02-11T03:21:36.082Z [INFO]: Checking for existing chat with documentId: 67aac0bbc1fc98e658333f0d
+2025-02-11T03:21:36.310Z [INFO]: Chat created with ID: 67aac240c1fc98e658333f6f
+2025-02-11T03:21:36.402Z [INFO]: Chat added to user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:21:36.402Z [ERROR]: Error creating chat: Document is not defined
+2025-02-11T03:22:02.951Z [INFO]: Fetching all chats for user.
+2025-02-11T03:22:03.130Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:22:03.268Z [INFO]: Fetching all chats for user.
+2025-02-11T03:22:03.439Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:22:03.522Z [INFO]: Fetching all chats for user.
+2025-02-11T03:22:03.692Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:22:56.909Z [INFO]: Fetching all chats for user.
+2025-02-11T03:22:57.076Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:22:57.163Z [INFO]: Fetching all chats for user.
+2025-02-11T03:22:57.351Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:22:57.431Z [INFO]: Fetching all chats for user.
+2025-02-11T03:22:57.595Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:23:31.548Z [INFO]: Fetching all chats for user.
+2025-02-11T03:23:31.721Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:23:31.870Z [INFO]: Fetching all chats for user.
+2025-02-11T03:23:32.051Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:23:32.141Z [INFO]: Fetching all chats for user.
+2025-02-11T03:23:32.396Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:23:56.066Z [INFO]: Fetching all chats for user.
+2025-02-11T03:23:56.232Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:23:56.313Z [INFO]: Fetching all chats for user.
+2025-02-11T03:23:56.513Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:23:56.600Z [INFO]: Fetching all chats for user.
+2025-02-11T03:23:56.761Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:24:08.045Z [INFO]: Starting chat creation process.
+2025-02-11T03:24:08.045Z [INFO]: Checking for existing chat with documentId: 67aac0bbc1fc98e658333f0d
+2025-02-11T03:24:08.133Z [INFO]: Existing chat found.
+2025-02-11T03:24:32.583Z [INFO]: Starting chat creation process.
+2025-02-11T03:24:32.584Z [INFO]: Checking for existing chat with documentId: 67aac0bbc1fc98e658333f0d
+2025-02-11T03:24:32.786Z [INFO]: Chat created with ID: 67aac2f0c1fc98e658333fea
+2025-02-11T03:24:32.868Z [INFO]: Chat added to user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:24:32.869Z [ERROR]: Error creating chat: Document is not defined
+2025-02-11T03:26:24.360Z [INFO]: Starting chat creation process.
+2025-02-11T03:26:24.360Z [INFO]: Checking for existing chat with documentId: 67aac0bbc1fc98e658333f0d
+2025-02-11T03:26:24.525Z [INFO]: Chat created with ID: 67aac360c1fc98e658333fef
+2025-02-11T03:26:24.612Z [INFO]: Chat added to user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:26:24.612Z [ERROR]: Error creating chat: Document is not defined
+2025-02-11T03:36:58.392Z [INFO]: Starting chat creation process.
+2025-02-11T03:36:58.392Z [INFO]: Checking for existing chat with documentId: 67aac0bbc1fc98e658333f0d
+2025-02-11T03:36:58.472Z [INFO]: Existing chat found.
+2025-02-11T03:36:58.566Z [INFO]: Attempting to send message to chat.
+2025-02-11T03:36:58.647Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T03:36:59.586Z [INFO]: AI response added to chat.
+2025-02-11T03:37:14.642Z [INFO]: Fetching all chats for user.
+2025-02-11T03:37:14.816Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:37:14.897Z [INFO]: Fetching all chats for user.
+2025-02-11T03:37:15.091Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:37:15.178Z [INFO]: Fetching all chats for user.
+2025-02-11T03:37:15.356Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:37:23.037Z [INFO]: Fetching all chats for user.
+2025-02-11T03:37:23.223Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:37:23.311Z [INFO]: Fetching all chats for user.
+2025-02-11T03:37:23.569Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:37:23.662Z [INFO]: Fetching all chats for user.
+2025-02-11T03:37:23.829Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:38:28.920Z [INFO]: Fetching all chats for user.
+2025-02-11T03:38:29.107Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:38:29.195Z [INFO]: Fetching all chats for user.
+2025-02-11T03:38:29.370Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:38:29.538Z [INFO]: Fetching all chats for user.
+2025-02-11T03:38:29.722Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:39:52.984Z [INFO]: Fetching all chats for user.
+2025-02-11T03:39:53.169Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:39:53.259Z [INFO]: Fetching all chats for user.
+2025-02-11T03:39:53.516Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:39:53.608Z [INFO]: Fetching all chats for user.
+2025-02-11T03:39:53.784Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:40:06.011Z [INFO]: Starting chat creation process.
+2025-02-11T03:40:06.012Z [INFO]: Checking for existing chat with documentId: 67aac0bbc1fc98e658333f0d
+2025-02-11T03:40:06.092Z [INFO]: Existing chat found.
+2025-02-11T03:40:06.192Z [INFO]: Attempting to send message to chat.
+2025-02-11T03:40:06.278Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T03:40:07.352Z [INFO]: AI response added to chat.
+2025-02-11T03:42:16.902Z [INFO]: Starting chat creation process.
+2025-02-11T03:42:16.902Z [INFO]: Checking for existing chat with documentId: 67aac0bbc1fc98e658333f0d
+2025-02-11T03:42:16.990Z [INFO]: Existing chat found.
+2025-02-11T03:42:17.159Z [INFO]: Attempting to send message to chat.
+2025-02-11T03:42:17.243Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T03:42:18.291Z [INFO]: AI response added to chat.
+2025-02-11T03:44:28.457Z [INFO]: Fetching all chats for user.
+2025-02-11T03:44:28.682Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:44:28.784Z [INFO]: Fetching all chats for user.
+2025-02-11T03:44:28.955Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:44:29.037Z [INFO]: Fetching all chats for user.
+2025-02-11T03:44:29.287Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:44:39.959Z [INFO]: Fetching all chats for user.
+2025-02-11T03:44:40.122Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:44:40.297Z [INFO]: Fetching all chats for user.
+2025-02-11T03:44:40.465Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:44:40.548Z [INFO]: Fetching all chats for user.
+2025-02-11T03:44:40.744Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:45:09.851Z [INFO]: Fetching all chats for user.
+2025-02-11T03:45:10.103Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:45:10.197Z [INFO]: Fetching all chats for user.
+2025-02-11T03:45:10.367Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:45:10.454Z [INFO]: Fetching all chats for user.
+2025-02-11T03:45:10.721Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:45:59.040Z [INFO]: Fetching all chats for user.
+2025-02-11T03:45:59.214Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:45:59.386Z [INFO]: Fetching all chats for user.
+2025-02-11T03:45:59.569Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:45:59.651Z [INFO]: Fetching all chats for user.
+2025-02-11T03:45:59.909Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:46:38.184Z [INFO]: Fetching all chats for user.
+2025-02-11T03:46:38.375Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:46:38.458Z [INFO]: Fetching all chats for user.
+2025-02-11T03:46:38.706Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:46:38.796Z [INFO]: Fetching all chats for user.
+2025-02-11T03:46:38.981Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:49:19.796Z [INFO]: Fetching all chats for user.
+2025-02-11T03:49:19.971Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:49:20.062Z [INFO]: Fetching all chats for user.
+2025-02-11T03:49:20.283Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:49:20.374Z [INFO]: Fetching all chats for user.
+2025-02-11T03:49:20.540Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:50:08.596Z [INFO]: Fetching all chats for user.
+2025-02-11T03:50:08.777Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:50:08.950Z [INFO]: Fetching all chats for user.
+2025-02-11T03:50:09.137Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:50:09.235Z [INFO]: Fetching all chats for user.
+2025-02-11T03:50:09.475Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:50:34.336Z [INFO]: Fetching all chats for user.
+2025-02-11T03:50:34.502Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:50:34.643Z [INFO]: Fetching all chats for user.
+2025-02-11T03:50:34.827Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:50:34.914Z [INFO]: Fetching all chats for user.
+2025-02-11T03:50:35.169Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:51:03.561Z [INFO]: Fetching all chats for user.
+2025-02-11T03:51:03.741Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:51:03.828Z [INFO]: Fetching all chats for user.
+2025-02-11T03:51:04.084Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:51:04.170Z [INFO]: Fetching all chats for user.
+2025-02-11T03:51:04.339Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:53:50.560Z [INFO]: Fetching all chats for user.
+2025-02-11T03:53:50.827Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:53:50.919Z [INFO]: Fetching all chats for user.
+2025-02-11T03:53:51.093Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:53:51.250Z [INFO]: Fetching all chats for user.
+2025-02-11T03:53:51.431Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:54:26.473Z [INFO]: Fetching all chats for user.
+2025-02-11T03:54:26.642Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:54:26.733Z [INFO]: Fetching all chats for user.
+2025-02-11T03:54:26.980Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:54:27.063Z [INFO]: Fetching all chats for user.
+2025-02-11T03:54:27.231Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:55:42.926Z [INFO]: Attempting to send message to chat.
+2025-02-11T03:55:43.015Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T03:55:44.071Z [INFO]: AI response added to chat.
+2025-02-11T03:55:56.556Z [INFO]: Fetching all chats for user.
+2025-02-11T03:55:56.727Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:55:56.811Z [INFO]: Fetching all chats for user.
+2025-02-11T03:55:56.977Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:55:57.094Z [INFO]: Fetching all chats for user.
+2025-02-11T03:55:57.257Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:56:30.737Z [INFO]: Attempting to send message to chat.
+2025-02-11T03:56:30.818Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T03:56:31.800Z [INFO]: AI response added to chat.
+2025-02-11T03:57:46.448Z [INFO]: Fetching all chats for user.
+2025-02-11T03:57:46.699Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:57:46.791Z [INFO]: Fetching all chats for user.
+2025-02-11T03:57:46.956Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:57:47.039Z [INFO]: Fetching all chats for user.
+2025-02-11T03:57:47.300Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T03:57:59.921Z [INFO]: Attempting to send message to chat.
+2025-02-11T03:58:00.007Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T03:58:00.946Z [INFO]: AI response added to chat.
+2025-02-11T04:00:16.638Z [INFO]: Fetching all chats for user.
+2025-02-11T04:00:16.825Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T04:00:16.921Z [INFO]: Fetching all chats for user.
+2025-02-11T04:00:17.162Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T04:00:17.256Z [INFO]: Fetching all chats for user.
+2025-02-11T04:00:17.429Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T04:00:33.489Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:00:33.571Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:00:34.628Z [INFO]: AI response added to chat.
+2025-02-11T04:04:15.534Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:04:15.624Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:04:16.605Z [INFO]: AI response added to chat.
+2025-02-11T04:08:00.197Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:08:00.279Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:08:01.378Z [INFO]: AI response added to chat.
+2025-02-11T04:08:18.023Z [INFO]: Fetching all chats for user.
+2025-02-11T04:08:18.191Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T04:08:18.276Z [INFO]: Fetching all chats for user.
+2025-02-11T04:08:18.470Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T04:08:18.568Z [INFO]: Fetching all chats for user.
+2025-02-11T04:08:18.734Z [INFO]: Fetched 1 chats for user: 67a3c61a81211dd4d046f86f
+2025-02-11T04:11:13.583Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:11:13.674Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:11:14.631Z [INFO]: AI response added to chat.
+2025-02-11T04:11:27.598Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:11:27.739Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:11:28.652Z [INFO]: AI response added to chat.
+2025-02-11T04:12:06.766Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:12:06.859Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:12:07.794Z [INFO]: AI response added to chat.
+2025-02-11T04:12:18.073Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:12:18.165Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:12:19.238Z [INFO]: AI response added to chat.
+2025-02-11T04:13:00.542Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:13:00.626Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:13:01.371Z [INFO]: AI response added to chat.
+2025-02-11T04:13:44.469Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:13:44.584Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:13:45.483Z [INFO]: AI response added to chat.
+2025-02-11T04:14:16.290Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:14:16.383Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:14:17.202Z [INFO]: AI response added to chat.
+2025-02-11T04:14:31.850Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:14:31.944Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:14:33.065Z [INFO]: AI response added to chat.
+2025-02-11T04:16:48.088Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:16:48.179Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:16:49.295Z [INFO]: AI response added to chat.
+2025-02-11T04:17:12.531Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:17:12.625Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:17:14.302Z [INFO]: AI response added to chat.
+2025-02-11T04:17:26.883Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:17:26.967Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:17:28.016Z [INFO]: AI response added to chat.
+2025-02-11T04:21:22.405Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:21:22.488Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:21:23.544Z [INFO]: AI response added to chat.
+2025-02-11T04:22:12.901Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:22:12.989Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:22:14.296Z [INFO]: AI response added to chat.
+2025-02-11T04:22:53.644Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:22:53.738Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:22:54.778Z [INFO]: AI response added to chat.
+2025-02-11T04:23:37.720Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:23:37.810Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:23:38.862Z [INFO]: AI response added to chat.
+2025-02-11T04:53:18.820Z [INFO]: Attempting to send message to chat.
+2025-02-11T04:53:18.913Z [INFO]: Added user message to chat ID: 67aac360c1fc98e658333fef
+2025-02-11T04:53:20.138Z [INFO]: AI response added to chat.

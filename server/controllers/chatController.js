@@ -1,37 +1,22 @@
 import OpenAI from "openai";
 import { Chat } from "../models/chatModel.js";
 import { User } from "../models/userModel.js";
-import winston from "winston";
+import { Document } from "../models/documentModel.js";
 
 // Initialize OpenAI
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Initialize logger
-const logger = winston.createLogger({
-  level: "info",
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.printf(({ timestamp, level, message }) => {
-      return `${timestamp} [${level.toUpperCase()}]: ${message}`;
-    })
-  ),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "app.log" }),
-  ],
-});
-
 // Create Chat
 export const createChat = async (req, res) => {
-  logger.info("Starting chat creation process.");
+  console.log("Starting chat creation process.");
   try {
     const userId = req.user?._id;
     const { documentId } = req.body;
 
     if (!userId) {
-      logger.warn("User ID missing in request.");
+      console.error("User ID missing in request.");
       return res.status(400).json({
         success: false,
         message: "User ID is required.",
@@ -39,13 +24,13 @@ export const createChat = async (req, res) => {
     }
 
     let existingChat = null;
-    if (documentId !== null) {
-      logger.info(`Checking for existing chat with documentId: ${documentId}`);
+    if (documentId) {
+      console.log(`Checking for existing chat with documentId: ${documentId}`);
       existingChat = await Chat.findOne({ document: documentId });
     }
 
     if (existingChat) {
-      logger.info("Existing chat found.");
+      console.log("Existing chat found.");
       return res.status(200).json({
         success: true,
         message: "Chat already exists.",
@@ -59,22 +44,27 @@ export const createChat = async (req, res) => {
     });
 
     await chat.save();
-    logger.info(`Chat created with ID: ${chat._id}`);
+    console.log(`Chat created with ID: ${chat._id}`);
 
     await User.findByIdAndUpdate(
       userId,
       { $push: { chats: chat._id } },
       { new: true }
     );
-    logger.info(`Chat added to user: ${userId}`);
+    console.log(`Chat added to user: ${userId}`);
 
     if (documentId) {
+      const document = await Document.findById(documentId);
+      if (!document) {
+        throw new Error("Document not found");
+      }
+
       await Document.findByIdAndUpdate(
         documentId,
         { chat: chat._id },
         { new: true }
       );
-      logger.info(`Chat linked to document: ${documentId}`);
+      console.log(`Chat linked to document: ${documentId}`);
     }
 
     return res.status(201).json({
@@ -83,7 +73,7 @@ export const createChat = async (req, res) => {
       data: chat,
     });
   } catch (error) {
-    logger.error(`Error creating chat: ${error.message}`);
+    console.error(`Error creating chat: ${error.message}`);
     return res.status(500).json({
       success: false,
       message: "Failed to create chat. Please try again later.",
@@ -94,12 +84,12 @@ export const createChat = async (req, res) => {
 
 // Get All Chats
 export const getChats = async (req, res) => {
-  logger.info("Fetching all chats for user.");
+  console.log("Fetching all chats for user.");
   try {
     const userId = req.user?._id;
 
     if (!userId) {
-      logger.warn("User ID missing in request.");
+      console.error("User ID missing in request.");
       return res.status(400).json({
         success: false,
         message: "User ID is required.",
@@ -110,13 +100,13 @@ export const getChats = async (req, res) => {
       .populate("document", "name uploadedAt")
       .sort({ updatedAt: -1 });
 
-    logger.info(`Fetched ${chats.length} chats for user: ${userId}`);
+    console.log(`Fetched ${chats.length} chats for user: ${userId}`);
     return res.status(200).json({
       success: true,
       data: chats,
     });
   } catch (error) {
-    logger.error(`Error fetching chats: ${error.message}`);
+    console.error(`Error fetching chats: ${error.message}`);
     return res.status(500).json({
       success: false,
       message: "Failed to fetch chats. Please try again later.",
@@ -127,13 +117,13 @@ export const getChats = async (req, res) => {
 
 // Get Chat by ID
 export const getChat = async (req, res) => {
-  logger.info("Fetching chat by ID.");
+  console.log("Fetching chat by ID.");
   try {
     const userId = req.user?._id;
     const chatId = req.params.id;
 
     if (!userId || !chatId) {
-      logger.warn("User ID or Chat ID missing in request.");
+      console.error("User ID or Chat ID missing in request.");
       return res.status(400).json({
         success: false,
         message: "User ID and Chat ID are required.",
@@ -145,20 +135,20 @@ export const getChat = async (req, res) => {
       .populate("messages.sender", "firstname lastname email");
 
     if (!chat) {
-      logger.warn(`Chat not found for ID: ${chatId}`);
+      console.error(`Chat not found for ID: ${chatId}`);
       return res.status(404).json({
         success: false,
         message: "Chat not found or access denied.",
       });
     }
 
-    logger.info(`Fetched chat with ID: ${chatId}`);
+    console.log(`Fetched chat with ID: ${chatId}`);
     return res.status(200).json({
       success: true,
       data: chat,
     });
   } catch (error) {
-    logger.error(`Error fetching chat: ${error.message}`);
+    console.error(`Error fetching chat: ${error.message}`);
     return res.status(500).json({
       success: false,
       message: "Failed to fetch chat. Please try again later.",
@@ -169,55 +159,46 @@ export const getChat = async (req, res) => {
 
 // Send Message
 export const sendMessage = async (req, res) => {
-  logger.info("Attempting to send message to chat.");
+  console.log("Attempting to send message to chat.");
   try {
     const userId = req.user?._id;
     const chatId = req.params.id;
-    const { content, type } = req.body;
+    const { content } = req.body;
 
     if (!userId || !chatId || !content) {
-      logger.warn("Required data missing in request.");
+      console.error("Required data missing in request.");
       return res.status(400).json({
         success: false,
         message: "Chat ID, User ID, and message content are required.",
       });
     }
 
-    const chat = await Chat.findById(chatId);
+    const chat = await Chat.findById(chatId).populate("document");
 
     if (!chat) {
-      logger.warn(`Chat not found for ID: ${chatId}`);
+      console.error(`Chat not found for ID: ${chatId}`);
       return res.status(404).json({
         success: false,
         message: "Chat not found.",
       });
     }
 
+    const documentContext = chat.document?.analysisResult || "";
+    const fullMessage = `${documentContext}User message: ${content}`;
+    console.log("Full message:", fullMessage);
     const userMessage = {
       sender: "user",
-      content,
-      type: type || "text",
+      content: content,
+      type: "text",
     };
-    chat.messages.push(userMessage);
-    logger.info(`Added user message to chat ID: ${chatId}`);
 
+    chat.messages.push(userMessage);
     await chat.save();
 
     const messages = [
       {
         role: "system",
-        content: `You are a helpful assistant. Format your responses using HTML tags for better readability. 
-        Use:
-        - <p> for paragraphs
-        - <strong> or <b> for bold text
-        - <em> or <i> for italic text
-        - <ul> and <li> for unordered lists
-        - <ol> and <li> for ordered lists
-        - <code> for inline code
-        - <pre> for code blocks
-        - <h3> for subheadings (don't use h1 or h2)
-        - <br> for line breaks
-        Keep the formatting semantic and clean.`,
+        content: `You are a professional legal assistant. Your role is to help users understand and analyze legal documents.`,
       },
       ...chat.messages.map((msg) => ({
         role: msg.sender === "ai" ? "assistant" : "user",
@@ -243,7 +224,6 @@ export const sendMessage = async (req, res) => {
       chat.messages.push(aiMessage);
       chat.lastMessage = aiMessage;
       await chat.save();
-      logger.info("AI response added to chat.");
     }
 
     return res.status(200).json({
@@ -255,7 +235,7 @@ export const sendMessage = async (req, res) => {
       },
     });
   } catch (error) {
-    logger.error(`Error sending message: ${error.message}`);
+    console.error(`Error sending message: ${error.message}`);
     return res.status(500).json({
       success: false,
       message: "Failed to send message. Please try again later.",
@@ -266,39 +246,36 @@ export const sendMessage = async (req, res) => {
 
 // Delete Chat
 export const deleteChat = async (req, res) => {
-  logger.info("Attempting to delete chat.");
+  console.log("Attempting to delete chat.");
   try {
     const userId = req.user?._id;
     const chatId = req.params.id;
 
     if (!userId || !chatId) {
-      logger.warn("User ID or Chat ID missing in request.");
+      console.error("User ID or Chat ID missing in request.");
       return res.status(400).json({
         success: false,
         message: "Chat ID and User ID are required.",
       });
     }
 
-    const chat = await Chat.findOneAndDelete({
-      _id: chatId,
-      user: userId,
-    });
+    const chat = await Chat.findOneAndDelete({ _id: chatId, user: userId });
 
     if (!chat) {
-      logger.warn(`Chat not found for ID: ${chatId}`);
+      console.error(`Chat not found for ID: ${chatId}`);
       return res.status(404).json({
         success: false,
         message: "Chat not found or access denied.",
       });
     }
 
-    logger.info(`Chat deleted with ID: ${chatId}`);
+    console.log(`Chat deleted with ID: ${chatId}`);
     return res.status(200).json({
       success: true,
       message: "Chat deleted successfully.",
     });
   } catch (error) {
-    logger.error(`Error deleting chat: ${error.message}`);
+    console.error(`Error deleting chat: ${error.message}`);
     return res.status(500).json({
       success: false,
       message: "Failed to delete chat. Please try again later.",

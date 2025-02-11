@@ -1,22 +1,37 @@
 .notifications-container {
   position: fixed;
-  z-index: 1000;
+  top: 20px;
+  right: 20px;
+  z-index: 999999;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem;
+  pointer-events: none; /* Allow clicking through the container */
 }
 
 .notification-alert {
+  pointer-events: auto; /* Re-enable pointer events for the actual alert */
   display: flex;
   align-items: center;
   padding: 0.5rem;
   border-radius: 0.5rem;
   border-left-width: 4px;
   transition: all 300ms ease-in-out;
-  transform-origin: center;
-  position: relative;
-  overflow: hidden;
+  transform-origin: right;
+  max-width: 400px;
+  min-width: 300px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .notification-alert:hover {

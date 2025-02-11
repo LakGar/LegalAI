@@ -22,6 +22,7 @@ import {
   sendMessage as sendChatMessage,
   deleteChat as removeChat,
 } from "../../services/chatService";
+import axios from "axios";
 
 export const listChats = () => async (dispatch) => {
   try {
@@ -49,27 +50,40 @@ export const getChatDetails = (chatId) => async (dispatch) => {
   }
 };
 
-export const createChat = (documentId) => async (dispatch) => {
+export const initiateChat = (documentId) => async (dispatch) => {
   try {
     dispatch({ type: CHAT_CREATE_REQUEST });
 
-    const { data } = await createNewChat(documentId);
+    console.log("Creating chat with document ID:", documentId);
+
+    const response = await axios.post(
+      "http://localhost:8000/api/chat",
+      { documentId },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    console.log("Chat creation response:", response.data);
 
     dispatch({
       type: CHAT_CREATE_SUCCESS,
-      payload: data,
+      payload: response.data,
     });
 
-    return data; // Return the created chat data
+    return response.data;
   } catch (error) {
+    console.error("Chat creation error:", error.response?.data || error);
+
     dispatch({
       type: CHAT_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: error.response?.data?.message || error.message,
     });
-    throw error; // Ensure the error propagates for handling
+
+    throw error;
   }
 };
 

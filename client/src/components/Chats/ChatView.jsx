@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./ChatView.css";
 import { IoSend, IoChevronDown } from "react-icons/io5";
 import { LuContainer } from "react-icons/lu";
 import { IoMdAddCircleOutline, IoMdTrash } from "react-icons/io";
 import SwitchDocument from "../Global/SwitchDocument";
 import { useDispatch, useSelector } from "react-redux";
-import { createChat, sendMessage } from "../../redux/actions/chatActions";
+import { initiateChat, sendMessage } from "../../redux/actions/chatActions";
 import DOMPurify from "dompurify";
 import RatingFeedback from "../Feedback/RatingFeedback";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import Notification from "../Global/Notification";
+import Logo from "../../assets/logo.png";
 const generatePastelColor = (str) => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -18,7 +20,7 @@ const generatePastelColor = (str) => {
   return `hsl(${h}, 70%, 85%)`;
 };
 
-const ChatView = ({ documents, user }) => {
+const ChatView = ({ documents = [], user, chats = [] }) => {
   const [isNewChat, setIsNewChat] = useState(true);
   const [newMessage, setNewMessage] = useState("");
   const [isSwitchDocModalOpen, setIsSwitchDocModalOpen] = useState(false);
@@ -26,13 +28,180 @@ const ChatView = ({ documents, user }) => {
   const [activeChatId, setActiveChatId] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [isAiResponding, setIsAiResponding] = useState(false);
-  // Tracks whether the user is at the bottom of the message list:
   const [isUserAtBottom, setIsUserAtBottom] = useState(true);
+  const [notification, setNotification] = useState(null);
 
   const dispatch = useDispatch();
-
-  // Ref for the messages container for auto-scroll.
   const messagesContainerRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleDocumentSelect = useCallback(
+    (document) => {
+      console.log("Selecting document:", document);
+
+      if (!document?._id) return;
+
+      setAttachedDocument(document);
+      setIsSwitchDocModalOpen(false);
+
+      // Ensure chats is an array before using find
+      const chatsArray = Array.isArray(chats) ? chats : [];
+      console.log("Chats array:", chatsArray);
+
+      // Find existing chat for this document
+      const existingChat = chatsArray.find(
+        (chat) => chat?.document._id === document._id
+      );
+      console.log("Found existing chat:", existingChat);
+
+      if (existingChat) {
+        // Set all chat-related state from the existing chat
+        setActiveChatId(existingChat._id);
+        setChatMessages(
+          existingChat.messages.map((msg) => ({
+            sender: msg.sender,
+            content: msg.content,
+            type: msg.type || "text",
+            status: msg.status || "sent",
+            _id: msg._id,
+            timestamp: msg.timestamp,
+          }))
+        );
+        setIsNewChat(false);
+      } else {
+        // Reset chat state for new chat
+        setActiveChatId(null);
+        setChatMessages([]);
+        setIsNewChat(true);
+      }
+    },
+    [chats]
+  );
+
+  const handleRemoveDocument = useCallback(() => {
+    // Then update state
+    setAttachedDocument(null);
+    setActiveChatId(null);
+    setChatMessages([]);
+    setIsNewChat(true);
+  }, []);
+
+  const handleAttachDocument = () => {
+    if (!documents || documents.length === 0) {
+      setNotification({
+        type: "warning",
+        message: "No documents available. Please upload a document first.",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setIsSwitchDocModalOpen(true);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (newMessage.trim() !== "" && !isAiResponding) {
+        handleSendMessage();
+      }
+    }
+  };
+
+  const checkDocumentAnalysis = (document) => {
+    if (!document) return true; // No document attached, so proceed
+
+    // Add logging to debug the document state
+    console.log("Document analysis status:", {
+      documentId: document._id,
+      status: document.status,
+      hasAnalysisResult: !!document.analysisResult,
+      document: document,
+    });
+
+    // Check status is 'analyzed' and analysisResult exists
+    return document.status === "analyzed" && !!document.analysisResult;
+  };
+
+  const handleSendMessage = async () => {
+    if (!newMessage.trim() || isAiResponding) return;
+
+    try {
+      let chatId = activeChatId;
+      setIsAiResponding(true);
+
+      console.log("Starting message send with chatId:", chatId); // Debug log
+
+      // Add user message to UI immediately
+      const userMessage = {
+        sender: "user",
+        content: newMessage,
+        type: "text",
+        status: "sent",
+      };
+
+      setChatMessages((prev) => [...prev, userMessage]);
+      setNewMessage("");
+      setIsNewChat(false);
+
+      // Add loading message
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          content: "",
+          isLoading: true,
+        },
+      ]);
+
+      const messageResponse = await dispatch(sendMessage(chatId, newMessage));
+      console.log("Message response:", messageResponse); // Debug log
+
+      // Check the actual response structure
+      if (!messageResponse) {
+        console.error("No response received from server");
+        throw new Error("No response received from server");
+      }
+
+      // Update the loading message with actual response
+      setChatMessages((prev) =>
+        prev.map((msg, index) => {
+          if (index === prev.length - 1 && msg.isLoading) {
+            return {
+              sender: "ai",
+              content:
+                messageResponse.aiMessage.content ||
+                messageResponse.message ||
+                "",
+              type: "text",
+              status: "sent",
+              isLoading: false,
+            };
+          }
+          return msg;
+        })
+      );
+    } catch (error) {
+      console.error("Error in chat operation:", error);
+      console.error("Error details:", {
+        // Additional error details
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      });
+
+      // Remove loading message if there was an error
+      setChatMessages((prev) => prev.filter((msg) => !msg.isLoading));
+
+      setNotification({
+        type: "error",
+        message: error.message || "Failed to send message. Please try again.",
+        duration: 5000,
+      });
+    } finally {
+      setIsAiResponding(false);
+    }
+  };
 
   // --- Auto-scroll Feature ---
   // Runs after chatMessages change. Auto-scroll only if the user is at the bottom.
@@ -71,60 +240,6 @@ const ChatView = ({ documents, user }) => {
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      if (newMessage.trim() !== "" && !isAiResponding) {
-        handleSendMessage();
-      }
-    }
-  };
-
-  const handleSendMessage = async () => {
-    if (!newMessage.trim() || isAiResponding) return;
-    try {
-      let chatId = activeChatId;
-      setIsAiResponding(true);
-      if (!chatId) {
-        const data = await dispatch(createChat(attachedDocument?._id));
-        chatId = data?._id;
-        if (!chatId) throw new Error("Chat creation failed.");
-        setActiveChatId(chatId);
-      }
-      // Add user message immediately
-      setChatMessages((prev) => [
-        ...prev,
-        { sender: "user", content: newMessage },
-      ]);
-      setNewMessage("");
-      setIsNewChat(false);
-      // Add temporary loading message for AI
-      setChatMessages((prev) => [
-        ...prev,
-        { sender: "ai", content: "", isLoading: true },
-      ]);
-      const messageResponse = await dispatch(sendMessage(chatId, newMessage));
-      // Update the loading message with the AI response
-      setChatMessages((prev) =>
-        prev.map((msg, index) => {
-          if (index === prev.length - 1 && msg.isLoading) {
-            return {
-              sender: "ai",
-              content: messageResponse.aiMessage?.content || "",
-              isLoading: false,
-            };
-          }
-          return msg;
-        })
-      );
-    } catch (error) {
-      console.error("Error sending message:", error);
-      // Error handling can be added here later.
-    } finally {
-      setIsAiResponding(false);
-    }
-  };
-
   const handleNewChat = () => {
     setIsNewChat(true);
     setNewMessage("");
@@ -133,209 +248,239 @@ const ChatView = ({ documents, user }) => {
     setChatMessages([]);
   };
 
-  const handleDocumentSelect = (document) => {
-    setAttachedDocument(document);
-    setIsSwitchDocModalOpen(false);
-  };
-
-  const handleRemoveDocument = () => {
-    setAttachedDocument(null);
-  };
-
   const sanitizeAndRenderHTML = (content) => {
     const sanitizedContent = DOMPurify.sanitize(content);
     return <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />;
   };
 
+  // Add CSS for notification link
+  const styles = `
+    .notification-link {
+      margin-left: 8px;
+      color: inherit;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit;
+    }
+    .notification-link:hover {
+      opacity: 0.8;
+    }
+  `;
+
+  // Add a useEffect to log the chat state when it changes
+  useEffect(() => {
+    if (attachedDocument) {
+      console.log("Current chat state:", {
+        documentId: attachedDocument._id,
+        activeChatId,
+        messagesCount: chatMessages.length,
+        isNewChat,
+      });
+    }
+  }, [attachedDocument, activeChatId, chatMessages, isNewChat]);
+
   return (
-    <div className="chat-view-container">
-      <div className={`new-chat-container ${!isNewChat ? "active" : ""}`}>
-        {isNewChat ? (
-          <>
-            <div className="new-chat-greetings">
-              <span>
-                Hi there, {user?.firstname || "User"} <br /> What would you like
-                to know?
-              </span>
-              <p>
-                Use one of the most common prompts below or use your own to
-                begin
-              </p>
-            </div>
-            <div className="new-chat-prompts">
-              <div className="new-chat-prompt">
-                <p>What's the most popular law in the US?</p>
-                <LuContainer />
+    <>
+      <style>{styles}</style>
+      <div className="chat-view-container">
+        <div className={`new-chat-container ${!isNewChat ? "active" : ""}`}>
+          {isNewChat ? (
+            <>
+              <div className="new-chat-greetings">
+                <span>
+                  Hi there, {user?.firstname || "User"} <br /> What would you
+                  like to know?
+                </span>
+                <p>
+                  Use one of the most common prompts below or use your own to
+                  begin
+                </p>
               </div>
-              <div className="new-chat-prompt">
-                <p>What's the best way to protect my client's privacy?</p>
-                <LuContainer />
-              </div>
-              <div className="new-chat-prompt">
-                <p>What are some common mistakes to avoid in a contract?</p>
-                <LuContainer />
-              </div>
-              <div className="new-chat-prompt">
-                <p>What's the best way to handle a dispute with my client?</p>
-                <LuContainer />
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="chat-area">
-            <div className="chat-header">
-              {!attachedDocument ? (
-                <p className="chat-name">General Chat</p>
-              ) : (
-                <p className="chat-name">{attachedDocument.name} chat</p>
-              )}
-              <p className="new-chat-button" onClick={handleNewChat}>
-                New Chat
-              </p>
-            </div>
-            <div
-              className="messages-container"
-              ref={messagesContainerRef}
-              style={{ position: "relative", height: "630px" }}
-            >
-              <div className="chat-messages">
-                {chatMessages.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`chat-message-container ${
-                      msg.sender === "ai" ? "ai-message" : "user-message"
-                    }`}
-                  >
-                    {msg.sender === "ai" ? (
-                      <>
-                        <div className="ai-profile-image">
-                          <svg
-                            viewBox="0 0 36 36"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18 2L34 12V24L18 34L2 24V12L18 2Z"
-                              fill="#4A90E2"
-                            />
-                            <path
-                              d="M18 10L26 15V25L18 30L10 25V15L18 10Z"
-                              fill="#FFFFFF"
-                            />
-                            <circle cx="18" cy="20" r="4" fill="#4A90E2" />
-                          </svg>
-                        </div>
-                        <div className="ai-message-wrapper">
-                          {msg.isLoading ? (
-                            <div className="typing-indicator">
-                              <span className="typing-text">Thinking</span>
-                              <div className="typing-dots">
-                                <div className="dot"></div>
-                                <div className="dot"></div>
-                                <div className="dot"></div>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="chat-message ai">
-                              {sanitizeAndRenderHTML(msg.content)}
-                            </div>
-                          )}
-                          {!msg.isLoading && (
-                            <div className="feedback-container">
-                              <RatingFeedback />
-                            </div>
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="user-message-wrapper">
-                        <div className="chat-message user">{msg.content}</div>
-                        <div
-                          className="user-profile-image user-initial"
-                          style={{
-                            backgroundColor: generatePastelColor(
-                              user?.firstname || "U"
-                            ),
-                          }}
-                        >
-                          {(user?.firstname?.[0] || "U").toUpperCase()}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-              {/* Render the scroll-to-bottom button if the user is not at the bottom */}
-              {!isUserAtBottom && (
-                <div className="scroll-to-bottom" onClick={scrollToBottom}>
-                  <IoChevronDown size={20} />
+              <div className="new-chat-prompts">
+                <div className="new-chat-prompt">
+                  <p>What's the most popular law in the US?</p>
+                  <LuContainer />
                 </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        <div
-          className={`new-chat-chat-box-container ${
-            !isNewChat ? "active-chat-box" : ""
-          }`}
-        >
-          <div className="new-chat-line-one">
-            <textarea
-              placeholder="Type your message here..."
-              className="new-chat-input"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <div className="send-button-container">
-              <p className="character-count">{newMessage.length}/1000</p>
-              <button className="send-button" onClick={handleSendMessage}>
-                <div className="svg-wrapper-1">
-                  <div className="svg-wrapper">
-                    <IoSend size={14} />
-                  </div>
+                <div className="new-chat-prompt">
+                  <p>What's the best way to protect my client's privacy?</p>
+                  <LuContainer />
                 </div>
-                <p>Send</p>
-              </button>
-            </div>
-          </div>
-
-          {!attachedDocument ? (
-            <div className="new-chat-line-two">
-              <div
-                className="attach-document-button"
-                onClick={() => setIsSwitchDocModalOpen(true)}
-              >
-                <IoMdAddCircleOutline />
-                <p>Attach Document</p>
+                <div className="new-chat-prompt">
+                  <p>What are some common mistakes to avoid in a contract?</p>
+                  <LuContainer />
+                </div>
+                <div className="new-chat-prompt">
+                  <p>What's the best way to handle a dispute with my client?</p>
+                  <LuContainer />
+                </div>
               </div>
-            </div>
+            </>
           ) : (
-            <div className="attached-document">
-              <p>
-                <strong>Attached:</strong> {attachedDocument.name}
-              </p>
-              <button
-                className="remove-document-button"
-                onClick={handleRemoveDocument}
+            <div className="chat-area">
+              <div className="chat-header">
+                {!attachedDocument ? (
+                  <p className="chat-name">General Chat</p>
+                ) : (
+                  <p className="chat-name">{attachedDocument.name} chat</p>
+                )}
+                <p className="new-chat-button" onClick={handleNewChat}>
+                  New Chat
+                </p>
+              </div>
+              <div
+                className="messages-container"
+                ref={messagesContainerRef}
+                style={{ position: "relative", height: "630px" }}
               >
-                <IoMdTrash size={18} />
-                Remove
-              </button>
+                <div className="chat-messages">
+                  {chatMessages.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`chat-message-container ${
+                        msg.sender === "ai" ? "ai-message" : "user-message"
+                      }`}
+                    >
+                      {msg.sender === "ai" ? (
+                        <>
+                          <img
+                            src={
+                              msg.isLoading
+                                ? "https://s7.ezgif.com/tmp/ezgif-76f1844c67ec4a.gif"
+                                : Logo
+                            }
+                            alt={
+                              msg.isLoading ? "AI thinking animation" : "Logo"
+                            }
+                            style={{ width: "40px", height: "40px" }}
+                          />
+                          <div className="ai-message-wrapper">
+                            {msg.isLoading ? (
+                              <div className="typing-indicator">
+                                <span className="typing-text">Thinking</span>
+                                <div className="typing-dots">
+                                  <div className="dot"></div>
+                                  <div className="dot"></div>
+                                  <div className="dot"></div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="chat-message ai">
+                                {sanitizeAndRenderHTML(msg.content)}
+                              </div>
+                            )}
+                            {!msg.isLoading && (
+                              <div className="feedback-container">
+                                <RatingFeedback />
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="user-message-wrapper">
+                          <div className="chat-message user">{msg.content}</div>
+                          <div
+                            className="user-profile-image user-initial"
+                            style={{
+                              backgroundColor: generatePastelColor(
+                                user?.firstname || "U"
+                              ),
+                            }}
+                          >
+                            {(user?.firstname?.[0] || "U").toUpperCase()}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {/* Render the scroll-to-bottom button if the user is not at the bottom */}
+                {!isUserAtBottom && (
+                  <div className="scroll-to-bottom" onClick={scrollToBottom}>
+                    <IoChevronDown size={20} />
+                  </div>
+                )}
+              </div>
             </div>
           )}
+
+          <div
+            className={`new-chat-chat-box-container ${
+              !isNewChat ? "active-chat-box" : ""
+            }`}
+          >
+            <div className="new-chat-line-one">
+              <textarea
+                placeholder="Type your message here..."
+                className="new-chat-input"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+                maxLength={1000}
+              />
+              <div className="send-button-container">
+                <p className="character-count">{newMessage.length}/1000</p>
+                <button
+                  className="send-button"
+                  onClick={handleSendMessage}
+                  disabled={isAiResponding}
+                >
+                  <div className="svg-wrapper-1">
+                    <div className="svg-wrapper">
+                      <IoSend size={14} />
+                    </div>
+                  </div>
+                  <p>Send</p>
+                </button>
+              </div>
+            </div>
+
+            <div className="document-controls">
+              {!attachedDocument ? (
+                <div className="new-chat-line-two">
+                  <div
+                    className="attach-document-button"
+                    onClick={handleAttachDocument}
+                  >
+                    <IoMdAddCircleOutline />
+                    <p>Attach Document</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="attached-document">
+                  <p>
+                    <strong>Attached:</strong> {attachedDocument.name}
+                  </p>
+                  <button
+                    className="remove-document-button"
+                    onClick={handleRemoveDocument}
+                  >
+                    <IoMdTrash size={18} />
+                    Remove
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+
+        {isSwitchDocModalOpen && documents && documents.length > 0 && (
+          <SwitchDocument
+            documents={documents}
+            closeModal={() => setIsSwitchDocModalOpen(false)}
+            setActiveDocument={handleDocumentSelect}
+            currentDocument={attachedDocument}
+          />
+        )}
       </div>
 
-      {isSwitchDocModalOpen && (
-        <SwitchDocument
-          documents={documents}
-          closeModal={() => setIsSwitchDocModalOpen(false)}
-          setActiveDocument={handleDocumentSelect}
-        />
+      {notification && (
+        <Notification {...notification} onClose={() => setNotification(null)} />
       )}
-    </div>
+    </>
   );
 };
 

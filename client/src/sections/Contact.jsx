@@ -15,11 +15,7 @@ function Footer() {
           <div className="footer-main">
             <div className="footer-section" style={{ width: "40%" }}>
               <div className="logo-wrapper">
-                <img
-                  src="https://cdn.dribbble.com/users/2367833/screenshots/15980259/media/d0f1510468542c69c8902b683430699c.gif"
-                  alt="Logo"
-                  className="footer-logo"
-                />
+                <img src={Logo} alt="Logo" className="footer-logo" />
                 <h2 className="logo-text">LegalAI</h2>
               </div>
               <p>

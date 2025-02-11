@@ -36,7 +36,7 @@ const Chat = () => {
       dispatch(listChats()); // Fetch chats if not already loaded
     }
   }, [dispatch, documents.length, chats.length]);
-
+  console.log("Chats:", chats);
   // Use useEffect to trigger the loader for 2 seconds
   useEffect(() => {
     const timer = setTimeout(() => {

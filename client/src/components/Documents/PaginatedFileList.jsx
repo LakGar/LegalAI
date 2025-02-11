@@ -13,6 +13,8 @@ import FileDetailView from "../Global/FileDetailView";
 import Notification from "../Global/Notification";
 import { deleteDocument } from "../../services/documentService";
 import FileLoader from "../Common/FileLoader";
+import { useNavigate } from "react-router-dom";
+import { analyzeDocument } from "../../services/documentService";
 
 const PaginatedFileList = ({ documents }) => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +32,7 @@ const PaginatedFileList = ({ documents }) => {
   const [showOptions, setShowOptions] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [notification, setNotification] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setUpdatedFiles(documents || []);
@@ -141,12 +144,8 @@ const PaginatedFileList = ({ documents }) => {
     setShowDeleteModal(true);
   };
 
-  const handleChatClick = (e, file) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log("Chat clicked for file:", file._id);
-    openFileDetailModal(file);
-    setShowOptions(null);
+  const handleChatClick = (document) => {
+    navigate(`/chats?documentId=${document._id}`);
   };
 
   const handleDelete = async () => {
@@ -171,6 +170,50 @@ const PaginatedFileList = ({ documents }) => {
       setNotification({
         message: error.message || "Failed to delete file",
         type: "error",
+      });
+    }
+  };
+
+  const handleAnalyzeDocument = async (document) => {
+    try {
+      setNotification({
+        type: "info",
+        message: "Analyzing document...",
+        duration: 2000,
+      });
+
+      const response = await dispatch(analyzeDocument(document._id));
+
+      if (response.success) {
+        setNotification({
+          type: "success",
+          message: "Document analyzed successfully!",
+          duration: 3000,
+        });
+      } else {
+        let errorMessage = "Failed to analyze document.";
+
+        // Handle specific error cases
+        if (response.error?.includes("Illegal character")) {
+          errorMessage =
+            "The PDF file appears to be corrupted or password-protected. Please ensure the file is accessible and try again.";
+        } else if (response.error?.includes("Failed to process PDF")) {
+          errorMessage =
+            "Unable to read the PDF file. Please make sure it's a valid PDF document.";
+        }
+
+        setNotification({
+          type: "error",
+          message: errorMessage,
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      setNotification({
+        type: "error",
+        message:
+          "An unexpected error occurred while analyzing the document. Please try again.",
+        duration: 5000,
       });
     }
   };

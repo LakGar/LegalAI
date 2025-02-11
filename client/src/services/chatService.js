@@ -54,8 +54,10 @@ export const getChat = async (chatId) => {
  * @param {string} [documentId] - Optional document ID to associate with the chat
  * @returns {Promise<Object>} - Returns the created chat
  */
-export const createChat = async (documentId = null) => {
+export const createNewChat = async (documentId) => {
   try {
+    console.log("Chat service creating chat with document:", documentId); // Debug log
+
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -63,19 +65,13 @@ export const createChat = async (documentId = null) => {
       },
     };
 
-    const { data } = await axios.post(
-      API_BASE_URL,
-      { documentId }, // Ensure `documentId` is passed correctly
-      config
-    );
-    console.log("Chat Services - Create Chat: ", data);
-    return data;
+    const response = await axios.post("/api/chats", { documentId }, config);
+
+    console.log("Chat service response:", response.data); // Debug log
+    return response.data;
   } catch (error) {
-    console.error(
-      "Error creating chat:",
-      error.response?.data || error.message
-    );
-    throw error.response?.data || new Error("Failed to create chat.");
+    console.error("Chat service error:", error.response?.data || error); // Debug log
+    throw error;
   }
 };
 
