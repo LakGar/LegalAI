@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_URL = "http://localhost:8000/api/documents";
-const API_URL = "https://legalai.dev/api/documents";
+const API_URL = "https://legalaiserver.vercel.app/api/documents";
 /**
  * Fetch all documents for the logged-in user.
  * @returns {Promise<Object>}
