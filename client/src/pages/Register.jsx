@@ -28,7 +28,6 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted");
 
     setError(""); // Clear previous error
     setSuccess(false); // Reset success state
@@ -43,13 +42,11 @@ const Register = () => {
       !confirmPassword
     ) {
       setError("All fields are required");
-      console.log("Validation failed: Missing fields");
       return;
     }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
-      console.log("Validation failed: Passwords do not match");
       return;
     }
 
@@ -61,11 +58,9 @@ const Register = () => {
 
     try {
       setLoading(true);
-      console.log("Attempting signup");
       const response = await signup(name, lastName, email, phone, password);
       setSuccess(true); // Set success on successful signup
       setLoading(false);
-      console.log("Signup successful: ", response);
       //navigate to email verfication
       navigate("/verify-email");
     } catch (error) {
