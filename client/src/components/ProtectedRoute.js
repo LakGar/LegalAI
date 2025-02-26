@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api/",
+  baseURL: "https://legalaiserver.vercel.app/api/",
 });
 
 // Add the token to the Authorization header for every request

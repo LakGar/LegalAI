@@ -47,7 +47,7 @@ function Footer() {
     setIsSubmitting(true);
     try {
       // Send feedback to your backend
-      await axios.post("/api/feedback", {
+      await axios.post("https://legalaiserver.vercel.app/api/feedback", {
         rating,
         feedback,
         email,

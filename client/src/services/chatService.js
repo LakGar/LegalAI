@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const API_BASE_URL = "https://legalaiserver.vercel.app/api/chat"; // Base URL for the chat API
-const API_BASE_URL = "http://localhost:8000/api/chat";
+const API_BASE_URL = "https://legalaiserver.vercel.app/api/chat"; // Base URL for the chat API
+// const API_BASE_URL = "http://localhost:8000/api/chat";
 /**
  * Get all chats for the logged-in user
  * @returns {Promise<Object>} - Returns chat data

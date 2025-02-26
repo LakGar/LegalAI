@@ -21,7 +21,6 @@ const DocumentDisplay = ({ file, closeModal }) => {
   const [pdfError, setPdfError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log("File:", file);
   useEffect(() => {
     const fetchPresignedUrl = async () => {
       try {
@@ -77,7 +76,7 @@ const DocumentDisplay = ({ file, closeModal }) => {
       console.error("Analysis error:", err);
       setAnalysisError("Analysis failed: " + (err.message || "Unknown error"));
       dispatch(
-        updateDocument(file._id, {
+        updateExistingDocument(file._id, {
           analysisError: err.message || "Unknown error",
           status: "error",
         })

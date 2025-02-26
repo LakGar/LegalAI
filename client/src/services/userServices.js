@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/users";
+// const API_URL = "http://localhost:8000/api/users";
+const API_URL = "https://legalaiserver.vercel.app/api/users";
 
 /**
  * Get user details
