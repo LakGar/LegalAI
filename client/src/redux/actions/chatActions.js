@@ -18,7 +18,6 @@ import {
 import {
   getChats as fetchChats,
   getChat as fetchChat,
-  createChat as createNewChat,
   sendMessage as sendChatMessage,
   deleteChat as removeChat,
 } from "../../services/chatService";
@@ -57,7 +56,7 @@ export const initiateChat = (documentId) => async (dispatch) => {
     console.log("Creating chat with document ID:", documentId);
 
     const response = await axios.post(
-      "https://legalaiserver.vercel.app/api/chat",
+      "http://localhost:8000/api/chat",
       { documentId },
       {
         headers: {

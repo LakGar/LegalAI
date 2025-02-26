@@ -195,12 +195,13 @@
 /* ---------------------------------------------------
    Chat Message Bubble Styles
 ----------------------------------------------------- */
-.chat-message {
-  padding: 12px 16px;
+.chat-message-main {
+  padding: 5px;
   border-radius: 12px;
-  font-size: 0.95rem;
-  line-height: 1.5;
   max-width: 70%;
+  font-family: "Arial", sans-serif;
+  line-height: 1.5;
+  font-size: 0.95rem;
   white-space: pre-line; /* Preserve newlines */
   word-wrap: break-word; /* Break long words if necessary */
   font-weight: 400;
@@ -208,7 +209,7 @@
 }
 
 /* User vs. AI Message Bubble */
-.chat-message.user {
+.chat-message-main.user {
   background-color: var(--user-msg-bg);
   color: var(--user-msg-text);
   padding: 12px 16px;
@@ -222,7 +223,7 @@
   letter-spacing: 0.2px;
 }
 
-.chat-message.ai {
+.chat-message-main.ai {
   background-color: #f0f2f5;
   color: #1a1a1a;
   border-top-left-radius: 4px;

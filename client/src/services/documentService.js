@@ -70,12 +70,16 @@ export const deleteDocument = async (id) => {
  * @param {string} documentUrl - Document URL to analyze.
  * @returns {Promise<Object>}
  */
-export const analyzeDocument = async (documentUrl) => {
+export const analyzeDocument = async (documentUrl, documentId) => {
   const response = await axios.post(
     `${API_URL}/analyze`,
-    { documentUrl },
+    { documentUrl, documentId },
     {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
     }
   );
   return response.data;

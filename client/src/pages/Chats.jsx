@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidenav from "../components/Global/Sidenav";
 import "./Dashboard.css"; // Create this CSS file for animation styles
-import PreviousChats from "../components/Global/PreviousChats";
+// import PreviousChats from "../components/Global/PreviousChats";
 import ChatComponent from "../components/Chats/ChatComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../redux/actions/userAction";
@@ -20,10 +20,9 @@ const Chat = () => {
   const documentState = useSelector((state) => state.documents);
   const chatState = useSelector((state) => state.chatList);
 
-  const { user, error: userError } = userState;
+  const { user } = userState;
   const { documents = [], loading: documentsLoading } = documentState;
-  const { chats = [], loading: chatsLoading, error: chatsError } = chatState;
-  const activeDocument = useSelector((state) => state.documents.activeDocument);
+  const { chats = [], loading: chatsLoading } = chatState;
   const [isSwitchDocModal, setIsSwitchDocModal] = useState(false);
 
   // Fetch user details, documents, and chats on mount
@@ -36,7 +35,6 @@ const Chat = () => {
       dispatch(listChats()); // Fetch chats if not already loaded
     }
   }, [dispatch, documents.length, chats.length]);
-  console.log("Chats:", chats);
   // Use useEffect to trigger the loader for 2 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -92,15 +90,14 @@ const Chat = () => {
       </div>
 
       {/* Chat Box */}
-      <div className="chatbox">
+      {/* <div className="chatbox">
         <PreviousChats
           chats={chats}
           activeDocument={activeDocument}
           documents={documents}
           openSwitchDocumentModal={openSwitchDocumentModal}
         />
-        {/* Pass chats to PreviousChats */}
-      </div>
+      </div> */}
       {/* Switch document modal */}
       {isSwitchDocModal && (
         <SwitchDocument

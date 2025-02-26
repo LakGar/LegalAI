@@ -11,12 +11,10 @@ import {
 import { useDispatch } from "react-redux";
 import FileDetailView from "../Global/FileDetailView";
 import Notification from "../Global/Notification";
-import { deleteDocument } from "../../services/documentService";
-import FileLoader from "../Common/FileLoader";
 import { useNavigate } from "react-router-dom";
 import { analyzeDocument } from "../../services/documentService";
 
-const PaginatedFileList = ({ documents }) => {
+const PaginatedFileList = ({ documents, user }) => {
   const [loading, setLoading] = useState(true);
   const files = documents || []; // Ensure `files` is always an array
   const dispatch = useDispatch();
@@ -56,7 +54,6 @@ const PaginatedFileList = ({ documents }) => {
   const fetchFileOwners = async (userId) => {
     try {
       const userData = await getUserById(userId); // Assuming this returns user data with `firstname`
-      console.log("Fetched user details:", userData);
       return userData.data.firstname || "Unknown"; // Return only firstname, or fallback to "Unknown"
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -131,7 +128,6 @@ const PaginatedFileList = ({ documents }) => {
   const handleOptionsClick = (e, file) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("Toggling options for file:", file._id);
     setSelectedFile(file);
     setShowOptions((prevState) => (prevState === file._id ? null : file._id));
   };
@@ -139,7 +135,6 @@ const PaginatedFileList = ({ documents }) => {
   const handleDeleteClick = (e, file) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("Delete clicked for file:", file._id);
     setSelectedFile(file);
     setShowDeleteModal(true);
   };
@@ -250,11 +245,13 @@ const PaginatedFileList = ({ documents }) => {
               </button>
               <button
                 className={`filter-btn ${
-                  filterOwner === "Alex Turner" ? "active-filter" : ""
+                  filterOwner === user.firstname || user.lastname
+                    ? "active-filter"
+                    : ""
                 }`}
-                onClick={() => handleFilterChange("Alex Turner")}
+                onClick={() => handleFilterChange(user.firstname)}
               >
-                Filter by Alex Turner
+                Filter by {user.firstname} {user.lastname}
               </button>
               <button
                 className={`filter-btn ${

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://legalaiserver.vercel.app/api/chat"; // Base URL for the chat API
-
+// const API_BASE_URL = "https://legalaiserver.vercel.app/api/chat"; // Base URL for the chat API
+const API_BASE_URL = "http://localhost:8000/api/chat";
 /**
  * Get all chats for the logged-in user
  * @returns {Promise<Object>} - Returns chat data
@@ -56,7 +56,7 @@ export const getChat = async (chatId) => {
  */
 export const createNewChat = async (documentId) => {
   try {
-    console.log("Chat service creating chat with document:", documentId); // Debug log
+    console.log("Chat service creating chat with document:", documentId);
 
     const config = {
       headers: {
@@ -65,12 +65,16 @@ export const createNewChat = async (documentId) => {
       },
     };
 
-    const response = await axios.post("/api/chats", { documentId }, config);
+    const response = await axios.post(
+      `${API_BASE_URL}`,
+      { documentId },
+      config
+    );
 
-    console.log("Chat service response:", response.data); // Debug log
+    console.log("Chat service response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Chat service error:", error.response?.data || error); // Debug log
+    console.error("Chat service error:", error.response?.data || error);
     throw error;
   }
 };

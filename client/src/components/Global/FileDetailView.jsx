@@ -2,23 +2,52 @@ import React, { useState, useEffect } from "react";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import DOMPurify from "dompurify";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
 import "./FileDetailView.css";
 import { IoChevronBack } from "react-icons/io5";
 import { analyzeDocument } from "../../services/documentService";
 import { useNavigate } from "react-router-dom";
+import { updateExistingDocument } from "../../redux/actions/documentAction";
+
 const DocumentDisplay = ({ file, closeModal }) => {
-  const fileUrl = `http://localhost:8000/${file.documentUrl}`;
   const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState("");
   const [analysisError, setAnalysisError] = useState("");
   const [isCached, setIsCached] = useState(false);
+  const [fileUrl, setFileUrl] = useState(null);
+  const [urlError, setUrlError] = useState("");
+  const [pdfError, setPdfError] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log("File:", file);
+  useEffect(() => {
+    const fetchPresignedUrl = async () => {
+      try {
+        const response = await axios.get(`/api/documents/file/${file._id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (response.data.success) {
+          setFileUrl(response.data.url);
+        } else {
+          setUrlError("Failed to get document URL");
+        }
+      } catch (error) {
+        console.error("Error fetching document URL:", error);
+        setUrlError("Error accessing document");
+      }
+    };
+
+    fetchPresignedUrl();
+  }, [file._id]);
+
   // Check for existing analysis in the file object on mount
   useEffect(() => {
-    console.log("Document data:", file); // Debug log to see document data
     if (file.analysisResult) {
-      console.log("Found existing analysis");
       setAnalysisResult(file.analysisResult);
       setIsCached(true);
     }
@@ -29,22 +58,87 @@ const DocumentDisplay = ({ file, closeModal }) => {
     setAnalysisError("");
 
     try {
-      const response = await analyzeDocument(file.documentUrl);
-      console.log("Analysis response:", response);
+      const response = await analyzeDocument(fileUrl, file._id);
 
       if (response.success) {
         setAnalysisResult(response.analysisText);
         setIsCached(response.cached);
+        dispatch(
+          updateExistingDocument(file._id, {
+            analysisResult: response.analysisText,
+            status: "analyzed",
+            analysisError: null,
+          })
+        );
       } else {
         setAnalysisError(response.message || "Analysis failed");
       }
     } catch (err) {
       console.error("Analysis error:", err);
       setAnalysisError("Analysis failed: " + (err.message || "Unknown error"));
+      dispatch(
+        updateDocument(file._id, {
+          analysisError: err.message || "Unknown error",
+          status: "error",
+        })
+      );
     } finally {
       setLoading(false);
     }
   };
+
+  const renderPdfViewer = () => {
+    if (pdfError) {
+      return (
+        <div className="pdf-error">
+          <p>Error loading PDF: {pdfError}</p>
+          <button onClick={() => window.open(fileUrl, "_blank")}>
+            Open PDF in new tab
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+        <Viewer
+          fileUrl={fileUrl}
+          onError={(error) => {
+            console.error("PDF loading error:", error);
+            setPdfError(error.message);
+          }}
+          withCredentials={false}
+          httpHeaders={{
+            "Access-Control-Allow-Origin": "*",
+          }}
+        />
+      </Worker>
+    );
+  };
+
+  if (urlError) {
+    return (
+      <div className="document-display-container">
+        <div className="header">
+          <IoChevronBack size={24} onClick={closeModal} />
+          <h3>Document Viewer</h3>
+        </div>
+        <div className="error-message">{urlError}</div>
+      </div>
+    );
+  }
+
+  if (!fileUrl) {
+    return (
+      <div className="document-display-container">
+        <div className="header">
+          <IoChevronBack size={24} onClick={closeModal} />
+          <h3>Document Viewer</h3>
+        </div>
+        <div className="loading-message">Loading document...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="document-display-container">
@@ -54,14 +148,7 @@ const DocumentDisplay = ({ file, closeModal }) => {
         <h3>Document Viewer</h3>
       </div>
 
-      <div className="document-display-pdf">
-        <Worker
-          workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js"
-          style={{ width: "100%" }}
-        >
-          <Viewer fileUrl={fileUrl} style={{ width: "100%" }} />
-        </Worker>
-      </div>
+      <div className="document-display-pdf">{renderPdfViewer()}</div>
 
       <div className="document-display-options">
         <div className="document-analysis-container">
@@ -85,8 +172,25 @@ const DocumentDisplay = ({ file, closeModal }) => {
                   <span className="cached-badge">Cached Analysis</span>
                 )}
                 <div
+                  className="analysis-content"
                   dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(analysisResult),
+                    __html: DOMPurify.sanitize(analysisResult, {
+                      USE_PROFILES: { html: true },
+                      ALLOWED_TAGS: [
+                        "div",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "p",
+                        "ul",
+                        "li",
+                        "strong",
+                        "em",
+                        "u",
+                        "span",
+                      ],
+                      ALLOWED_ATTR: ["class", "id"],
+                    }),
                   }}
                 />
               </div>

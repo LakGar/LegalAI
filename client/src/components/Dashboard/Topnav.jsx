@@ -5,12 +5,20 @@ import { FaCog } from "react-icons/fa";
 import { LuBell } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaFileAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "./Topnav.css";
 
 const Topnav = ({ user, documents }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredDocuments, setFilteredDocuments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
@@ -83,7 +91,10 @@ const Topnav = ({ user, documents }) => {
       <div className="nav-options">
         <FaCog className="icon" />
         <LuBell className="icon" />
-        <div className="profile-card">
+        <div
+          className="profile-card"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
           {!user.profileImage ? (
             <div className="noProfileImage">{user.firstname[0]}</div>
           ) : (
@@ -96,7 +107,22 @@ const Topnav = ({ user, documents }) => {
               {user.firstname} {user.lastname}
             </p>
           </div>
-          <IoIosArrowDown className="icon" />
+          <IoIosArrowDown className={`icon ${showDropdown ? "rotated" : ""}`} />
+
+          {showDropdown && (
+            <div className="profile-dropdown">
+              <div className="dropdown-header">
+                <strong>
+                  {user.firstname} {user.lastname}
+                </strong>
+                <span>{user.email}</span>
+              </div>
+              <div className="dropdown-divider"></div>
+              <button className="dropdown-item" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaFileAlt, FaDownload, FaShareAlt, FaRobot } from "react-icons/fa";
+import DOMPurify from "dompurify";
 import "./ChatBox.css";
 import { CiChat1, CiFolderOn } from "react-icons/ci";
 import { BiAnalyse } from "react-icons/bi";
@@ -7,16 +8,21 @@ import { CiImport } from "react-icons/ci";
 import { NavLink, useNavigate } from "react-router-dom";
 import FileUploadModal from "./FileUploadModal";
 import Notification from "./Notification";
-
-const stripHtmlTags = (html) => {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, "");
-};
+import { setActiveDocument } from "../../redux/actions/documentAction";
+import { useDispatch } from "react-redux";
 
 const ChatBox = ({ user, documents, activeDocument }) => {
   const navigate = useNavigate();
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [notification, setNotification] = useState(null);
+  const dispatch = useDispatch();
+
+  // Set first document as activeDocument if no document is active and documents exist
+  useEffect(() => {
+    if (!activeDocument && documents && documents.length > 0) {
+      dispatch(setActiveDocument(documents[0]));
+    }
+  }, [activeDocument, documents, dispatch]);
 
   const userName = user?.firstname || "User";
   const files = documents || [];
@@ -75,11 +81,34 @@ const ChatBox = ({ user, documents, activeDocument }) => {
     ? chats.find((chat) => chat.document === activeDocument._id)
     : null;
 
+  const sanitizeHtml = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html, {
+        ALLOWED_TAGS: [
+          "div",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "p",
+          "span",
+          "strong",
+          "em",
+          "u",
+          "ul",
+          "ol",
+          "li",
+          "br",
+        ],
+        ALLOWED_ATTR: ["class", "style"],
+      }),
+    };
+  };
+
   return (
     <div className="chatbox-container">
       <div className="chatbox-top">
         {activeDocument ? (
-          // Display active document
           <div className="document-card">
             <div className="document-info">
               <FaFileAlt className="file-icon" />
@@ -94,31 +123,6 @@ const ChatBox = ({ user, documents, activeDocument }) => {
               <button
                 className="action-btn"
                 onClick={() => handleChatClick(activeDocument)}
-              >
-                <FaRobot />
-              </button>
-              <button className="action-btn">
-                <FaDownload />
-              </button>
-              <button className="action-btn">
-                <FaShareAlt />
-              </button>
-            </div>
-          </div>
-        ) : files?.length ? (
-          // Display the first document if no active document
-          <div className="document-card">
-            <div className="document-info">
-              <FaFileAlt className="file-icon" />
-              <p className="file-name">
-                {files[0].name || "Legal_Document.pdf"}
-              </p>
-              <p className="file-size">Size: {files[0].size || "1.2 MB"}</p>
-            </div>
-            <div className="action-buttons">
-              <button
-                className="action-btn"
-                onClick={() => handleChatClick(files[0])}
               >
                 <FaRobot />
               </button>
@@ -201,27 +205,18 @@ const ChatBox = ({ user, documents, activeDocument }) => {
                   message.sender === "ai" ? "ai-message" : "user-message"
                 }`}
               >
-                <div className="message-icon">
-                  {message.sender === "ai" ? (
-                    <img
-                      src="https://images.unsplash.com/photo-1666597107756-ef489e9f1f09?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGFpfGVufDB8fDB8fHww"
-                      alt="AI Profile"
-                      className="user-img"
-                    />
-                  ) : (
-                    <img
-                      src="https://images.unsplash.com/photo-1717719405891-c60737ef4082?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ4fHxncmFkaWVudCUyMHNreXxlbnwwfHwwfHx8MA%3D%3D"
-                      alt="User Profile"
-                      className="user-img"
-                    />
-                  )}
-                </div>
                 <div
                   className={`message ${
                     message.sender === "ai" ? "ai-chat" : "user-chat"
                   }`}
                 >
-                  {message.content}
+                  {message.sender === "ai" ? (
+                    <div
+                      dangerouslySetInnerHTML={sanitizeHtml(message.content)}
+                    />
+                  ) : (
+                    message.content
+                  )}
                 </div>
               </div>
             ))}
@@ -250,7 +245,7 @@ const ChatBox = ({ user, documents, activeDocument }) => {
           <div className="chat-preview-content">
             <div className="truncated-message">
               {(() => {
-                const cleanContent = stripHtmlTags(
+                const cleanContent = DOMPurify.sanitize(
                   chats[0]?.lastMessage?.content
                 );
                 return cleanContent?.length > 100

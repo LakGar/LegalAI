@@ -4,21 +4,13 @@ import { IoSend, IoChevronDown } from "react-icons/io5";
 import { LuContainer } from "react-icons/lu";
 import { IoMdAddCircleOutline, IoMdTrash } from "react-icons/io";
 import SwitchDocument from "../Global/SwitchDocument";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { initiateChat, sendMessage } from "../../redux/actions/chatActions";
 import DOMPurify from "dompurify";
 import RatingFeedback from "../Feedback/RatingFeedback";
-import { useLocation, useNavigate } from "react-router-dom";
 import Notification from "../Global/Notification";
 import Logo from "../../assets/logo.png";
-const generatePastelColor = (str) => {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const h = hash % 360;
-  return `hsl(${h}, 70%, 85%)`;
-};
+import { setActiveDocument } from "../../redux/actions/documentAction";
 
 const ChatView = ({ documents = [], user, chats = [] }) => {
   const [isNewChat, setIsNewChat] = useState(true);
@@ -33,13 +25,23 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
 
   const dispatch = useDispatch();
   const messagesContainerRef = useRef(null);
-  const navigate = useNavigate();
 
   const handleDocumentSelect = useCallback(
-    (document) => {
+    async (document) => {
       console.log("Selecting document:", document);
-
+      dispatch(setActiveDocument(document));
       if (!document?._id) return;
+
+      // Check if document has been analyzed
+      if (!document.analysisResult) {
+        setNotification({
+          type: "warning",
+          message:
+            "This document hasn't been analyzed yet. Please analyze the document first.",
+          duration: 3000,
+        });
+        return;
+      }
 
       setAttachedDocument(document);
       setIsSwitchDocModalOpen(false);
@@ -50,12 +52,11 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
 
       // Find existing chat for this document
       const existingChat = chatsArray.find(
-        (chat) => chat?.document._id === document._id
+        (chat) => chat?.document?._id === document._id
       );
       console.log("Found existing chat:", existingChat);
 
       if (existingChat) {
-        // Set all chat-related state from the existing chat
         setActiveChatId(existingChat._id);
         setChatMessages(
           existingChat.messages.map((msg) => ({
@@ -69,13 +70,28 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
         );
         setIsNewChat(false);
       } else {
-        // Reset chat state for new chat
-        setActiveChatId(null);
-        setChatMessages([]);
-        setIsNewChat(true);
+        try {
+          const newChatResponse = await dispatch(initiateChat(document._id));
+          console.log("New chat created:", newChatResponse);
+
+          if (newChatResponse?.data) {
+            setActiveChatId(newChatResponse.data._id);
+            setChatMessages([]);
+            setIsNewChat(false);
+          } else {
+            throw new Error("Failed to create new chat");
+          }
+        } catch (error) {
+          console.error("Error creating new chat:", error);
+          setNotification({
+            type: "error",
+            message: "Failed to create chat. Please try again.",
+            duration: 3000,
+          });
+        }
       }
     },
-    [chats]
+    [chats, dispatch]
   );
 
   const handleRemoveDocument = useCallback(() => {
@@ -126,11 +142,21 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
   const handleSendMessage = async () => {
     if (!newMessage.trim() || isAiResponding) return;
 
+    // Check if document is attached
+    if (!attachedDocument) {
+      setNotification({
+        type: "warning",
+        message: "Please attach a document before starting a chat.",
+        duration: 3000,
+      });
+      return;
+    }
+
     try {
       let chatId = activeChatId;
       setIsAiResponding(true);
 
-      console.log("Starting message send with chatId:", chatId); // Debug log
+      console.log("Starting message send with chatId:", chatId);
 
       // Add user message to UI immediately
       const userMessage = {
@@ -155,11 +181,9 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
       ]);
 
       const messageResponse = await dispatch(sendMessage(chatId, newMessage));
-      console.log("Message response:", messageResponse); // Debug log
+      console.log("Message response:", messageResponse);
 
-      // Check the actual response structure
       if (!messageResponse) {
-        console.error("No response received from server");
         throw new Error("No response received from server");
       }
 
@@ -184,13 +208,11 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
     } catch (error) {
       console.error("Error in chat operation:", error);
       console.error("Error details:", {
-        // Additional error details
         name: error.name,
         message: error.message,
         stack: error.stack,
       });
 
-      // Remove loading message if there was an error
       setChatMessages((prev) => prev.filter((msg) => !msg.isLoading));
 
       setNotification({
@@ -289,7 +311,7 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
       <div className="chat-view-container">
         <div className={`new-chat-container ${!isNewChat ? "active" : ""}`}>
           {isNewChat ? (
-            <>
+            <div>
               <div className="new-chat-greetings">
                 <span>
                   Hi there, {user?.firstname || "User"} <br /> What would you
@@ -318,7 +340,7 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
                   <LuContainer />
                 </div>
               </div>
-            </>
+            </div>
           ) : (
             <div className="chat-area">
               <div className="chat-header">
@@ -346,17 +368,33 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
                     >
                       {msg.sender === "ai" ? (
                         <>
-                          <img
-                            src={
-                              msg.isLoading
-                                ? "https://s7.ezgif.com/tmp/ezgif-76f1844c67ec4a.gif"
-                                : Logo
-                            }
-                            alt={
-                              msg.isLoading ? "AI thinking animation" : "Logo"
-                            }
-                            style={{ width: "40px", height: "40px" }}
-                          />
+                          {msg.isLoading ? (
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                overflow: "hidden",
+                                width: 40,
+                                height: 40,
+                                marginRight: "10px",
+                              }}
+                            >
+                              <img
+                                src="https://cdn.dribbble.com/users/2367833/screenshots/15980259/media/d0f1510468542c69c8902b683430699c.gif"
+                                alt="AI Profile"
+                                style={{ width: "120px", height: "100px" }}
+                              />
+                            </div>
+                          ) : (
+                            <>
+                              <img
+                                src={Logo}
+                                alt="AI Profile"
+                                style={{ width: "40px", height: "40px" }}
+                              />
+                            </>
+                          )}
                           <div className="ai-message-wrapper">
                             {msg.isLoading ? (
                               <div className="typing-indicator">
@@ -368,7 +406,7 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
                                 </div>
                               </div>
                             ) : (
-                              <div className="chat-message ai">
+                              <div className="chat-message-main ai">
                                 {sanitizeAndRenderHTML(msg.content)}
                               </div>
                             )}
@@ -382,16 +420,6 @@ const ChatView = ({ documents = [], user, chats = [] }) => {
                       ) : (
                         <div className="user-message-wrapper">
                           <div className="chat-message user">{msg.content}</div>
-                          <div
-                            className="user-profile-image user-initial"
-                            style={{
-                              backgroundColor: generatePastelColor(
-                                user?.firstname || "U"
-                              ),
-                            }}
-                          >
-                            {(user?.firstname?.[0] || "U").toUpperCase()}
-                          </div>
                         </div>
                       )}
                     </div>

@@ -4,90 +4,215 @@ import {
   VERIFICATION_EMAIL_TEMPLATE,
   WELCOME_EMAIL_TEMPLATE,
 } from "./emailTemplate.js";
-import { mailtrapClient, sender } from "../config/mailtrap.js";
-import { MailtrapClient } from "mailtrap";
+import sgMail from "@sendgrid/mail";
+import config from "../config/config.js";
 
-const client = new MailtrapClient({ token: process.env.MAILTRAP_TOKEN });
+// Initialize SendGrid
+if (!config.SENDGRID_API_KEY) {
+  console.error("SENDGRID_API_KEY is not configured in environment variables");
+  throw new Error("Email service configuration is missing");
+}
+
+sgMail.setApiKey(config.SENDGRID_API_KEY);
+
+const sender = {
+  email: "lakgarg2002@gmail.com", // Update this with your verified sender
+  name: "LegalAI Team",
+};
 
 export const sendVerificationEmail = async (to, code, name) => {
   try {
-    const sender = {
-      email: "noreply@legalai.com",
-      name: "LegalAI Team",
+    console.log(
+      `Attempting to send verification email to: ${to} with code: ${code} and name: ${name}`
+    );
+
+    if (!to || !code || !name) {
+      throw new Error("Missing required parameters for verification email");
+    }
+
+    const msg = {
+      to: to,
+      from: {
+        email: sender.email,
+        name: sender.name,
+      },
+      subject: "Verify your email address",
+      html: VERIFICATION_EMAIL_TEMPLATE.replace("{name}", name).replace(
+        "{verificationCode}",
+        code
+      ),
     };
 
-    await client.send({
-      from: sender,
-      to: [{ email: to }],
-      subject: "Verify your email address",
-      html: `
-        <h1>Welcome to LegalAI!</h1>
-        <p>Hi ${name},</p>
-        <p>Your verification code is: <strong>${code}</strong></p>
-        <p>This code will expire in 30 minutes.</p>
-      `,
-    });
-
-    console.log("Verification email sent successfully");
+    const response = await sgMail.send(msg);
+    console.log("Verification email sent successfully to:", to);
+    return response;
   } catch (error) {
-    console.error("Error sending verification email:", error);
-    throw error;
+    console.error("Error sending verification email:", {
+      error: error.message,
+      code: error.code,
+      response: error.response?.body,
+    });
+    throw new Error(`Failed to send verification email: ${error.message}`);
   }
 };
 
 export const sendWelcomeEmail = async (email, name) => {
-  const recipient = [{ email }];
-
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
-      subject: "Verify your email",
+    console.log(`Attempting to send welcome email to: ${email}`);
+
+    if (!email || !name) {
+      throw new Error("Missing required parameters for welcome email");
+    }
+
+    const msg = {
+      to: email,
+      from: {
+        email: sender.email,
+        name: sender.name,
+      },
+      subject: "Welcome to LegalAI",
       html: WELCOME_EMAIL_TEMPLATE.replace("{name}", name),
-    });
+    };
 
-    console.log("Welcome email sent successfully", response);
+    const response = await sgMail.send(msg);
+    console.log("Welcome email sent successfully to:", email);
+    return response;
   } catch (error) {
-    console.error(`Error sending welcome email`, error);
-
-    throw new Error(`Error sending welcome email: ${error}`);
+    console.error("Error sending welcome email:", {
+      error: error.message,
+      code: error.code,
+      response: error.response?.body,
+    });
+    throw new Error(`Failed to send welcome email: ${error.message}`);
   }
 };
 
 export const sendPasswordResetEmail = async (email, resetURL) => {
-  const recipient = [{ email }];
-
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
+    console.log(`Attempting to send password reset email to: ${email}`);
+
+    if (!email || !resetURL) {
+      throw new Error("Missing required parameters for password reset email");
+    }
+
+    const msg = {
+      to: email,
+      from: {
+        email: sender.email,
+        name: sender.name,
+      },
       subject: "Reset your password",
       html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
-      category: "Password Reset",
-    });
-  } catch (error) {
-    console.error(`Error sending password reset email`, error);
+    };
 
-    throw new Error(`Error sending password reset email: ${error}`);
+    const response = await sgMail.send(msg);
+    console.log("Password reset email sent successfully to:", email);
+    return response;
+  } catch (error) {
+    console.error("Error sending password reset email:", {
+      error: error.message,
+      code: error.code,
+      response: error.response?.body,
+    });
+    throw new Error(`Failed to send password reset email: ${error.message}`);
   }
 };
 
 export const sendResetSuccessEmail = async (email) => {
-  const recipient = [{ email }];
-
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
+    console.log(`Attempting to send reset success email to: ${email}`);
+
+    if (!email) {
+      throw new Error("Missing required parameter for reset success email");
+    }
+
+    const msg = {
+      to: email,
+      from: {
+        email: sender.email,
+        name: sender.name,
+      },
       subject: "Password Reset Successful",
       html: PASSWORD_RESET_SUCCESS_TEMPLATE,
-      category: "Password Reset",
-    });
+    };
 
-    console.log("Password reset email sent successfully", response);
+    const response = await sgMail.send(msg);
+    console.log("Password reset success email sent to:", email);
+    return response;
   } catch (error) {
-    console.error(`Error sending password reset success email`, error);
+    console.error("Error sending reset success email:", {
+      error: error.message,
+      code: error.code,
+      response: error.response?.body,
+    });
+    throw new Error(`Failed to send reset success email: ${error.message}`);
+  }
+};
 
-    throw new Error(`Error sending password reset success email: ${error}`);
+export const FEEDBACK_EMAIL_TEMPLATE = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #8b5cf6; color: white; padding: 20px; border-radius: 8px; }
+    .content { padding: 20px; background: #f9fafb; border-radius: 8px; margin-top: 20px; }
+    .rating { font-size: 24px; color: #8b5cf6; margin: 10px 0; }
+    .feedback { background: white; padding: 15px; border-radius: 8px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>New Feedback Received</h2>
+    </div>
+    <div class="content">
+      <p><strong>From:</strong> {userEmail}</p>
+      <p><strong>Rating:</strong></p>
+      <div class="rating">{rating} ⭐</div>
+      <p><strong>Feedback:</strong></p>
+      <div class="feedback">
+        {feedback}
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+export const sendFeedbackEmail = async (
+  adminEmail,
+  { userEmail, rating, feedback }
+) => {
+  try {
+    console.log(`Attempting to send feedback email to admin: ${adminEmail}`);
+
+    if (!adminEmail || !userEmail || !rating || !feedback) {
+      throw new Error("Missing required parameters for feedback email");
+    }
+
+    const msg = {
+      to: adminEmail,
+      from: {
+        email: sender.email,
+        name: sender.name,
+      },
+      subject: `New Feedback Received - Rating: ${rating}/5`,
+      html: FEEDBACK_EMAIL_TEMPLATE.replace("{userEmail}", userEmail)
+        .replace("{rating}", rating)
+        .replace("{feedback}", feedback),
+    };
+
+    const response = await sgMail.send(msg);
+    console.log("Feedback email sent successfully to admin");
+    return response;
+  } catch (error) {
+    console.error("Error sending feedback email:", {
+      error: error.message,
+      code: error.code,
+      response: error.response?.body,
+    });
+    throw new Error(`Failed to send feedback email: ${error.message}`);
   }
 };

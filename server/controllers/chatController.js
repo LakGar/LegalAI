@@ -184,8 +184,6 @@ export const sendMessage = async (req, res) => {
     }
 
     const documentContext = chat.document?.analysisResult || "";
-    const fullMessage = `${documentContext}User message: ${content}`;
-    console.log("Full message:", fullMessage);
     const userMessage = {
       sender: "user",
       content: content,
@@ -198,7 +196,13 @@ export const sendMessage = async (req, res) => {
     const messages = [
       {
         role: "system",
-        content: `You are a professional legal assistant. Your role is to help users understand and analyze legal documents.`,
+        content: `You are a professional legal assistant. Your role is to help users understand and analyze legal documents. Here is the document analysis for context:
+
+${documentContext}
+
+Please use this context to provide informed responses to the user's questions. Send your response in html tags:
+
+`,
       },
       ...chat.messages.map((msg) => ({
         role: msg.sender === "ai" ? "assistant" : "user",

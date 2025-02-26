@@ -29,7 +29,7 @@ const Team = () => {
 
   return (
     <div className="dashboard-container">
-      <div class="background">
+      <div className="background">
         <div></div>
         <div></div>
         <div></div>

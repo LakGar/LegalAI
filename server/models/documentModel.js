@@ -27,8 +27,15 @@ const documentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    s3Key: {
+      type: String,
+      required: true,
+    },
     analysisResult: {
       type: mongoose.Schema.Types.Mixed, // Can store varied analysis results (e.g., JSON, text)
+    },
+    analysisError: {
+      type: String,
     },
     folders: [
       {
@@ -38,7 +45,7 @@ const documentSchema = new mongoose.Schema(
     ],
     status: {
       type: String,
-      enum: ["pending", "analyzed", "in-progress"],
+      enum: ["pending", "analyzed", "failed"],
       default: "pending",
     },
     uploadedAt: {

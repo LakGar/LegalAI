@@ -219,8 +219,8 @@
   width: 100%;
 }
 
-.cancel-button,
-.upload-button {
+.cancel-button-file-upload,
+.upload-button-file-upload {
   padding: 10px 20px;
   font-size: 1rem;
   border-radius: 8px;
@@ -230,21 +230,21 @@
   max-width: 400px;
 }
 
-.cancel-button {
+.cancel-button-file-upload {
   background-color: #ccc;
   color: #333;
   font-weight: 500;
 }
-.cancel-button:hover {
+.cancel-button-file-upload:hover {
   background-color: #bbb;
 }
 
-.upload-button {
+.upload-button-file-upload {
   background-color: #007bff;
   color: white;
   font-weight: 500;
 }
-.upload-button:hover {
+.upload-button-file-upload:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);

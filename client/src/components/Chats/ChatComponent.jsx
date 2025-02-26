@@ -17,7 +17,7 @@ const ChatComponent = ({ documents, user, chats }) => {
 
   return (
     <div className="dash-component-container ">
-      <Topnav user={user} />
+      <Topnav user={user} documents={documents} />
       <div className="dash-component " style={{ paddingRight: "0px" }}>
         <ChatView
           documents={documents}

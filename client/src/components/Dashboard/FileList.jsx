@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { FaFilePdf, FaPlus } from "react-icons/fa"; // PDF Icon
-import { FiMoreVertical } from "react-icons/fi"; // Options Icon
+import { FaFilePdf, FaTrash } from "react-icons/fa"; // PDF Icon and Trash Icon
 import "./FileList.css"; // Include the CSS for the loader and table
 import { getUserById } from "../../services/userServices";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deleteExistingDocument } from "../../redux/actions/documentAction";
+import Notification from "../Global/Notification";
 
 const FileList = ({ user, documents }) => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const files = documents || [];
-  const [filterOwner, setFilterOwner] = useState("");
+  // const [filterOwner, setFilterOwner] = useState("");
   const [updatedFiles, setUpdatedFiles] = useState(files);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   // Fetch file owners by user ID
   const fetchFileOwners = async (userId) => {
     try {
       const userData = await getUserById(userId); // Assuming this returns user data with `firstname`
-      console.log("Fetched user details:", userData);
       return userData.data.firstname || "Unknown"; // Return only firstname, or fallback to "Unknown"
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -52,6 +57,40 @@ const FileList = ({ user, documents }) => {
     const options = { year: "numeric", month: "short", day: "numeric" };
     return new Date(date).toLocaleDateString("en-US", options);
   };
+
+  const handleDeleteClick = (e, file) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedFile(file);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setNotification({
+      message: "Deleting file...",
+      type: "info",
+    });
+
+    try {
+      await dispatch(deleteExistingDocument(selectedFile._id));
+      setNotification({
+        message: "File deleted successfully",
+        type: "success",
+      });
+
+      const newFiles = updatedFiles.filter(
+        (file) => file._id !== selectedFile._id
+      );
+      setUpdatedFiles(newFiles);
+    } catch (error) {
+      setNotification({
+        message: error.message || "Failed to delete file",
+        type: "error",
+      });
+    }
+  };
+
   return (
     <div className="file-list-container">
       {updatedFiles.length === 0 ? (
@@ -156,7 +195,7 @@ const FileList = ({ user, documents }) => {
                 <th>Date uploaded</th>
                 <th>Last updated</th>
                 <th>Owner</th>
-                <th>Options</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -183,8 +222,12 @@ const FileList = ({ user, documents }) => {
                       <td>{formatDate(file.updatedAt)}</td>
                       <td>{file.firstname}</td>
                       <td>
-                        <button className="options-btn">
-                          <FiMoreVertical />
+                        <button
+                          className="delete-btn"
+                          onClick={(e) => handleDeleteClick(e, file)}
+                          title="Delete file"
+                        >
+                          <FaTrash />
                         </button>
                       </td>
                     </tr>
@@ -192,6 +235,36 @@ const FileList = ({ user, documents }) => {
             </tbody>
           </table>
         </div>
+      )}
+
+      {showDeleteModal && (
+        <div className="delete-modal-overlay">
+          <div className="delete-modal">
+            <h3 className="delete-modal-header">Delete File</h3>
+            <p className="delete-modal-content">
+              Are you sure you want to delete "{selectedFile?.name}"? This
+              action cannot be undone.
+            </p>
+            <div className="delete-modal-actions">
+              <button
+                className="delete-modal-btn cancel"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="delete-modal-btn delete"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {notification && (
+        <Notification {...notification} onClose={() => setNotification(null)} />
       )}
     </div>
   );

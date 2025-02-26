@@ -1,23 +1,22 @@
 import React from "react";
-import {
-  FaHome,
-  FaTasks,
-  FaUsers,
-  FaCog,
-  FaQuestionCircle,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { FaUsers, FaCog, FaQuestionCircle, FaSignOutAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoDocument } from "react-icons/io5";
 import { IoChatbox } from "react-icons/io5";
-
-import { BsPlusCircle } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "./Sidenav.css";
 import Logo from "../../assets/logo.png";
 import StorageCard from "./StorageCard";
 
 const Sidenav = ({ user }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <div className="sidenav-container">
       <div className="sidenav-top">
@@ -48,35 +47,37 @@ const Sidenav = ({ user }) => {
             <FaUsers className="icon" />
             <span className="sidenav-link-text">Team</span>
           </NavLink>
-
+          {/* 
           <NavLink to="/settings" className="sidenav-link">
             <FaCog className="icon" />
             <span className="sidenav-link-text">Settings</span>
-          </NavLink>
+          </NavLink> */}
         </div>
       </div>
-      <div className="storage-card-container">
+      {/* <div className="storage-card-container">
         <StorageCard />
-      </div>
+      </div> */}
       {/* Upgrade CTA */}
-      <div className="sidenav-cta">
+      {/* <div className="sidenav-cta">
         <div className="upgrade-section">
           <p>Upgrade to Pro</p>
           <span>Get 1 month free and unlock</span>
           <button className="upgrade-btn">Upgrade</button>
         </div>
 
-        {/* Help and Log Out */}
-      </div>
+      </div> */}
       <div className="sidenav-bottom">
-        <NavLink to="/help" className="help-link">
+        <a
+          href="https://www.linkedin.com/company/legalai-dev/ "
+          className="help-link"
+        >
           <FaQuestionCircle className="icon" />
           <span className="sidenav-link-text">Help & Information</span>
-        </NavLink>
-        <NavLink to="/logout" className="logout-link">
+        </a>
+        <div onClick={handleLogout} className="logout-link">
           <FaSignOutAlt className="icon" />
           <span className="sidenav-link-text">Log out</span>
-        </NavLink>
+        </div>
       </div>
     </div>
   );

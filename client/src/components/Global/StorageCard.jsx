@@ -1,6 +1,5 @@
 import React from "react";
 import "./StorageCard.css"; // CSS file for styling
-import { FiCloud } from "react-icons/fi"; // Using React Icons for the cloud icon
 import { MdFlashOn } from "react-icons/md"; // Using React Icons for the flash icon
 
 const StorageCard = () => {

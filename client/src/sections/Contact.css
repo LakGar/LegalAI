@@ -345,3 +345,144 @@
     grid-template-columns: 1fr;
   }
 }
+
+.feedback-button {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.feedback-button:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.feedback-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.feedback-modal {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  width: 500px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: slideUp 0.4s ease;
+}
+
+.feedback-modal h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 8px;
+}
+
+.feedback-modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 50%;
+  background: #f5f5f7;
+}
+
+.feedback-modal-close:hover {
+  background: #e5e7eb;
+  color: #1d1d1f;
+}
+
+.feedback-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.rating-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: all 0.3s ease;
+}
+
+.star-button:hover {
+  transform: scale(1.2);
+}
+
+.star-button.active svg {
+  fill: #8b5cf6;
+  stroke: #8b5cf6;
+}
+
+.feedback-modal input,
+.feedback-modal textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #f9fafb;
+}
+
+.feedback-modal input:focus,
+.feedback-modal textarea:focus {
+  border-color: #8b5cf6;
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+}
+
+.submit-feedback {
+  background: linear-gradient(135deg, #000000 0%, #352262 50%, #000000 100%);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submit-feedback:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+@media (max-width: 768px) {
+  .feedback-modal {
+    width: 90%;
+    padding: 30px;
+    margin: 20px;
+  }
+}

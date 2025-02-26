@@ -89,7 +89,8 @@ export const verifyEmail = async (req, res) => {
     // Generate the token after verification success
     generateTokenAndSetCookie(res, user._id); // Set token in cookie
 
-    await sendWelcomeEmail("lakgarg2002@gmail.com", user.firstname);
+    // Send welcome email to the user's email address
+    await sendWelcomeEmail(user.email, user.firstname);
 
     return res.status(200).json({
       success: true,
@@ -201,8 +202,8 @@ export const resetPassword = async (req, res) => {
     // Save the updated user
     await user.save();
 
-    // Optionally, you can send an email to notify the user that their password was successfully changed
-    sendWelcomeEmail("lakgarg2002@gmail.com", user.firstname);
+    // Send password reset success email to the user's email
+    await sendWelcomeEmail(user.email, user.firstname);
 
     return res.status(200).json({
       success: true,

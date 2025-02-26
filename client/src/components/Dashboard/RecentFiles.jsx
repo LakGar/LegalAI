@@ -103,7 +103,12 @@ const RecentFiles = ({ documents }) => {
                 <div className="file-info">
                   <FaFilePdf className="file-icon" />
                   <div>
-                    <p className="file-name">{file.name}</p>
+                    {/* Limit file name to 60 characters */}
+                    <p className="file-name">
+                      {file.name.length > 30
+                        ? `${file.name.substring(0, 30)}...`
+                        : file.name}
+                    </p>
                     <p className="file-size">{file.description}</p>
                     <p className="file-date">{formatDate(file.uploadedAt)}</p>
                   </div>

@@ -266,11 +266,13 @@ const FileUploadModal = ({ closeModal }) => {
           </div>
 
           <div className="file-upload-actions">
-            <div className="cancel-button" onClick={closeModal}>
+            <div className="cancel-button-file-upload" onClick={closeModal}>
               Cancel
             </div>
             <div
-              className={`upload-button ${!selectedFile ? "disabled" : ""}`}
+              className={`upload-button-file-upload ${
+                !selectedFile ? "disabled" : ""
+              }`}
               onClick={handleUpload}
             >
               {loading ? "Uploading..." : "Upload Document"}

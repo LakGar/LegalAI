@@ -6,7 +6,6 @@ import DashComponent from "../components/Dashboard/DashComponent";
 import "./Dashboard.css"; // Create this CSS file for animation styles
 import { getUserDetails } from "../redux/actions/userAction";
 import { getDocuments } from "../redux/actions/documentAction";
-import Logo from "../assets/logo.png";
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
@@ -16,10 +15,8 @@ const Dashboard = () => {
   const documentState = useSelector((state) => state.documents);
   const activeDocument = useSelector((state) => state.documents.activeDocument);
 
-  const { user, error: userError } = userState;
+  const { user } = userState;
   const { documents = [], loading: documentsLoading } = documentState;
-  console.log("User:", user);
-  console.log("Documents:", documents);
   // Fetch user details and documents on mount
   useEffect(() => {
     dispatch(getUserDetails());

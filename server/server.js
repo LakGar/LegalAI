@@ -16,17 +16,43 @@ import "./models/folderModel.js";
 import "./models/teamModel.js";
 import "./models/paymentModel.js";
 
+// Load environment variables
 dotenv.config();
+
+// Validate required AWS credentials
+const requiredEnvVars = [
+  "AWS_BUCKET_NAME",
+  "AWS_BUCKET_REGION",
+  "AWS_ACCESS_KEY_ID",
+  "AWS_SECRET_ACCESS_KEY",
+];
+
+const missingEnvVars = requiredEnvVars.filter(
+  (varName) => !process.env[varName]
+);
+
+if (missingEnvVars.length > 0) {
+  console.error("Missing required environment variables:", missingEnvVars);
+  process.exit(1);
+}
+
+// Log AWS configuration (without sensitive values)
+console.log("AWS Configuration:", {
+  region: process.env.AWS_BUCKET_REGION,
+  bucket: process.env.AWS_BUCKET_NAME,
+  hasAccessKey: !!process.env.AWS_ACCESS_KEY_ID,
+  hasSecretKey: !!process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 const app = express();
 
 // Simpler CORS configuration
 app.use(
   cors({
-    origin: ["https://legalai.dev"], // ✅ Allow only your frontend domain
-    credentials: true, // ✅ Allow cookies and authentication headers
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // ✅ Allowed methods
-    allowedHeaders: ["Content-Type", "Authorization"], // ✅ Allowed headers
+    origin: ["http://localhost:3000", "https://legalai.dev"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -62,7 +88,7 @@ import folderRoutes from "./routes/folderRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
 import teamRoutes from "./routes/teamRoutes.js";
-
+import feedbackRoutes from "./routes/feedbackRoutes.js";
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/businesses", businessRoutes);
@@ -71,6 +97,7 @@ app.use("/api/folders", folderRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/teams", teamRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 // Test Route
 app.get("/api/test", (req, res) => {

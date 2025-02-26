@@ -8,8 +8,6 @@ import {
 } from "react-icons/fa";
 import "./PreviousChats.css";
 import { useDispatch } from "react-redux";
-import SwitchDocument from "./SwitchDocument";
-import { setActiveDocument } from "../../redux/actions/documentAction";
 
 const PreviousChats = ({
   chats = [],

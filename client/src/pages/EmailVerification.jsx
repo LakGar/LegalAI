@@ -53,7 +53,7 @@ const EmailVerification = () => {
         setSuccess(true);
         setTimeout(() => {
           setLoading(false);
-          navigate("/dashboard"); // Navigate to the dashboard after verification
+          navigate("/login"); // Navigate to the dashboard after verification
         }, 1000); // Simulate loader for 1 second
       } else {
         setError(true);

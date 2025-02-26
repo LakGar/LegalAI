@@ -1,4 +1,6 @@
 import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
+import multer from "multer";
 import {
   uploadDocument,
   getUserDocuments,
@@ -8,28 +10,31 @@ import {
   getFile,
   analyzeDocument,
 } from "../controllers/documentController.js";
-import { upload } from "../config/multer.js"; // Assuming multer is configured for file uploads
-import { protect } from "../middleware/authMiddleware.js"; // Middleware to verify user authentication
 
 const router = express.Router();
 
-// Upload a new document
-router.post("/", protect, upload.single("file"), uploadDocument);
+// Configure multer for memory storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-// Get all documents for the logged-in user
-router.get("/", protect, getUserDocuments);
+// Protected routes
+router.use(protect);
 
-// Get a specific document by ID
-router.get("/:id", protect, getDocumentById);
+router
+  .route("/")
+  .post(upload.single("file"), uploadDocument)
+  .get(getUserDocuments);
 
-// Update a document by ID
-router.put("/:id", protect, updateDocument);
+router
+  .route("/:id")
+  .get(getDocumentById)
+  .put(updateDocument)
+  .delete(deleteDocument);
 
-// Delete a document by ID
-router.delete("/:id", protect, deleteDocument);
+// File access route
+router.get("/file/:id", getFile);
 
-router.get("/file/:fileName", protect, getFile);
-
-router.post("/analyze", protect, analyzeDocument);
+// Analysis route
+router.post("/analyze", analyzeDocument);
 
 export default router;

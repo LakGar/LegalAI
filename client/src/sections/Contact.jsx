@@ -1,12 +1,71 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Contact.css";
 import Logo from "../assets/logo.png";
+import axios from "axios";
 
 function Footer() {
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [hasShownFeedback, setHasShownFeedback] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const openContactModal = () => setShowContactModal(true);
   const closeContactModal = () => setShowContactModal(false);
+  const openFeedbackModal = () => setShowFeedbackModal(true);
+  const closeFeedbackModal = () => setShowFeedbackModal(false);
+
+  // Handle scroll to show feedback modal
+  useEffect(() => {
+    const handleScroll = () => {
+      if (hasShownFeedback) return;
+
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+      // If user has scrolled to the bottom (with a 100px threshold)
+      if (documentHeight - (scrollTop + windowHeight) < 100) {
+        setShowFeedbackModal(true);
+        setHasShownFeedback(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasShownFeedback]);
+
+  const handleSubmitFeedback = async (e) => {
+    e.preventDefault();
+    if (!rating) {
+      alert("Please provide a rating");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      // Send feedback to your backend
+      await axios.post("/api/feedback", {
+        rating,
+        feedback,
+        email,
+        adminEmail: "lakgarg2002@gmail.com",
+      });
+
+      alert("Thank you for your feedback!");
+      closeFeedbackModal();
+      setRating(0);
+      setFeedback("");
+      setEmail("");
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      alert("Failed to submit feedback. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -87,6 +146,12 @@ function Footer() {
                   <button className="contact-button" onClick={openContactModal}>
                     Contact Us
                   </button>
+                  <button
+                    className="feedback-button"
+                    onClick={openFeedbackModal}
+                  >
+                    Give Feedback
+                  </button>
                 </div>
               </div>
             </div>
@@ -154,6 +219,85 @@ function Footer() {
               </div>
 
               <button type="submit">Send Message</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showFeedbackModal && (
+        <div className="feedback-modal-overlay" onClick={closeFeedbackModal}>
+          <div className="feedback-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="feedback-modal-close" onClick={closeFeedbackModal}>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </div>
+            <h2>Rate Your Experience</h2>
+            <p className="modal-subtitle">
+              Help us improve by sharing your feedback
+            </p>
+
+            <form
+              onSubmit={handleSubmitFeedback}
+              className="feedback-modal-form"
+            >
+              <div className="rating-container">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    className={`star-button ${rating >= star ? "active" : ""}`}
+                    onClick={() => setRating(star)}
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill={rating >= star ? "#8b5cf6" : "none"}
+                      stroke="currentColor"
+                    >
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
+
+              <div className="input-group">
+                <label>Your Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>What could we improve?</label>
+                <textarea
+                  rows="4"
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="Share your thoughts with us..."
+                  required
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="submit-feedback"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Submit Feedback"}
+              </button>
             </form>
           </div>
         </div>

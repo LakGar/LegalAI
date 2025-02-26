@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Auth.css";
 import { FcGoogle } from "react-icons/fc";
 import { RiAppleFill } from "react-icons/ri";
-import { CiSquareCheck } from "react-icons/ci";
 import { IoMdArrowBack } from "react-icons/io";
 import Logo from "../assets/logo.png";
 import { signup } from "../services/authService";
