@@ -24,6 +24,7 @@ const DocumentDisplay = ({ file, closeModal }) => {
   useEffect(() => {
     const fetchPresignedUrl = async () => {
       try {
+        console.log("File Detail View:  Getting URL for the document: ", file._id);
         const response = await axios.get(
           `https://legalaiserver.vercel.app/api/documents/file/${file._id}`,
           {
