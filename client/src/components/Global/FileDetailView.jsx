@@ -24,11 +24,14 @@ const DocumentDisplay = ({ file, closeModal }) => {
   useEffect(() => {
     const fetchPresignedUrl = async () => {
       try {
-        const response = await axios.get(`/api/documents/file/${file._id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await axios.get(
+          `https://legalaiserver.vercel.app/api/documents/file/${file._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (response.data.success) {
           setFileUrl(response.data.url);
