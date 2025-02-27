@@ -134,7 +134,11 @@ const DocumentDisplay = ({ file, closeModal }) => {
     return (
       <div className="document-display-container">
         <div className="header">
-          <IoChevronBack size={24} onClick={closeModal} />
+          <IoChevronBack
+            size={24}
+            onClick={closeModal}
+            className="back-button"
+          />
           <h3>Document Viewer</h3>
         </div>
         <div className="loading-message">Loading document...</div>
@@ -199,10 +203,10 @@ const DocumentDisplay = ({ file, closeModal }) => {
             ) : (
               <div className="no-analysis">
                 <p>
-                  Would you like to analyze this document? Our AI will act as
-                  your personal attorney by providing a detailed, simplified
-                  summary, listing important dates and flagging any
-                  vulnerabilities you should be aware of before signing.
+                  Would you like to analyze this document? Our AI will provide a
+                  detailed, simplified summary, listing important dates and
+                  flagging any vulnerabilities you should be aware of before
+                  signing.
                 </p>
                 <div className="container">
                   <button onClick={handleAnalyze} disabled={loading}>

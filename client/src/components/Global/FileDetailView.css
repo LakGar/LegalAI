@@ -22,7 +22,7 @@
   top: 20px;
   left: 20px;
 }
-.document-display-container .header:hover {
+.document-display-container .header .back-button:hover {
   cursor: pointer;
   opacity: 0.8;
 }
